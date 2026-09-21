@@ -1,0 +1,14 @@
+{
+  "name": "onsite-leaderboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node scripts/export-html.mjs",
+    "export:html": "node scripts/export-html.mjs",
+    "check:html": "node scripts/check-html.mjs",
+    "test": "node scripts/check-html.mjs && node scripts/results.test.mjs && node scripts/locale.test.mjs",
+    "test:browser": "node scripts/check-browser.mjs"
+  }
+}

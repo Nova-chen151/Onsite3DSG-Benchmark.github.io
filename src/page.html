@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="OnSite Challenge 2027 AstraDrive 三维场景生成基准：赛道介绍、排行榜、参赛要求与四层评测办法。">
+  <title>AstraDrive · OnSite 2027</title>
+  <link rel="icon" href="/favicon.svg">
+  <style>/* STYLES */</style>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skipToContent">跳转到主要内容</a>
+  <header class="site-header" data-scroll-header>
+    <a class="brand" href="#main" data-i18n-attr="aria-label:homeAria" aria-label="OnSite 首页"><img src="/onsite-logo.svg" alt="OnSite" width="112" height="54"></a>
+    <span class="brand-caption" data-i18n="brandCaption">自动驾驶算法挑战赛</span>
+    <nav data-i18n-attr="aria-label:mainNav" aria-label="主导航">
+      <a href="#overview" data-i18n="navOverview">赛道介绍</a>
+      <a href="#leaderboard" data-i18n="navLeaderboard">排行榜</a>
+      <a href="#submit" data-i18n="navSubmission">参赛要求</a>
+      <a href="#evaluation" data-i18n="navEvaluation">评测办法</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero hero--immersive" aria-labelledby="challenge-title">
+      <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="/drivearena_challenge_stacked.gif" aria-hidden="true">
+        <source src="/drivearena_challenge_stacked.mp4" type="video/mp4">
+      </video>
+      <img class="hero-fallback" src="/drivearena_challenge_stacked.gif" data-i18n-attr="alt:heroImageAlt" alt="多视角驾驶场景视频背景" width="1536" height="720" fetchpriority="high">
+      <div class="hero-copy">
+        <img class="hero-brand" src="/onsite-logo.svg" alt="" aria-hidden="true" width="116" height="56">
+        <h1 id="challenge-title" data-i18n="heroTitle">三维场景生成赛道</h1>
+        <p class="hero-english" lang="en" data-i18n="heroEnglish">3D Scenario Generation Benchmark</p>
+      </div>
+      <a class="hero-scroll-cue" href="#overview" data-i18n-attr="aria-label:scrollExplore" aria-label="向下浏览">
+        <svg class="scroll-arrow" viewBox="0 0 32 18" aria-hidden="true" focusable="false">
+          <path d="M4 3l12 12L28 3"></path>
+        </svg>
+      </a>
+    </section>
+    <section id="overview" class="editorial-section">
+      <header class="section-label"><h2 lang="en">Overview</h2><p data-i18n="sectionOverview">赛道介绍</p></header>
+      <div class="section-body">
+        <p class="lead" data-i18n-html="overviewLead">根据历史观测，<br>生成未来驾驶场景。</p>
+        <p data-i18n="overviewParagraph1">三维场景生成赛道面向可控、可扩展的自动驾驶测试。参赛者根据统一赛题提供的历史图像、相机参数与主车状态，生成未来场景，评价其对自动驾驶算法的测试价值。</p>
+        <p data-i18n="overviewParagraph2">评测先检查生成可信性与动力学合理性，再接入 UniAD、VAD 等端到端自动驾驶算法。通过真实场景与生成场景的配对测试，分析失效发现能力与测试有效性。</p>
+        <a class="text-link" href="#evaluation"><span data-i18n="learnEvaluation">了解评测体系</span> <span aria-hidden="true">↗</span></a>
+      </div>
+      <figure class="overview-figure" tabindex="0">
+        <img src="/astradrive-overview.png" data-i18n-attr="alt:overviewBenchmarkAlt" alt="AstraDrive 三维场景生成基准：历史驾驶上下文输入、未来三维场景生成与四层评测体系" width="2416" height="934">
+      </figure>
+    </section>
+
+    <section id="leaderboard" class="leaderboard-section">
+      <div class="board-intro">
+        <header class="section-label"><h2 lang="en">Leaderboard</h2><p data-i18n="sectionLeaderboard">排行榜</p></header>
+        <div class="section-body">
+          <p data-i18n="leaderboardIntro">主榜按测试有效性总分排序，以四项大类得分概览生成质量、轨迹质量、图像—轨迹一致性与自动驾驶算法测试有效性。</p>
+          <p class="demo-note" data-i18n="demoNote">演示数据 · 以下队伍、模型与分数为界面示例，不代表正式赛事结果。</p>
+        </div>
+      </div>
+      <div class="board-toolbar">
+        <span class="board-title"><span data-i18n="boardName">AstraDrive · 三维场景生成赛道</span><span class="board-benchmark" data-i18n="boardBenchmark">Benchmark</span></span>
+        <span class="board-meta"><span class="muted">2026</span><span class="snapshot" data-i18n="updated">更新于 2026.09.06</span></span>
+      </div>
+      <div class="table-scroll" tabindex="0" role="region" data-i18n-attr="aria-label:leaderboardAria">
+        <table class="leaderboard-table">
+          <caption class="sr-only" data-i18n="leaderboardCaption">AstraDrive 三维场景生成基准演示排行榜，共六条记录，含九个主表指标</caption>
+          <thead><tr>
+            <th scope="col" class="rank-cell" aria-sort="none"><button data-sort="rank"><span data-i18n="rank">排名</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" aria-sort="none"><button data-sort="team"><span data-i18n="teamModel">模型</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" aria-sort="descending"><button class="sorted" data-sort="qtes"><span data-i18n="qtes">QTES ↑</span> <span class="sort-indicator" aria-hidden="true">↓</span></button></th>
+            <th scope="col" aria-sort="none"><button data-sort="fvd"><span data-i18n="fvd">FVD ↓</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" aria-sort="none"><button data-sort="clipIqa"><span data-i18n="clipIqa">CLIP-IQA+ ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" aria-sort="none"><button data-sort="dinoT"><span data-i18n="dinoT">DINO-T ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" aria-sort="none"><button data-sort="epi3"><span data-i18n="epi3">Epi@3 ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" aria-sort="none"><button data-sort="tvc"><span data-i18n="tvc">TVC ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" aria-sort="none"><button data-sort="trs"><span data-i18n="trs">TRS ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" aria-sort="none"><button data-sort="rpdms"><span data-i18n="rpdms">RPDMS ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" aria-sort="none"><button data-sort="routeCompletion"><span data-i18n="routeCompletion">Route Completion ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" data-i18n="records">成绩记录</th>
+          </tr></thead>
+          <tbody><!-- RESULTS --></tbody>
+        </table>
+      </div>
+      <div class="table-foot"><span data-i18n="demoRecords">6 条演示记录</span><span data-i18n="sortable">点击表头可自由排序</span></div>
+      <p class="table-explanation" data-i18n="tableExplanation">榜单按 PDF 主表展示九个核心指标。指标定义、数值方向与正式成绩以赛事规则为准。</p>
+    </section>
+
+    <section id="submit" class="editorial-section ruled">
+      <header class="section-label"><h2 lang="en">Submission</h2><p data-i18n="sectionSubmission">参赛要求</p></header>
+      <div class="section-body">
+        <p class="lead compact" data-i18n-html="submissionLead">从历史观测出发，<br>生成可用于测试的未来场景。</p>
+        <p data-i18n="submissionParagraph">赛题提供连续 10 帧历史图像、相机参数、主车状态及相关场景条件。参赛者可使用 nuScenes、Waymo 等公开数据开发生成方法，并按照赛题接口输出未来场景。</p>
+        <h3 data-i18n="preflight">提交前校验</h3>
+        <ol class="requirements">
+          <li data-i18n="requirement1">保证图像、视频、轨迹与场景元数据对应，统一时间帧与公共坐标。</li>
+          <li data-i18n="requirement2">检查历史与未来边界连续性、缺失帧与异常值，避免瞬移、重复点和不合理的轨迹跳变。</li>
+          <li data-i18n="requirement3">检查速度、加速度、航向角及地图一致性，按照正式提交文档完成数据封装。</li>
+        </ol>
+        <p data-i18n="baseline">赛道基线选用 MagicDrive-V2，输出六视角驾驶场景视频；回放测试接入 UniAD、VAD 等具有代表性的端到端自动驾驶算法。</p>
+        <p class="availability-note" data-i18n="availability">提交入口尚未开放。本页暂未连接正式评测系统，提交安排以赛事公告为准。</p>
+      </div>
+    </section>
+
+    <section id="evaluation" class="editorial-section ruled">
+      <header class="section-label"><h2 lang="en">Evaluation</h2><p data-i18n="sectionEvaluation">评测办法</p></header>
+      <div class="section-body">
+        <p class="lead compact" data-i18n-html="evaluationLead">从观测质量到场景保真度，<br>再到策略响应与测试有效性。</p>
+        <div class="evaluation-item">
+          <h3 data-i18n="observationQuality">Observation Quality · 观测质量</h3>
+          <p data-i18n="observationQualityParagraph">评价生成观测的视觉可信度、时间连续性与多视角可用性，为后续场景和策略评测提供稳定输入。</p>
+          <dl class="metrics">
+            <div><dt>FVD ↓</dt><dd data-i18n="fvdDescription">真实与生成视频的分布差异，越低越好。</dd></div>
+            <div><dt>CLIP-IQA+ ↑</dt><dd data-i18n="clipIqaDescription">无参考感知质量，越高越好。</dd></div>
+            <div><dt>DINO-T ↑</dt><dd data-i18n="dinoTDescription">跨帧特征一致性与时间连贯性。</dd></div>
+          </dl>
+        </div>
+        <div class="evaluation-item">
+          <h3 data-i18n="scenarioFidelity">Scenario Fidelity · 场景保真度</h3>
+          <p data-i18n="scenarioFidelityParagraph">评价生成结果是否保持历史驾驶上下文、交通状态与三维空间关系的一致性，避免只追求画面真实而忽略场景语义。</p>
+          <dl class="metrics">
+            <div><dt>Epi@3 ↑</dt><dd data-i18n="epi3Description">校准后的跨视角几何一致性。</dd></div>
+            <div><dt>TVC ↑</dt><dd data-i18n="tvcDescription">图像证据与结构化交通状态的一致性。</dd></div>
+            <div><dt>TRS ↑</dt><dd data-i18n="trsDescription">交通演化与驾驶行为的真实性。</dd></div>
+          </dl>
+        </div>
+        <div class="evaluation-item">
+          <h3 data-i18n="policyResponse">Policy Response · 策略响应</h3>
+          <p data-i18n="policyResponseParagraph">将同一组驾驶策略接入真实与生成场景，观察其安全性、舒适性、路线进度与决策变化，衡量场景对策略的响应价值。</p>
+          <dl class="metrics">
+            <div><dt>RPDMS ↑</dt><dd data-i18n="rpdmsDescription">结合可行驶区域、安全、舒适性和进度，并按事件归因处理碰撞责任。</dd></div>
+            <div><dt>Route Completion ↑</dt><dd data-i18n="routeCompletionDescription">沿参考路线的 episode 级进度。</dd></div>
+          </dl>
+        </div>
+        <div class="evaluation-item">
+          <h3 data-i18n="testingEffectiveness">Quality-Aware Testing Effectiveness · 质量感知测试有效性</h3>
+          <p data-i18n="testingEffectivenessParagraph">综合场景质量与策略响应结果，判断生成场景是否能够可靠地暴露策略失效；低质量画面不会仅因让策略失败而获得高评价。</p>
+          <dl class="metrics">
+            <div><dt>QTES ↑</dt><dd data-i18n="qtesDescription">在保留场景可信度的前提下衡量生成场景暴露策略弱点的能力。</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top"><a href="#main" data-i18n-attr="aria-label:homeAria" aria-label="OnSite 首页"><img src="/onsite-logo.svg" alt="OnSite" width="112" height="54"></a><p><span data-i18n="footerTitle">OnSite Challenge 2027 · 自动驾驶算法挑战赛</span><br><span data-i18n="footerTrack">AstraDrive 三维场景生成赛道 · 2027</span></p><a href="#main" class="back-top" data-i18n="backTop">返回顶部 ↑</a></div>
+    <div class="footer-bottom"><span data-i18n="footerNote">页面内容依据 AstraDrive 研究材料整理，正式参赛要求以赛事公告为准。</span><span>OnSite 2027</span></div>
+  </footer>
+
+  <dialog id="picker" class="picker-modal" aria-labelledby="picker-title" aria-describedby="picker-description">
+    <button class="dialog-close" data-close data-i18n-attr="aria-label:close">×</button>
+    <h2 id="picker-title" data-i18n="pickerTitle">查找成绩</h2><p id="picker-description" data-i18n="pickerDescription">选择队伍与模型，查看演示成绩记录。</p>
+    <div class="search-box"><input type="search" data-i18n-attr="aria-label:searchAria;placeholder:searchPlaceholder" aria-label="搜索队伍或模型" placeholder="搜索队伍或模型" autocomplete="off"></div>
+    <div class="picker-list"></div>
+  </dialog>
+  <dialog id="result" class="certificate-modal" aria-labelledby="result-title" aria-describedby="result-description">
+    <button class="dialog-close" data-close data-i18n-attr="aria-label:close">×</button>
+    <h2 id="result-title" data-i18n="resultTitle">成绩记录</h2><p id="result-description" data-i18n="resultDescription">演示成绩快照，不作为官方成绩或获奖凭证。</p>
+    <div class="result-summary"></div>
+    <div class="certificate-preview"></div>
+    <div class="ineligible" hidden><h3 data-i18n="ineligibleTitle">该记录未通过基础门槛</h3><p data-i18n="ineligibleParagraph">未进入有效排名，暂不能生成电子成绩证明。你仍可导出成绩记录。</p></div>
+    <div class="certificate-actions">
+      <button class="outline-button" data-export="csv" data-i18n="exportCsv">导出成绩 CSV</button>
+      <button class="outline-button" data-export="pdf" data-i18n="printPdf">打印 / 存为 PDF</button>
+      <button class="primary-button" data-export="png" data-i18n="downloadPng">下载证书 PNG</button>
+    </div>
+    <output class="download-notice" aria-live="polite"></output>
+  </dialog>
+  <script>/* SCRIPT */</script>
+</body>
+</html>
