@@ -7,7 +7,6 @@ const search = picker.querySelector('input');
 const list = picker.querySelector('.picker-list');
 const notice = result.querySelector('.download-notice');
 const pngButton = result.querySelector('[data-export="png"]');
-const hero = document.querySelector('.hero');
 const heroVideo = document.querySelector('.hero-video');
 const scrollHeader = document.querySelector('[data-scroll-header]');
 let selected;
@@ -31,11 +30,7 @@ if (scrollHeader) {
   syncScrollHeader();
 }
 
-if (hero && heroVideo) {
-  heroVideo.addEventListener('error', () => hero.classList.add('hero--video-fallback'), { once: true });
-  heroVideo.addEventListener('loadeddata', () => hero.classList.remove('hero--video-fallback'), { once: true });
-  if (globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches) heroVideo.pause();
-}
+if (heroVideo && globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches) heroVideo.pause();
 
 function copy() {
   return translations[currentLocale];

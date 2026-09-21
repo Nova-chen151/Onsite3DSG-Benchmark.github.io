@@ -1,12 +1,12 @@
-// Demonstration fixtures only. These are model-name and metric-shape references from AstraDrive,
-// not official challenge results. Replace with organizer-approved, versioned scores before launch.
+// Demonstration fixtures only. These model names and metric shapes are not official challenge results.
+// Replace them with organizer-approved, versioned scores before launch.
 export const entries = [
-    { id: 'DEMO-001', team: 'AstraDrive baseline', model: 'MagicDrive-V2', version: 'renderer', score: 78.42, qtes: 78.42, fvd: 71.20, clipIqa: 84.30, dinoT: 91.60, epi3: 79.40, tvc: 76.80, trs: 81.20, rpdms: 73.90, routeCompletion: 88.60, submittedAt: '2026-09-06 18:42', valid: true, date: '2026-09-06', rank: 1 },
-    { id: 'DEMO-002', team: 'AstraDrive baseline', model: 'OpenDWM', version: 'renderer', score: 76.84, qtes: 76.84, fvd: 74.10, clipIqa: 82.90, dinoT: 90.70, epi3: 77.80, tvc: 75.40, trs: 79.60, rpdms: 72.80, routeCompletion: 87.40, submittedAt: '2026-09-06 15:16', valid: true, date: '2026-09-06', rank: 2 },
-    { id: 'DEMO-003', team: 'AstraDrive baseline', model: 'Panacea', version: 'renderer', score: 74.63, qtes: 74.63, fvd: 76.80, clipIqa: 81.70, dinoT: 89.90, epi3: 76.10, tvc: 73.90, trs: 77.80, rpdms: 70.90, routeCompletion: 85.90, submittedAt: '2026-09-05 21:08', valid: true, date: '2026-09-05', rank: 3 },
-    { id: 'DEMO-004', team: 'AstraDrive baseline', model: 'DreamForge', version: 'renderer', score: 72.95, qtes: 72.95, fvd: 79.40, clipIqa: 80.90, dinoT: 88.60, epi3: 74.80, tvc: 72.60, trs: 76.50, rpdms: 69.80, routeCompletion: 84.70, submittedAt: '2026-09-05 16:34', valid: true, date: '2026-09-05', rank: 4 },
-    { id: 'DEMO-005', team: 'AstraDrive baseline', model: 'WorldDreamer', version: 'renderer', score: 70.77, qtes: 70.77, fvd: 82.70, clipIqa: 78.60, dinoT: 86.80, epi3: 72.30, tvc: 70.90, trs: 74.10, rpdms: 67.60, routeCompletion: 82.80, submittedAt: '2026-09-04 19:27', valid: true, date: '2026-09-04', rank: 5 },
-    { id: 'DEMO-006', team: 'AstraDrive baseline', model: 'MagicDrive', version: 'renderer', score: 68.54, qtes: 68.54, fvd: 85.10, clipIqa: 77.40, dinoT: 85.50, epi3: 70.80, tvc: 69.50, trs: 72.90, rpdms: 65.40, routeCompletion: 81.60, submittedAt: '2026-09-04 13:52', valid: true, date: '2026-09-04', rank: 6 },
+    { id: 'DEMO-001', team: 'Benchmark baseline', model: 'MagicDrive-V2', version: 'renderer', score: 78.42, qtes: 78.42, fvd: 71.20, clipIqa: 84.30, dinoT: 91.60, epi3: 79.40, tvc: 76.80, trs: 81.20, rpdms: 73.90, routeCompletion: 88.60, submittedAt: '2026-09-06 18:42', valid: true, date: '2026-09-06', rank: 1 },
+    { id: 'DEMO-002', team: 'Benchmark baseline', model: 'OpenDWM', version: 'renderer', score: 76.84, qtes: 76.84, fvd: 74.10, clipIqa: 82.90, dinoT: 90.70, epi3: 77.80, tvc: 75.40, trs: 79.60, rpdms: 72.80, routeCompletion: 87.40, submittedAt: '2026-09-06 15:16', valid: true, date: '2026-09-06', rank: 2 },
+    { id: 'DEMO-003', team: 'Benchmark baseline', model: 'Panacea', version: 'renderer', score: 74.63, qtes: 74.63, fvd: 76.80, clipIqa: 81.70, dinoT: 89.90, epi3: 76.10, tvc: 73.90, trs: 77.80, rpdms: 70.90, routeCompletion: 85.90, submittedAt: '2026-09-05 21:08', valid: true, date: '2026-09-05', rank: 3 },
+    { id: 'DEMO-004', team: 'Benchmark baseline', model: 'DreamForge', version: 'renderer', score: 72.95, qtes: 72.95, fvd: 79.40, clipIqa: 80.90, dinoT: 88.60, epi3: 74.80, tvc: 72.60, trs: 76.50, rpdms: 69.80, routeCompletion: 84.70, submittedAt: '2026-09-05 16:34', valid: true, date: '2026-09-05', rank: 4 },
+    { id: 'DEMO-005', team: 'Benchmark baseline', model: 'WorldDreamer', version: 'renderer', score: 70.77, qtes: 70.77, fvd: 82.70, clipIqa: 78.60, dinoT: 86.80, epi3: 72.30, tvc: 70.90, trs: 74.10, rpdms: 67.60, routeCompletion: 82.80, submittedAt: '2026-09-04 19:27', valid: true, date: '2026-09-04', rank: 5 },
+    { id: 'DEMO-006', team: 'Benchmark baseline', model: 'MagicDrive', version: 'renderer', score: 68.54, qtes: 68.54, fvd: 85.10, clipIqa: 77.40, dinoT: 85.50, epi3: 70.80, tvc: 69.50, trs: 72.90, rpdms: 65.40, routeCompletion: 81.60, submittedAt: '2026-09-04 13:52', valid: true, date: '2026-09-04', rank: 6 },
 ];
 export function sortEntries(items, key, direction) {
     const sign = direction === 'asc' ? 1 : -1;
@@ -22,7 +22,7 @@ export function certificateSvgForLocale(e, locale = 'zh') {
     const replacements = [
         ['第四届 OnSite 自动驾驶算法挑战赛', 'OnSite Challenge 2027 · Autonomous Driving Algorithm Challenge'],
         ['电子成绩证明', 'Certificate of Achievement'],
-        ['第五赛道 · 三维场景生成', 'AstraDrive · 3D Scenario Generation Benchmark'],
+        ['第五赛道 · 三维场景生成', 'OnSite · 3D Scenario Generation Benchmark'],
         ['测试有效性得分', 'Composite evaluation score'],
         ['演示榜单排名', 'Demo leaderboard rank'],
         ['成绩日期', 'Result date'],

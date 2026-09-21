@@ -82,8 +82,11 @@ check(getComputedStyle(document.querySelector('.hero-scroll-cue')).animationName
 check(getComputedStyle(document.querySelector('.hero h1')).whiteSpace==='nowrap','hero title stays on one line');
 check(getComputedStyle(document.querySelector('.hero-english')).whiteSpace==='nowrap','hero English subtitle stays on one line');
 check(document.querySelector('.hero-video source[type="video/mp4"]'),'hero video source');
-check(document.querySelector('.hero-fallback'),'hero GIF fallback');
-check(document.querySelector('#overview .overview-figure img'),'benchmark overview graphic');
+check(!document.querySelector('.hero-fallback'),'hero GIF fallback removed');
+check(document.querySelector('#overview .overview-figure img'),'framework overview graphic');
+check(parseFloat(getComputedStyle(document.querySelector('#evaluation')).paddingBottom)>=70,'QTES leaves white space before footer');
+check(document.querySelector('#submit .submission-figure:last-child img'),'Submission overview graphic is last');
+check(getComputedStyle(document.querySelector('#submit .submission-figure')).backgroundColor==='rgba(0, 0, 0, 0)','Submission overview graphic has no fill background');
 check(!document.querySelector('.evaluation-figure'),'evaluation images removed');
 check(document.querySelectorAll('#evaluation .metrics').length===4,'four evaluation metric groups');
 check(!document.querySelector('.references'),'reference links removed');
