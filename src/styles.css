@@ -259,3 +259,18 @@ dialog > p { font-size: 13px; color: var(--muted); margin-top: 7px; }
   .certificate-preview { width: 297mm; height: 210mm; border: 0; }
   .certificate-preview svg { width: 100%; height: 100%; max-height: none; }
 }
+
+/* Table 2: grouped generated-trajectory results, on their original scales. */
+.leaderboard-table { min-width: 1120px; }
+.leaderboard-table .board-metric-group { font-weight: 600; font-size: 13px; text-align: center; padding: 12px 8px; border-left: 1px solid var(--line); }
+.leaderboard-table th[rowspan] { vertical-align: middle; }
+.leaderboard-table .metric-head-row th button { justify-content: center; padding: 10px 6px; min-height: 48px; white-space: nowrap; }
+.leaderboard-table .sort-indicator:empty { display: none; }
+.leaderboard-table td { padding: 18px 9px; }
+.leaderboard-table .score { font-size: 16px; font-weight: 600; }
+.leaderboard-table td.metric-best { background: #f8dcd8; color: var(--ink); font-weight: 700; }
+.leaderboard-table td.metric-second { background: #deebf7; color: var(--ink); }
+.leaderboard-table td[data-metric="fvd"], .leaderboard-table td[data-metric="epi3"],
+.leaderboard-table td[data-metric="rpdms"], .leaderboard-table td[data-metric="qtes"] { border-left: 1px solid var(--line); }
+.leaderboard-table .metric-head-row th:nth-child(1), .leaderboard-table .metric-head-row th:nth-child(4),
+.leaderboard-table .metric-head-row th:nth-child(7), .leaderboard-table .metric-head-row th:nth-child(9) { border-left: 1px solid var(--line); }

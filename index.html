@@ -267,6 +267,21 @@ dialog > p { font-size: 13px; color: var(--muted); margin-top: 7px; }
   .certificate-preview { width: 297mm; height: 210mm; border: 0; }
   .certificate-preview svg { width: 100%; height: 100%; max-height: none; }
 }
+
+/* Table 2: grouped generated-trajectory results, on their original scales. */
+.leaderboard-table { min-width: 1120px; }
+.leaderboard-table .board-metric-group { font-weight: 600; font-size: 13px; text-align: center; padding: 12px 8px; border-left: 1px solid var(--line); }
+.leaderboard-table th[rowspan] { vertical-align: middle; }
+.leaderboard-table .metric-head-row th button { justify-content: center; padding: 10px 6px; min-height: 48px; white-space: nowrap; }
+.leaderboard-table .sort-indicator:empty { display: none; }
+.leaderboard-table td { padding: 18px 9px; }
+.leaderboard-table .score { font-size: 16px; font-weight: 600; }
+.leaderboard-table td.metric-best { background: #f8dcd8; color: var(--ink); font-weight: 700; }
+.leaderboard-table td.metric-second { background: #deebf7; color: var(--ink); }
+.leaderboard-table td[data-metric="fvd"], .leaderboard-table td[data-metric="epi3"],
+.leaderboard-table td[data-metric="rpdms"], .leaderboard-table td[data-metric="qtes"] { border-left: 1px solid var(--line); }
+.leaderboard-table .metric-head-row th:nth-child(1), .leaderboard-table .metric-head-row th:nth-child(4),
+.leaderboard-table .metric-head-row th:nth-child(7), .leaderboard-table .metric-head-row th:nth-child(9) { border-left: 1px solid var(--line); }
 </style>
 </head>
 <body>
@@ -315,20 +330,28 @@ dialog > p { font-size: 13px; color: var(--muted); margin-top: 7px; }
       <div class="board-intro">
         <header class="section-label"><h2 lang="en">Leaderboard</h2><p data-i18n="sectionLeaderboard">排行榜</p></header>
         <div class="section-body">
-          <p data-i18n="leaderboardIntro">主榜按测试有效性总分排序，以四项大类得分概览生成质量、轨迹质量、图像—轨迹一致性与自动驾驶算法测试有效性。</p>
+          <p data-i18n="leaderboardIntro">生成轨迹 + 渲染设置下的 7 个生成器，按 QTES 从高到低排名。九项指标涵盖观测质量、场景保真度、策略响应与测试有效性。</p>
+          <p class="demo-note" data-i18n="demoNote">数据来源：论文 Table 2 的 Generated trajectories + rendering 部分。不纳入固定记录轨迹结果或真实视频参照。</p>
         </div>
       </div>
       <div class="board-toolbar">
         <span class="board-title"><span data-i18n="boardName">OnSite · 三维场景生成赛道</span><span class="board-benchmark" data-i18n="boardBenchmark">Benchmark</span></span>
-        <span class="board-meta"><span class="muted">2026</span><span class="snapshot" data-i18n="updated">更新于 2026.09.06</span></span>
+        <span class="board-meta"><span class="muted">2026</span><span class="snapshot" data-i18n="updated">更新于 2026.09.29</span></span>
       </div>
       <div class="table-scroll" tabindex="0" role="region" data-i18n-attr="aria-label:leaderboardAria">
         <table class="leaderboard-table">
-          <caption class="sr-only" data-i18n="leaderboardCaption">OnSite 三维场景生成基准演示排行榜，共六条记录，含九个主表指标</caption>
-          <thead><tr>
-            <th scope="col" class="rank-cell" aria-sort="none"><button data-sort="rank"><span data-i18n="rank">排名</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
-            <th scope="col" aria-sort="none"><button data-sort="team"><span data-i18n="teamModel">模型</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
-            <th scope="col" aria-sort="descending"><button class="sorted" data-sort="qtes"><span data-i18n="qtes">QTES ↑</span> <span class="sort-indicator" aria-hidden="true">↓</span></button></th>
+          <caption class="sr-only" data-i18n="leaderboardCaption">生成轨迹 + 渲染排行榜：7 个模型、9 项指标，排名按 QTES 降序确定</caption>
+          <thead>
+          <tr class="group-head-row">
+            <th scope="col" rowspan="2" class="rank-cell" aria-sort="none"><button data-sort="rank"><span data-i18n="rank">排名</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" rowspan="2" aria-sort="none"><button data-sort="team"><span data-i18n="teamModel">模型</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="colgroup" colspan="3" class="board-metric-group">Observation Quality</th>
+            <th scope="colgroup" colspan="3" class="board-metric-group">Scenario Fidelity</th>
+            <th scope="colgroup" colspan="2" class="board-metric-group">Policy Response</th>
+            <th scope="colgroup" colspan="1" class="board-metric-group">Testing Eff.</th>
+            <th scope="col" rowspan="2" data-i18n="records">成绩记录</th>
+          </tr>
+          <tr class="metric-head-row">
             <th scope="col" aria-sort="none"><button data-sort="fvd"><span data-i18n="fvd">FVD ↓</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
             <th scope="col" aria-sort="none"><button data-sort="clipIqa"><span data-i18n="clipIqa">CLIP-IQA+ ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
             <th scope="col" aria-sort="none"><button data-sort="dinoT"><span data-i18n="dinoT">DINO-T ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
@@ -336,59 +359,56 @@ dialog > p { font-size: 13px; color: var(--muted); margin-top: 7px; }
             <th scope="col" aria-sort="none"><button data-sort="tvc"><span data-i18n="tvc">TVC ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
             <th scope="col" aria-sort="none"><button data-sort="trs"><span data-i18n="trs">TRS ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
             <th scope="col" aria-sort="none"><button data-sort="rpdms"><span data-i18n="rpdms">RPDMS ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
-            <th scope="col" aria-sort="none"><button data-sort="routeCompletion"><span data-i18n="routeCompletion">Route Completion ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
-            <th scope="col" data-i18n="records">成绩记录</th>
-          </tr></thead>
-          <tbody><tr data-id="DEMO-001" class="first-place">
+            <th scope="col" aria-sort="none"><button data-sort="routeCompletion"><span data-i18n="routeCompletion">Route Comp. ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" aria-sort="descending"><button class="sorted" data-sort="qtes"><span data-i18n="qtes">QTES ↑</span> <span class="sort-indicator" aria-hidden="true">↓</span></button></th>
+          </tr>
+          </thead>
+          <tbody><tr data-id="GEN-opendwm" class="first-place">
   <td class="rank-cell">01</td>
-  <td><strong class="team-name">MagicDrive-V2</strong></td>
-  <td class="numeric score">78.42</td><td class="numeric">71.20</td><td class="numeric">84.30</td>
-  <td class="numeric">91.60</td><td class="numeric">79.40</td><td class="numeric">76.80</td>
-  <td class="numeric">81.20</td><td class="numeric">73.90</td><td class="numeric">88.60</td>
-  <td><button class="row-action" data-entry="DEMO-001" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
-</tr>
-<tr data-id="DEMO-002">
-  <td class="rank-cell">02</td>
   <td><strong class="team-name">OpenDWM</strong></td>
-  <td class="numeric score">76.84</td><td class="numeric">74.10</td><td class="numeric">82.90</td>
-  <td class="numeric">90.70</td><td class="numeric">77.80</td><td class="numeric">75.40</td>
-  <td class="numeric">79.60</td><td class="numeric">72.80</td><td class="numeric">87.40</td>
-  <td><button class="row-action" data-entry="DEMO-002" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
+  <td data-metric="fvd" class="numeric metric-best">93.383</td><td data-metric="clipIqa" class="numeric">0.531</td><td data-metric="dinoT" class="numeric">0.730</td><td data-metric="epi3" class="numeric metric-best">0.222</td><td data-metric="tvc" class="numeric metric-best">0.543</td><td data-metric="trs" class="numeric">0.782</td><td data-metric="rpdms" class="numeric">0.724</td><td data-metric="routeCompletion" class="numeric">0.878</td><td data-metric="qtes" class="numeric score metric-best">44.079</td>
+  <td><button class="row-action" data-entry="GEN-opendwm" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
 </tr>
-<tr data-id="DEMO-003">
-  <td class="rank-cell">03</td>
-  <td><strong class="team-name">Panacea</strong></td>
-  <td class="numeric score">74.63</td><td class="numeric">76.80</td><td class="numeric">81.70</td>
-  <td class="numeric">89.90</td><td class="numeric">76.10</td><td class="numeric">73.90</td>
-  <td class="numeric">77.80</td><td class="numeric">70.90</td><td class="numeric">85.90</td>
-  <td><button class="row-action" data-entry="DEMO-003" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
-</tr>
-<tr data-id="DEMO-004">
-  <td class="rank-cell">04</td>
+<tr data-id="GEN-dreamforge">
+  <td class="rank-cell">02</td>
   <td><strong class="team-name">DreamForge</strong></td>
-  <td class="numeric score">72.95</td><td class="numeric">79.40</td><td class="numeric">80.90</td>
-  <td class="numeric">88.60</td><td class="numeric">74.80</td><td class="numeric">72.60</td>
-  <td class="numeric">76.50</td><td class="numeric">69.80</td><td class="numeric">84.70</td>
-  <td><button class="row-action" data-entry="DEMO-004" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
+  <td data-metric="fvd" class="numeric">272.880</td><td data-metric="clipIqa" class="numeric">0.573</td><td data-metric="dinoT" class="numeric">0.705</td><td data-metric="epi3" class="numeric">0.168</td><td data-metric="tvc" class="numeric">0.495</td><td data-metric="trs" class="numeric">0.782</td><td data-metric="rpdms" class="numeric metric-best">0.729</td><td data-metric="routeCompletion" class="numeric metric-best">0.881</td><td data-metric="qtes" class="numeric score metric-second">41.311</td>
+  <td><button class="row-action" data-entry="GEN-dreamforge" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
 </tr>
-<tr data-id="DEMO-005">
+<tr data-id="GEN-horizondrive">
+  <td class="rank-cell">03</td>
+  <td><strong class="team-name">HorizonDrive</strong></td>
+  <td data-metric="fvd" class="numeric metric-second">178.708</td><td data-metric="clipIqa" class="numeric metric-second">0.593</td><td data-metric="dinoT" class="numeric metric-best">0.842</td><td data-metric="epi3" class="numeric">0.116</td><td data-metric="tvc" class="numeric metric-second">0.519</td><td data-metric="trs" class="numeric">0.782</td><td data-metric="rpdms" class="numeric metric-second">0.725</td><td data-metric="routeCompletion" class="numeric metric-second">0.880</td><td data-metric="qtes" class="numeric score">40.108</td>
+  <td><button class="row-action" data-entry="GEN-horizondrive" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
+</tr>
+<tr data-id="GEN-magicdrive-v2">
+  <td class="rank-cell">04</td>
+  <td><strong class="team-name">MagicDrive-V2</strong></td>
+  <td data-metric="fvd" class="numeric">217.146</td><td data-metric="clipIqa" class="numeric">0.437</td><td data-metric="dinoT" class="numeric metric-second">0.744</td><td data-metric="epi3" class="numeric metric-second">0.179</td><td data-metric="tvc" class="numeric">0.447</td><td data-metric="trs" class="numeric">0.782</td><td data-metric="rpdms" class="numeric">0.718</td><td data-metric="routeCompletion" class="numeric">0.870</td><td data-metric="qtes" class="numeric score">39.509</td>
+  <td><button class="row-action" data-entry="GEN-magicdrive-v2" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
+</tr>
+<tr data-id="GEN-panacea">
   <td class="rank-cell">05</td>
-  <td><strong class="team-name">WorldDreamer</strong></td>
-  <td class="numeric score">70.77</td><td class="numeric">82.70</td><td class="numeric">78.60</td>
-  <td class="numeric">86.80</td><td class="numeric">72.30</td><td class="numeric">70.90</td>
-  <td class="numeric">74.10</td><td class="numeric">67.60</td><td class="numeric">82.80</td>
-  <td><button class="row-action" data-entry="DEMO-005" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
+  <td><strong class="team-name">Panacea</strong></td>
+  <td data-metric="fvd" class="numeric">280.866</td><td data-metric="clipIqa" class="numeric">0.581</td><td data-metric="dinoT" class="numeric">0.728</td><td data-metric="epi3" class="numeric">0.164</td><td data-metric="tvc" class="numeric">0.374</td><td data-metric="trs" class="numeric">0.782</td><td data-metric="rpdms" class="numeric">0.717</td><td data-metric="routeCompletion" class="numeric metric-best">0.881</td><td data-metric="qtes" class="numeric score">39.146</td>
+  <td><button class="row-action" data-entry="GEN-panacea" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
 </tr>
-<tr data-id="DEMO-006">
+<tr data-id="GEN-basedreamer">
   <td class="rank-cell">06</td>
+  <td><strong class="team-name">BaseDreamer</strong></td>
+  <td data-metric="fvd" class="numeric">630.836</td><td data-metric="clipIqa" class="numeric metric-best">0.661</td><td data-metric="dinoT" class="numeric">0.677</td><td data-metric="epi3" class="numeric">0.143</td><td data-metric="tvc" class="numeric">0.410</td><td data-metric="trs" class="numeric">0.782</td><td data-metric="rpdms" class="numeric">0.721</td><td data-metric="routeCompletion" class="numeric metric-second">0.880</td><td data-metric="qtes" class="numeric score">38.522</td>
+  <td><button class="row-action" data-entry="GEN-basedreamer" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
+</tr>
+<tr data-id="GEN-magicdrive">
+  <td class="rank-cell">07</td>
   <td><strong class="team-name">MagicDrive</strong></td>
-  <td class="numeric score">68.54</td><td class="numeric">85.10</td><td class="numeric">77.40</td>
-  <td class="numeric">85.50</td><td class="numeric">70.80</td><td class="numeric">69.50</td>
-  <td class="numeric">72.90</td><td class="numeric">65.40</td><td class="numeric">81.60</td>
-  <td><button class="row-action" data-entry="DEMO-006" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
+  <td data-metric="fvd" class="numeric">378.423</td><td data-metric="clipIqa" class="numeric">0.530</td><td data-metric="dinoT" class="numeric">0.681</td><td data-metric="epi3" class="numeric">0.132</td><td data-metric="tvc" class="numeric">0.363</td><td data-metric="trs" class="numeric">0.782</td><td data-metric="rpdms" class="numeric">0.670</td><td data-metric="routeCompletion" class="numeric">0.855</td><td data-metric="qtes" class="numeric score">37.282</td>
+  <td><button class="row-action" data-entry="GEN-magicdrive" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
 </tr></tbody>
         </table>
       </div>
+      <div class="table-foot"><span data-i18n="demoRecords">7 个模型 · 生成轨迹 + 渲染</span><span data-i18n="sortable">点击表头排序 · 排名依据 QTES</span></div>
+      <p class="table-explanation" data-i18n="tableExplanation">所有指标保留三位小数。FVD 越低越好，其余指标越高越好。珊瑚色和蓝色分别表示单项最优和次优，并列结果同色；TRS 全部相同，不着色。切换排序仅改变展示顺序，不改变 QTES 排名。</p>
     </section>
 
     <section id="submit" class="editorial-section ruled">
@@ -402,6 +422,7 @@ dialog > p { font-size: 13px; color: var(--muted); margin-top: 7px; }
           <li data-i18n="requirement2">检查历史与未来边界连续性、缺失帧与异常值，避免瞬移、重复点和不合理的轨迹跳变。</li>
           <li data-i18n="requirement3">检查速度、加速度、航向角及地图一致性，按照正式提交文档完成数据封装。</li>
         </ol>
+        <p data-i18n="baseline">模型参考七个生成基线：MagicDrive-V2、OpenDWM、Panacea、DreamForge、BaseDreamer、HorizonDrive 与 MagicDrive；策略响应阶段可接入 UniAD、VAD、DrivoR、SparseDriveV2、DiffusionDriveV2 与 GoalFlow。</p>
         <p class="availability-note" data-i18n="availability">提交入口尚未开放。本页暂未连接正式评测系统，提交安排以赛事公告为准。</p>
       </div>
       <figure class="submission-figure" tabindex="0">
@@ -453,46 +474,181 @@ dialog > p { font-size: 13px; color: var(--muted); margin-top: 7px; }
 
   <footer class="site-footer">
     <div class="footer-top"><a href="#main" data-i18n-attr="aria-label:homeAria" aria-label="OnSite 首页"><img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTg2LjU4IDkwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBvdmVyZmxvdz0iaGlkZGVuIj48ZGVmcz48L2RlZnM+PGcgaWQ9IkxheWVyXzIiPjxnIGlkPSJMYXllcl8xLTIiPjxwYXRoIGQ9Ik05OS43OCAzNi4zMyA5Mi4wNyA0MC40MkM5MS44MSA0MC41NSA5MS42NSA0MC42MSA5MS41MyA0MC41NEw5MS41MyA0MC41NCA5NS42NSA0Ny4zQzk1LjUgNDcuMDIgOTUuMzIgNDYuNzQgOTUuMTcgNDYuNDYgOTUuMDIgNDYuMTggOTQuOTcgNDYuMDYgOTUuNzEgNDUuNjcgOTguOTYgNDMuOTMgMTAyLjIzIDQyLjIzIDEwNS40OCA0MC40OEwxMDUuNDggMzMuMTlDMTAzLjU4IDM0LjI4IDEwMS42OSAzNS4zMSA5OS43OCAzNi4zM1oiIGZpbGw9IiNDOENDRTQiLz48cGF0aCBkPSJNODAuOTEgNDUuNjhDODEuMSA0Ni4wMiA4MS4xIDQ2LjA0IDgwLjQ0IDQ2LjM4IDc3LjQ0IDQ3Ljk0IDc0LjM1IDQ5LjUyIDcxLjM1IDUxLjE2TDcxLjM1IDU4LjQxQzczLjU1IDU3LjE1IDc1LjggNTUuOTUgNzguMDUgNTQuNzdMODMuODcgNTEuNjlDODQuMDMgNTEuNTkgODQuMTcgNTEuNDYgODQuMzIgNTEuMzVMODQuNCA1MS40NEM4NC40NDcxIDUxLjQ3MjIgODQuNDg3OCA1MS41MTI5IDg0LjUyIDUxLjU2TDg1LjA2IDUyLjQgODAuMjggNDQuNTVDODAuNDggNDQuOTMgODAuNzEgNDUuMjkgODAuOTEgNDUuNjhaIiBmaWxsPSIjQzhDQ0U0Ii8+PHBhdGggZD0iTTE4Ni41OCAzMC45IDE4Ni41OCAyMi45MSAxNTYuNjIgMjIuOTEgMTU2LjYyIDY0Ljg2IDE4Ni41OCA2NC44NiAxODYuNTggNTYuNTYgMTY2LjYxIDU2LjU2IDE2Ni42MSA0Ny40IDE4NS41NyA0Ny40IDE4NS41NyAzOS41MSAxNjYuNjEgMzkuNTEgMTY2LjYxIDMwLjkgMTg2LjU4IDMwLjlaIiBmaWxsPSIjMTQ1NzlFIi8+PHBhdGggZD0iTTE4LjA5IDI0LjdDMTIuMjkgMjQuNyA3LjgyNjY3IDI2Ljc1IDQuNyAzMC44NSAxLjU3MzMzIDM0Ljk1IDAuMDA2NjY2NjcgNDAuMDYgMCA0Ni4xOC0wLjE1ODcyMiA1MS42Nzk5IDEuNDY5MjcgNTcuMDgzMiA0LjY0IDYxLjU4IDcuNzMzMzMgNjUuODIgMTIuMTAzMyA2Ny45NCAxNy43NSA2Ny45NCAyMy42NDMzIDY3Ljk0IDI4LjEyNjcgNjUuODUgMzEuMiA2MS42NyAzNC4yNzMzIDU3LjQ5IDM1LjgwNjcgNTIuMzU2NyAzNS44IDQ2LjI3IDM1Ljg4MzIgNDAuOTMxNCAzNC4zMjY1IDM1LjY5NTkgMzEuMzQgMzEuMjcgMjguMzYgMjYuODk2NyAyMy45NDMzIDI0LjcwNjcgMTguMDkgMjQuN1pNMTggNTkuOTJDMTIuODQ2NyA1OS45MiAxMC4yNzMzIDU1LjM4IDEwLjI4IDQ2LjMgMTAuMjg2NyAzNy4yMiAxMi44NiAzMi42OTMzIDE4IDMyLjcyIDIyLjk5MzMgMzIuNzIgMjUuNDkgMzcuMjU2NyAyNS40OSA0Ni4zMyAyNS40OSA1NS40MDMzIDIyLjk5MzMgNTkuOTMzMyAxOCA1OS45MloiIGZpbGw9IiMxNDU3OUUiLz48cGF0aCBkPSJNMTI5LjkyIDI0LjExQzEyOC40OTggMjYuMDQ4OSAxMjYuOTAyIDI3Ljg1MzIgMTI1LjE1IDI5LjUgMTI0LjU1IDMwLjA2IDEyMy45MSAzMC42NCAxMjMuMjQgMzEuMjFMMTMzLjQ3IDMxLjIxIDEzMy40NyA2NC44NiAxNDMuNDcgNjQuODYgMTQzLjQ3IDMxLjIxIDE1My44NiAzMS4yMSAxNTMuODYgMjIuOTEgMTMwLjc0IDIyLjkxQzEzMC40NiAyMy4zMyAxMzAuMTkgMjMuNzIgMTI5LjkyIDI0LjExWiIgZmlsbD0iIzE0NTc5RSIvPjxwYXRoIGQ9Ik0xMjguMjcgMjIuOTFDMTI4Ljk0MSAyMS45ODIgMTI5LjU0OSAyMS4wMDk4IDEzMC4wOSAyMCAxMzAuOTM3IDE4LjQ4NDMgMTMxLjU2IDE2Ljg1NDEgMTMxLjk0IDE1LjE2IDEzMi4xMjYgMTQuMzA5MSAxMzIuMjI0IDEzLjQ0MTEgMTMyLjIzIDEyLjU3IDEzMi4yMy0yIDExNi4zMi0wLjEyIDExMi43OCAwLjMyIDEwNC40NiAxLjMyIDg3LjcxIDcuNDYgNzguNTUgMjMuMDEgNzYuOTU4MyAyNS41OTE0IDc2LjA1OTMgMjguNTM5NyA3NS45NCAzMS41NyA3NS44NTY5IDM0LjYyOCA3Ni41NDQ3IDM3LjY1NzcgNzcuOTQgNDAuMzggNzguNjIgNDEuNzUgNzkuMzggNDMuMDYgODAuMTQgNDQuMzhMODAuMjMgNDQuNTMgODUuMDEgNTIuMzggODUuMDEgNTIuMzhDODYuNDE5NyA1NC40ODQ1IDg3LjU0OTIgNTYuNzYzNyA4OC4zNyA1OS4xNiA4OS4xMDIyIDYxLjM3MjEgODkuMTY4MyA2My43NTA2IDg4LjU2IDY2IDg3LjUwMDQgNjkuMzU4MSA4NS40NTUxIDcyLjMxOTcgODIuNjkgNzQuNSA3OC43Mjg4IDc3Ljg4OTggNzMuOTI3IDgwLjE0OTEgNjguNzkgODEuMDQgNjIuOTkgODIuMSA1OC43OSA4MS4zOSA1Ni42IDc4LjY4IDU1LjI2OTUgNzcuMDIwOCA1NC45NjU1IDc0Ljc2MTkgNTUuODEgNzIuODEgNTYuNDA1NSA3MS4zMDM3IDU3LjIxNzQgNjkuODkyMiA1OC4yMiA2OC42MiA1OC41OCA2OC4xNiA1OC45NSA2Ny43MSA1OS4zNSA2Ny4yOCA2MC4wNzc5IDY2LjQ3NTEgNjAuODUyNiA2NS43MTM4IDYxLjY3IDY1IDYzLjMxMTggNjMuNTgwOSA2NS4wNTI5IDYyLjI4MDkgNjYuODggNjEuMTFMNjcuNjEgNjAuNjMgNjcuNzEgNjAuNTdDNjguOSA1OS44MSA3MC4xMiA1OS4wOCA3MS4zNSA1OC4zN0w3MS4zNSAyNS4zNSA2MS41MiAyNS4zNSA2MS41MiA0NS44NyA0OS42OCAyNS4zNSAzOS4wOCAyNS4zNSAzOS4wOCA2Ny4zIDQ2LjU3IDY3LjNDNDcuMjk3NSA2Ni4zMjcyIDQ4LjA3ODcgNjUuMzk1OCA0OC45MSA2NC41MSA0OC45MSA2MC4yMyA0OC45MSA1Mi4wMSA0OC45MSA0Ny4wN0w0OC45MSA0MyA1OC4yNCA1OS4xQzU3LjM3IDU5LjcyIDU2LjUyIDYwLjM2IDU1LjcgNjEuMDJMNTUuMzYgNjEuMjlDNTEuNDkxNCA2NC4yMjUgNDguMjU2NSA2Ny45MTIzIDQ1Ljg1IDcyLjEzIDQ1Ljc0IDcyLjMyIDQ1LjUzIDcyLjc1IDQ1LjQ0IDcyLjk0TDQ1LjQ0IDcyLjk0QzQxLjUyIDgxLjA1IDQ0LjcgODcuNzkgNTMuNjEgODkuNDcgNjAuNjEgOTAuNzcgNjguNjEgODkuNjEgNzcuNjcgODUuNjYgODMuMzYzMyA4My4yNDM3IDg4LjQ5OTUgNzkuNjgzNCA5Mi43NiA3NS4yIDk4LjM3IDY5LjIgMTAwLjQ4IDYzLjYzIDEwMC4wNiA1OC40MyA5OS42OTE3IDU1LjQ1IDk4LjcwNzUgNTIuNTc5MiA5Ny4xNyA1MCA5Ni43IDQ5LjE0IDk2LjE3IDQ4LjI5IDk1LjcgNDcuNDRMOTUuNjEgNDcuMjkgOTEuNDkgNDAuNSA5MS40OSA0MC41IDkwLjc2IDM5LjMyQzkwLjI5IDM4LjU3IDg5Ljg1IDM3LjggODkuNDIgMzcuMDIgODMgMjUuMzMgMTA2IDEwLjg1IDExNS44NCAxMS40NiAxMTYuNTQyIDExLjQ5MTYgMTE3LjIyNyAxMS42ODY4IDExNy44NCAxMi4wM0wxMTggMTIuMTIgMTE4LjE4IDEyLjI1QzExOC41NCAxMi41MTUxIDExOC44NzUgMTIuODEzIDExOS4xOCAxMy4xNCAxMTkuNzMxIDEzLjcyNjggMTIwLjE0MSAxNC40MzEzIDEyMC4zOCAxNS4yIDEyMC41NDMgMTUuNzI4IDEyMC42MjggMTYuMjc3MyAxMjAuNjMgMTYuODMgMTIwLjU2MyAxOC41ODgxIDExOS45OTggMjAuMjkwOSAxMTkgMjEuNzQgMTE4LjczIDIyLjE0IDExOC40NiAyMi41NCAxMTguMTcgMjIuOTEgMTE3LjI3MiAyNC4wOTU2IDExNi4yNjggMjUuMTk2OSAxMTUuMTcgMjYuMiAxMTQuNzYgMjYuNiAxMTQuMzMgMjYuOTggMTEzLjkgMjcuMzUgMTEyLjkgMjguMjIgMTExLjggMjkuMDMgMTEwLjY3IDI5LjgzIDExMC4zMiAzMC4wNyAxMDkuOTggMzAuMzEgMTA5LjY3IDMwLjU0IDEwOC4yOSAzMS40NiAxMDYuODc3IDMyLjM0MzMgMTA1LjQzIDMzLjE5TDEwNS40MyA2NC44NyAxMTUuMjIgNjQuODcgMTE1LjIyIDM0LjY5QzExNi45MSAzMy41OCAxMTguNTMgMzIuNCAxMjAuMDggMzEuMTlMMTIwLjYyIDMwLjc1IDEyMC42OSAzMC43QzEyMS43NyAyOS44MiAxMjIuNzkgMjguOTMgMTIzLjc1IDI4LjAzIDEyNS40MTcgMjYuNDcyMSAxMjYuOTMxIDI0Ljc1NzYgMTI4LjI3IDIyLjkxWiIgZmlsbD0iIzE0NTc5RSIvPjwvZz48L2c+PC9zdmc+" alt="OnSite" width="112" height="54"></a><p><span data-i18n="footerTitle">OnSite Challenge 2027 · 自动驾驶算法挑战赛</span><br><span data-i18n="footerTrack">三维场景生成赛道 · 2027</span></p><a href="#main" class="back-top" data-i18n="backTop">返回顶部 ↑</a></div>
-    <div class="footer-bottom"><span data-i18n="footerNote"></span><span>OnSite 2027</span></div>
+    <div class="footer-bottom"><span data-i18n="footerNote">页面内容依据 OnSite Challenge 2027 赛事资料整理，正式参赛要求以赛事公告为准。</span><span>OnSite 2027</span></div>
   </footer>
 
   <dialog id="picker" class="picker-modal" aria-labelledby="picker-title" aria-describedby="picker-description">
     <button class="dialog-close" data-close data-i18n-attr="aria-label:close">×</button>
-    <h2 id="picker-title" data-i18n="pickerTitle">查找成绩</h2><p id="picker-description" data-i18n="pickerDescription">选择队伍与模型，查看演示成绩记录。</p>
+    <h2 id="picker-title" data-i18n="pickerTitle">查找成绩</h2><p id="picker-description" data-i18n="pickerDescription">选择模型，查看生成轨迹设置下的基准成绩记录。</p>
     <div class="search-box"><input type="search" data-i18n-attr="aria-label:searchAria;placeholder:searchPlaceholder" aria-label="搜索队伍或模型" placeholder="搜索队伍或模型" autocomplete="off"></div>
     <div class="picker-list"></div>
   </dialog>
   <dialog id="result" class="certificate-modal" aria-labelledby="result-title" aria-describedby="result-description">
     <button class="dialog-close" data-close data-i18n-attr="aria-label:close">×</button>
-    <h2 id="result-title" data-i18n="resultTitle">成绩记录</h2><p id="result-description" data-i18n="resultDescription">演示成绩快照，不作为官方成绩或获奖凭证。</p>
+    <h2 id="result-title" data-i18n="resultTitle">成绩记录</h2><p id="result-description" data-i18n="resultDescription">基准结果快照，不作为官方赛事成绩或获奖凭证。</p>
     <div class="result-summary"></div>
     <div class="certificate-preview"></div>
     <div class="ineligible" hidden><h3 data-i18n="ineligibleTitle">该记录未通过基础门槛</h3><p data-i18n="ineligibleParagraph">未进入有效排名，暂不能生成电子成绩证明。你仍可导出成绩记录。</p></div>
     <div class="certificate-actions">
       <button class="outline-button" data-export="csv" data-i18n="exportCsv">导出成绩 CSV</button>
       <button class="outline-button" data-export="pdf" data-i18n="printPdf">打印 / 存为 PDF</button>
-      <button class="primary-button" data-export="png" data-i18n="downloadPng">下载证书 PNG</button>
+      <button class="primary-button" data-export="png" data-i18n="downloadPng">下载记录 PNG</button>
     </div>
     <output class="download-notice" aria-live="polite"></output>
   </dialog>
   <script>(()=>{
-// Demonstration fixtures only. These model names and metric shapes are not official challenge results.
-// Replace them with organizer-approved, versioned scores before launch.
+// Table 2: Generated trajectories + rendering. Snapshot updated 2026-09-29.
+// Original metric scales are preserved. No real-video or recorded-trajectory rows.
+// date is the website snapshot date, not a claimed experiment/submission date.
 const entries = [
-    { id: 'DEMO-001', team: 'Benchmark baseline', model: 'MagicDrive-V2', version: 'renderer', score: 78.42, qtes: 78.42, fvd: 71.20, clipIqa: 84.30, dinoT: 91.60, epi3: 79.40, tvc: 76.80, trs: 81.20, rpdms: 73.90, routeCompletion: 88.60, submittedAt: '2026-09-06 18:42', valid: true, date: '2026-09-06', rank: 1 },
-    { id: 'DEMO-002', team: 'Benchmark baseline', model: 'OpenDWM', version: 'renderer', score: 76.84, qtes: 76.84, fvd: 74.10, clipIqa: 82.90, dinoT: 90.70, epi3: 77.80, tvc: 75.40, trs: 79.60, rpdms: 72.80, routeCompletion: 87.40, submittedAt: '2026-09-06 15:16', valid: true, date: '2026-09-06', rank: 2 },
-    { id: 'DEMO-003', team: 'Benchmark baseline', model: 'Panacea', version: 'renderer', score: 74.63, qtes: 74.63, fvd: 76.80, clipIqa: 81.70, dinoT: 89.90, epi3: 76.10, tvc: 73.90, trs: 77.80, rpdms: 70.90, routeCompletion: 85.90, submittedAt: '2026-09-05 21:08', valid: true, date: '2026-09-05', rank: 3 },
-    { id: 'DEMO-004', team: 'Benchmark baseline', model: 'DreamForge', version: 'renderer', score: 72.95, qtes: 72.95, fvd: 79.40, clipIqa: 80.90, dinoT: 88.60, epi3: 74.80, tvc: 72.60, trs: 76.50, rpdms: 69.80, routeCompletion: 84.70, submittedAt: '2026-09-05 16:34', valid: true, date: '2026-09-05', rank: 4 },
-    { id: 'DEMO-005', team: 'Benchmark baseline', model: 'WorldDreamer', version: 'renderer', score: 70.77, qtes: 70.77, fvd: 82.70, clipIqa: 78.60, dinoT: 86.80, epi3: 72.30, tvc: 70.90, trs: 74.10, rpdms: 67.60, routeCompletion: 82.80, submittedAt: '2026-09-04 19:27', valid: true, date: '2026-09-04', rank: 5 },
-    { id: 'DEMO-006', team: 'Benchmark baseline', model: 'MagicDrive', version: 'renderer', score: 68.54, qtes: 68.54, fvd: 85.10, clipIqa: 77.40, dinoT: 85.50, epi3: 70.80, tvc: 69.50, trs: 72.90, rpdms: 65.40, routeCompletion: 81.60, submittedAt: '2026-09-04 13:52', valid: true, date: '2026-09-04', rank: 6 },
-];
+  {
+    "id": "GEN-magicdrive-v2",
+    "team": "Benchmark baseline",
+    "model": "MagicDrive-V2",
+    "version": "Generated trajectories + rendering",
+    "date": "2026-09-29",
+    "submittedAt": null,
+    "valid": true,
+    "fvd": 217.146,
+    "clipIqa": 0.437,
+    "dinoT": 0.744,
+    "epi3": 0.179,
+    "tvc": 0.447,
+    "trs": 0.782,
+    "rpdms": 0.718,
+    "routeCompletion": 0.87,
+    "qtes": 39.509
+  },
+  {
+    "id": "GEN-opendwm",
+    "team": "Benchmark baseline",
+    "model": "OpenDWM",
+    "version": "Generated trajectories + rendering",
+    "date": "2026-09-29",
+    "submittedAt": null,
+    "valid": true,
+    "fvd": 93.383,
+    "clipIqa": 0.531,
+    "dinoT": 0.73,
+    "epi3": 0.222,
+    "tvc": 0.543,
+    "trs": 0.782,
+    "rpdms": 0.724,
+    "routeCompletion": 0.878,
+    "qtes": 44.079
+  },
+  {
+    "id": "GEN-panacea",
+    "team": "Benchmark baseline",
+    "model": "Panacea",
+    "version": "Generated trajectories + rendering",
+    "date": "2026-09-29",
+    "submittedAt": null,
+    "valid": true,
+    "fvd": 280.866,
+    "clipIqa": 0.581,
+    "dinoT": 0.728,
+    "epi3": 0.164,
+    "tvc": 0.374,
+    "trs": 0.782,
+    "rpdms": 0.717,
+    "routeCompletion": 0.881,
+    "qtes": 39.146
+  },
+  {
+    "id": "GEN-dreamforge",
+    "team": "Benchmark baseline",
+    "model": "DreamForge",
+    "version": "Generated trajectories + rendering",
+    "date": "2026-09-29",
+    "submittedAt": null,
+    "valid": true,
+    "fvd": 272.88,
+    "clipIqa": 0.573,
+    "dinoT": 0.705,
+    "epi3": 0.168,
+    "tvc": 0.495,
+    "trs": 0.782,
+    "rpdms": 0.729,
+    "routeCompletion": 0.881,
+    "qtes": 41.311
+  },
+  {
+    "id": "GEN-basedreamer",
+    "team": "Benchmark baseline",
+    "model": "BaseDreamer",
+    "version": "Generated trajectories + rendering",
+    "date": "2026-09-29",
+    "submittedAt": null,
+    "valid": true,
+    "fvd": 630.836,
+    "clipIqa": 0.661,
+    "dinoT": 0.677,
+    "epi3": 0.143,
+    "tvc": 0.41,
+    "trs": 0.782,
+    "rpdms": 0.721,
+    "routeCompletion": 0.88,
+    "qtes": 38.522
+  },
+  {
+    "id": "GEN-horizondrive",
+    "team": "Benchmark baseline",
+    "model": "HorizonDrive",
+    "version": "Generated trajectories + rendering",
+    "date": "2026-09-29",
+    "submittedAt": null,
+    "valid": true,
+    "fvd": 178.708,
+    "clipIqa": 0.593,
+    "dinoT": 0.842,
+    "epi3": 0.116,
+    "tvc": 0.519,
+    "trs": 0.782,
+    "rpdms": 0.725,
+    "routeCompletion": 0.88,
+    "qtes": 40.108
+  },
+  {
+    "id": "GEN-magicdrive",
+    "team": "Benchmark baseline",
+    "model": "MagicDrive",
+    "version": "Generated trajectories + rendering",
+    "date": "2026-09-29",
+    "submittedAt": null,
+    "valid": true,
+    "fvd": 378.423,
+    "clipIqa": 0.53,
+    "dinoT": 0.681,
+    "epi3": 0.132,
+    "tvc": 0.363,
+    "trs": 0.782,
+    "rpdms": 0.67,
+    "routeCompletion": 0.855,
+    "qtes": 37.282
+  }
+]
+    .sort((a, b) => b.qtes - a.qtes || a.model.localeCompare(b.model))
+    .map((entry, index, all) => ({ ...entry, score: entry.qtes,
+        rank: all.findIndex(other => other.qtes === entry.qtes) + 1 }));
+const metricKeys = ['fvd', 'clipIqa', 'dinoT', 'epi3', 'tvc', 'trs', 'rpdms', 'routeCompletion', 'qtes'];
+function metricHighlightClass(key, value) {
+    const values = [...new Set(entries.map(entry => entry[key]))]
+        .sort((a, b) => key === 'fvd' ? a - b : b - a);
+    // Shared trajectory scores do not distinguish renderers.
+    if (values.length < 2) return '';
+    return value === values[0] ? 'metric-best' : value === values[1] ? 'metric-second' : '';
+}
 function sortEntries(items, key, direction) {
     const sign = direction === 'asc' ? 1 : -1;
-    return [...items].sort((a, b) => sign * (key === 'team'
-        ? `${a.team} ${a.model}`.localeCompare(`${b.team} ${b.model}`, 'zh-CN')
-        : key === 'submittedAt'
-            ? a.submittedAt.localeCompare(b.submittedAt)
-            : a[key] - b[key]) || a.rank - b.rank);
+    return [...items].sort((a, b) => {
+        const difference = key === 'team' || key === 'model'
+            ? a.model.localeCompare(b.model, 'en')
+            : key === 'submittedAt'
+                ? String(a.submittedAt ?? '').localeCompare(String(b.submittedAt ?? ''))
+                : a[key] - b[key];
+        return sign * difference || a.rank - b.rank;
+    });
 }
 function certificateSvgForLocale(e, locale = 'zh') {
     let svg = certificateSvg(e);
@@ -501,11 +657,11 @@ function certificateSvgForLocale(e, locale = 'zh') {
         ['第四届 OnSite 自动驾驶算法挑战赛', 'OnSite Challenge 2027 · Autonomous Driving Algorithm Challenge'],
         ['电子成绩证明', 'Certificate of Achievement'],
         ['第五赛道 · 三维场景生成', 'OnSite · 3D Scenario Generation Benchmark'],
-        ['测试有效性得分', 'Composite evaluation score'],
-        ['演示榜单排名', 'Demo leaderboard rank'],
-        ['成绩日期', 'Result date'],
+        ['测试有效性得分', 'QTES'],
+        ['QTES 排名', 'QTES rank'],
+        ['快照日期', 'Snapshot date'],
         ['记录编号', 'Record ID'],
-        ['演示证书 · 示例数据 · 不作为官方成绩或获奖凭证', 'Demo certificate · Example data · Not an official result or award credential'],
+        ['基准成绩记录 · 生成轨迹数据 · 不作为官方成绩或获奖凭证', 'Benchmark record · Generated trajectories · Not an official result or award credential'],
         ['排名与成绩以所列日期的榜单快照为准', 'Rank and score follow the leaderboard snapshot on the stated date'],
     ];
     for (const [from, to] of replacements) svg = svg.replaceAll(from, to);
@@ -515,12 +671,12 @@ function csvFor(entry, locale = 'zh') {
     const english = locale === 'en';
     const csvLabels = english
         ? {
-            nature: 'Demo score, not official',
+            nature: 'Benchmark result, not an official competition score',
             header: 'Type,Record ID,Team,Model,Version,Rank,QTES,FVD,CLIP-IQA+,DINO-T,Epi@3,TVC,TRS,RPDMS,Route Completion',
             unranked: 'Unranked',
         }
         : {
-            nature: '演示成绩，非官方证明',
+            nature: '基准结果，非官方赛事成绩',
             header: '性质,记录编号,队伍,模型,版本,排名,QTES,FVD,CLIP-IQA+,DINO-T,Epi@3,TVC,TRS,RPDMS,路线完成度',
             unranked: '未入榜',
         };
@@ -531,15 +687,15 @@ function csvFor(entry, locale = 'zh') {
         entry.model,
         entry.version,
         entry.rank ?? csvLabels.unranked,
-        entry.qtes,
-        entry.fvd,
-        entry.clipIqa,
-        entry.dinoT,
-        entry.epi3,
-        entry.tvc,
-        entry.trs,
-        entry.rpdms,
-        entry.routeCompletion,
+        entry.qtes.toFixed(3),
+        entry.fvd.toFixed(3),
+        entry.clipIqa.toFixed(3),
+        entry.dinoT.toFixed(3),
+        entry.epi3.toFixed(3),
+        entry.tvc.toFixed(3),
+        entry.trs.toFixed(3),
+        entry.rpdms.toFixed(3),
+        entry.routeCompletion.toFixed(3),
     ];
     const cell = (v) => '"' +
         String(v)
@@ -562,7 +718,7 @@ function certificateSvg(e, locale = 'zh') {
         '"': '&quot;',
         "'": '&apos;',
     })[c]);
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1130" viewBox="0 0 1600 1130"><rect width="1600" height="1130" fill="#fff"/><rect x="30" y="30" width="1540" height="1070" fill="none" stroke="#2055dc" stroke-width="3"/><rect x="46" y="46" width="1508" height="1038" fill="none" stroke="#d9e3fa"/><rect x="30" y="30" width="1540" height="13" fill="#2055dc"/><g font-family="Arial,Microsoft YaHei,sans-serif" text-anchor="middle" fill="#172647"><svg x="693" y="66" width="214" height="103" viewBox="0 0 186.58 90" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="hidden"><defs></defs><g id="Layer_2"><g id="Layer_1-2"><path d="M99.78 36.33 92.07 40.42C91.81 40.55 91.65 40.61 91.53 40.54L91.53 40.54 95.65 47.3C95.5 47.02 95.32 46.74 95.17 46.46 95.02 46.18 94.97 46.06 95.71 45.67 98.96 43.93 102.23 42.23 105.48 40.48L105.48 33.19C103.58 34.28 101.69 35.31 99.78 36.33Z" fill="#C8CCE4"/><path d="M80.91 45.68C81.1 46.02 81.1 46.04 80.44 46.38 77.44 47.94 74.35 49.52 71.35 51.16L71.35 58.41C73.55 57.15 75.8 55.95 78.05 54.77L83.87 51.69C84.03 51.59 84.17 51.46 84.32 51.35L84.4 51.44C84.4471 51.4722 84.4878 51.5129 84.52 51.56L85.06 52.4 80.28 44.55C80.48 44.93 80.71 45.29 80.91 45.68Z" fill="#C8CCE4"/><path d="M186.58 30.9 186.58 22.91 156.62 22.91 156.62 64.86 186.58 64.86 186.58 56.56 166.61 56.56 166.61 47.4 185.57 47.4 185.57 39.51 166.61 39.51 166.61 30.9 186.58 30.9Z" fill="#14579E"/><path d="M18.09 24.7C12.29 24.7 7.82667 26.75 4.7 30.85 1.57333 34.95 0.00666667 40.06 0 46.18-0.158722 51.6799 1.46927 57.0832 4.64 61.58 7.73333 65.82 12.1033 67.94 17.75 67.94 23.6433 67.94 28.1267 65.85 31.2 61.67 34.2733 57.49 35.8067 52.3567 35.8 46.27 35.8832 40.9314 34.3265 35.6959 31.34 31.27 28.36 26.8967 23.9433 24.7067 18.09 24.7ZM18 59.92C12.8467 59.92 10.2733 55.38 10.28 46.3 10.2867 37.22 12.86 32.6933 18 32.72 22.9933 32.72 25.49 37.2567 25.49 46.33 25.49 55.4033 22.9933 59.9333 18 59.92Z" fill="#14579E"/><path d="M129.92 24.11C128.498 26.0489 126.902 27.8532 125.15 29.5 124.55 30.06 123.91 30.64 123.24 31.21L133.47 31.21 133.47 64.86 143.47 64.86 143.47 31.21 153.86 31.21 153.86 22.91 130.74 22.91C130.46 23.33 130.19 23.72 129.92 24.11Z" fill="#14579E"/><path d="M128.27 22.91C128.941 21.982 129.549 21.0098 130.09 20 130.937 18.4843 131.56 16.8541 131.94 15.16 132.126 14.3091 132.224 13.4411 132.23 12.57 132.23-2 116.32-0.12 112.78 0.32 104.46 1.32 87.71 7.46 78.55 23.01 76.9583 25.5914 76.0593 28.5397 75.94 31.57 75.8569 34.628 76.5447 37.6577 77.94 40.38 78.62 41.75 79.38 43.06 80.14 44.38L80.23 44.53 85.01 52.38 85.01 52.38C86.4197 54.4845 87.5492 56.7637 88.37 59.16 89.1022 61.3721 89.1683 63.7506 88.56 66 87.5004 69.3581 85.4551 72.3197 82.69 74.5 78.7288 77.8898 73.927 80.1491 68.79 81.04 62.99 82.1 58.79 81.39 56.6 78.68 55.2695 77.0208 54.9655 74.7619 55.81 72.81 56.4055 71.3037 57.2174 69.8922 58.22 68.62 58.58 68.16 58.95 67.71 59.35 67.28 60.0779 66.4751 60.8526 65.7138 61.67 65 63.3118 63.5809 65.0529 62.2809 66.88 61.11L67.61 60.63 67.71 60.57C68.9 59.81 70.12 59.08 71.35 58.37L71.35 25.35 61.52 25.35 61.52 45.87 49.68 25.35 39.08 25.35 39.08 67.3 46.57 67.3C47.2975 66.3272 48.0787 65.3958 48.91 64.51 48.91 60.23 48.91 52.01 48.91 47.07L48.91 43 58.24 59.1C57.37 59.72 56.52 60.36 55.7 61.02L55.36 61.29C51.4914 64.225 48.2565 67.9123 45.85 72.13 45.74 72.32 45.53 72.75 45.44 72.94L45.44 72.94C41.52 81.05 44.7 87.79 53.61 89.47 60.61 90.77 68.61 89.61 77.67 85.66 83.3633 83.2437 88.4995 79.6834 92.76 75.2 98.37 69.2 100.48 63.63 100.06 58.43 99.6917 55.45 98.7075 52.5792 97.17 50 96.7 49.14 96.17 48.29 95.7 47.44L95.61 47.29 91.49 40.5 91.49 40.5 90.76 39.32C90.29 38.57 89.85 37.8 89.42 37.02 83 25.33 106 10.85 115.84 11.46 116.542 11.4916 117.227 11.6868 117.84 12.03L118 12.12 118.18 12.25C118.54 12.5151 118.875 12.813 119.18 13.14 119.731 13.7268 120.141 14.4313 120.38 15.2 120.543 15.728 120.628 16.2773 120.63 16.83 120.563 18.5881 119.998 20.2909 119 21.74 118.73 22.14 118.46 22.54 118.17 22.91 117.272 24.0956 116.268 25.1969 115.17 26.2 114.76 26.6 114.33 26.98 113.9 27.35 112.9 28.22 111.8 29.03 110.67 29.83 110.32 30.07 109.98 30.31 109.67 30.54 108.29 31.46 106.877 32.3433 105.43 33.19L105.43 64.87 115.22 64.87 115.22 34.69C116.91 33.58 118.53 32.4 120.08 31.19L120.62 30.75 120.69 30.7C121.77 29.82 122.79 28.93 123.75 28.03 125.417 26.4721 126.931 24.7576 128.27 22.91Z" fill="#14579E"/></g></g></svg><text x="800" y="202" font-size="21" letter-spacing="3">第四届 OnSite 自动驾驶算法挑战赛</text><text x="800" y="338" font-size="60" font-weight="600" letter-spacing="12">电子成绩证明</text><text x="800" y="386" font-size="20" fill="#65738e" letter-spacing="5">CERTIFICATE OF ACHIEVEMENT · DEMO</text><text x="800" y="480" font-size="23" fill="#65738e">第五赛道 · 三维场景生成</text><text x="800" y="555" font-size="44" font-weight="600">${esc(e.team)}</text><text x="800" y="605" font-size="24">${esc(e.model)} ${esc(e.version)}</text><line x1="340" y1="654" x2="1260" y2="654" stroke="#dae2f1"/><text x="565" y="745" font-size="63" fill="#2055dc" font-weight="700">${e.score.toFixed(2)}</text><text x="1035" y="745" font-size="63" fill="#2055dc" font-weight="700">#${e.rank}</text><text x="565" y="795" font-size="22">测试有效性得分</text><text x="1035" y="795" font-size="22">演示榜单排名</text><text x="800" y="897" font-size="20" fill="#65738e">成绩日期 ${esc(e.date)}　 ·　 记录编号 ${esc(e.id)}</text><text x="800" y="951" font-size="22" fill="#996e18">演示证书 · 示例数据 · 不作为官方成绩或获奖凭证</text><text x="800" y="1014" font-size="16" fill="#65738e">排名与成绩以所列日期的榜单快照为准</text></g></svg>`;
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1130" viewBox="0 0 1600 1130"><rect width="1600" height="1130" fill="#fff"/><rect x="30" y="30" width="1540" height="1070" fill="none" stroke="#2055dc" stroke-width="3"/><rect x="46" y="46" width="1508" height="1038" fill="none" stroke="#d9e3fa"/><rect x="30" y="30" width="1540" height="13" fill="#2055dc"/><g font-family="Arial,Microsoft YaHei,sans-serif" text-anchor="middle" fill="#172647"><svg x="693" y="66" width="214" height="103" viewBox="0 0 186.58 90" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="hidden"><defs></defs><g id="Layer_2"><g id="Layer_1-2"><path d="M99.78 36.33 92.07 40.42C91.81 40.55 91.65 40.61 91.53 40.54L91.53 40.54 95.65 47.3C95.5 47.02 95.32 46.74 95.17 46.46 95.02 46.18 94.97 46.06 95.71 45.67 98.96 43.93 102.23 42.23 105.48 40.48L105.48 33.19C103.58 34.28 101.69 35.31 99.78 36.33Z" fill="#C8CCE4"/><path d="M80.91 45.68C81.1 46.02 81.1 46.04 80.44 46.38 77.44 47.94 74.35 49.52 71.35 51.16L71.35 58.41C73.55 57.15 75.8 55.95 78.05 54.77L83.87 51.69C84.03 51.59 84.17 51.46 84.32 51.35L84.4 51.44C84.4471 51.4722 84.4878 51.5129 84.52 51.56L85.06 52.4 80.28 44.55C80.48 44.93 80.71 45.29 80.91 45.68Z" fill="#C8CCE4"/><path d="M186.58 30.9 186.58 22.91 156.62 22.91 156.62 64.86 186.58 64.86 186.58 56.56 166.61 56.56 166.61 47.4 185.57 47.4 185.57 39.51 166.61 39.51 166.61 30.9 186.58 30.9Z" fill="#14579E"/><path d="M18.09 24.7C12.29 24.7 7.82667 26.75 4.7 30.85 1.57333 34.95 0.00666667 40.06 0 46.18-0.158722 51.6799 1.46927 57.0832 4.64 61.58 7.73333 65.82 12.1033 67.94 17.75 67.94 23.6433 67.94 28.1267 65.85 31.2 61.67 34.2733 57.49 35.8067 52.3567 35.8 46.27 35.8832 40.9314 34.3265 35.6959 31.34 31.27 28.36 26.8967 23.9433 24.7067 18.09 24.7ZM18 59.92C12.8467 59.92 10.2733 55.38 10.28 46.3 10.2867 37.22 12.86 32.6933 18 32.72 22.9933 32.72 25.49 37.2567 25.49 46.33 25.49 55.4033 22.9933 59.9333 18 59.92Z" fill="#14579E"/><path d="M129.92 24.11C128.498 26.0489 126.902 27.8532 125.15 29.5 124.55 30.06 123.91 30.64 123.24 31.21L133.47 31.21 133.47 64.86 143.47 64.86 143.47 31.21 153.86 31.21 153.86 22.91 130.74 22.91C130.46 23.33 130.19 23.72 129.92 24.11Z" fill="#14579E"/><path d="M128.27 22.91C128.941 21.982 129.549 21.0098 130.09 20 130.937 18.4843 131.56 16.8541 131.94 15.16 132.126 14.3091 132.224 13.4411 132.23 12.57 132.23-2 116.32-0.12 112.78 0.32 104.46 1.32 87.71 7.46 78.55 23.01 76.9583 25.5914 76.0593 28.5397 75.94 31.57 75.8569 34.628 76.5447 37.6577 77.94 40.38 78.62 41.75 79.38 43.06 80.14 44.38L80.23 44.53 85.01 52.38 85.01 52.38C86.4197 54.4845 87.5492 56.7637 88.37 59.16 89.1022 61.3721 89.1683 63.7506 88.56 66 87.5004 69.3581 85.4551 72.3197 82.69 74.5 78.7288 77.8898 73.927 80.1491 68.79 81.04 62.99 82.1 58.79 81.39 56.6 78.68 55.2695 77.0208 54.9655 74.7619 55.81 72.81 56.4055 71.3037 57.2174 69.8922 58.22 68.62 58.58 68.16 58.95 67.71 59.35 67.28 60.0779 66.4751 60.8526 65.7138 61.67 65 63.3118 63.5809 65.0529 62.2809 66.88 61.11L67.61 60.63 67.71 60.57C68.9 59.81 70.12 59.08 71.35 58.37L71.35 25.35 61.52 25.35 61.52 45.87 49.68 25.35 39.08 25.35 39.08 67.3 46.57 67.3C47.2975 66.3272 48.0787 65.3958 48.91 64.51 48.91 60.23 48.91 52.01 48.91 47.07L48.91 43 58.24 59.1C57.37 59.72 56.52 60.36 55.7 61.02L55.36 61.29C51.4914 64.225 48.2565 67.9123 45.85 72.13 45.74 72.32 45.53 72.75 45.44 72.94L45.44 72.94C41.52 81.05 44.7 87.79 53.61 89.47 60.61 90.77 68.61 89.61 77.67 85.66 83.3633 83.2437 88.4995 79.6834 92.76 75.2 98.37 69.2 100.48 63.63 100.06 58.43 99.6917 55.45 98.7075 52.5792 97.17 50 96.7 49.14 96.17 48.29 95.7 47.44L95.61 47.29 91.49 40.5 91.49 40.5 90.76 39.32C90.29 38.57 89.85 37.8 89.42 37.02 83 25.33 106 10.85 115.84 11.46 116.542 11.4916 117.227 11.6868 117.84 12.03L118 12.12 118.18 12.25C118.54 12.5151 118.875 12.813 119.18 13.14 119.731 13.7268 120.141 14.4313 120.38 15.2 120.543 15.728 120.628 16.2773 120.63 16.83 120.563 18.5881 119.998 20.2909 119 21.74 118.73 22.14 118.46 22.54 118.17 22.91 117.272 24.0956 116.268 25.1969 115.17 26.2 114.76 26.6 114.33 26.98 113.9 27.35 112.9 28.22 111.8 29.03 110.67 29.83 110.32 30.07 109.98 30.31 109.67 30.54 108.29 31.46 106.877 32.3433 105.43 33.19L105.43 64.87 115.22 64.87 115.22 34.69C116.91 33.58 118.53 32.4 120.08 31.19L120.62 30.75 120.69 30.7C121.77 29.82 122.79 28.93 123.75 28.03 125.417 26.4721 126.931 24.7576 128.27 22.91Z" fill="#14579E"/></g></g></svg><text x="800" y="202" font-size="21" letter-spacing="3">第四届 OnSite 自动驾驶算法挑战赛</text><text x="800" y="338" font-size="60" font-weight="600" letter-spacing="12">电子成绩证明</text><text x="800" y="386" font-size="20" fill="#65738e" letter-spacing="5">CERTIFICATE OF ACHIEVEMENT · DEMO</text><text x="800" y="480" font-size="23" fill="#65738e">第五赛道 · 三维场景生成</text><text x="800" y="555" font-size="44" font-weight="600">${esc(e.team)}</text><text x="800" y="605" font-size="24">${esc(e.model)} ${esc(e.version)}</text><line x1="340" y1="654" x2="1260" y2="654" stroke="#dae2f1"/><text x="565" y="745" font-size="63" fill="#2055dc" font-weight="700">${e.score.toFixed(3)}</text><text x="1035" y="745" font-size="63" fill="#2055dc" font-weight="700">#${e.rank}</text><text x="565" y="795" font-size="22">测试有效性得分</text><text x="1035" y="795" font-size="22">QTES 排名</text><text x="800" y="897" font-size="20" fill="#65738e">快照日期 ${esc(e.date)}　 ·　 记录编号 ${esc(e.id)}</text><text x="800" y="951" font-size="22" fill="#996e18">基准成绩记录 · 生成轨迹数据 · 不作为官方成绩或获奖凭证</text><text x="800" y="1014" font-size="16" fill="#65738e">排名与成绩以所列日期的榜单快照为准</text></g></svg>`;
 }
 
 const translations = {
@@ -599,15 +755,15 @@ const translations = {
         daySceneAlt: 'AI 生成的日间 · 城市街区六幅方向示意，依次为左前、前方、右前、左后、后方、右后',
         nightSceneAlt: 'AI 生成的夜雨 · 城市道路六幅方向示意，依次为左前、前方、右前、左后、后方、右后',
         sectionLeaderboard: '排行榜',
-        leaderboardIntro: '主榜按三维场景生成基准展示六个生成基线与九个核心分项指标，分别覆盖观测质量、场景保真度、策略响应与质量感知测试有效性。以下数值为演示用基线记录。',
-        demoNote: '演示数据 · 以下队伍、模型与分数为界面示例，不代表正式赛事结果。',
+        leaderboardIntro: "生成轨迹 + 渲染设置下的 7 个生成器，按 QTES 从高到低排名。九项指标涵盖观测质量、场景保真度、策略响应与测试有效性。",
+        demoNote: "数据来源：论文 Table 2 的 Generated trajectories + rendering 部分。不纳入固定记录轨迹结果或真实视频参照。",
         boardName: 'OnSite · 三维场景生成赛道',
         boardBenchmark: 'Benchmark',
-        updated: '更新于 2026.09.06',
+        updated: "更新于 2026.09.29",
         leaderboardAria: '排行榜，可横向滚动查看完整指标',
-        leaderboardCaption: 'OnSite 三维场景生成基准演示排行榜，共六条记录，含九个主表指标',
+        leaderboardCaption: "生成轨迹 + 渲染排行榜：7 个模型、9 项指标，排名按 QTES 降序确定",
         rank: '排名',
-        teamModel: '模型',
+        teamModel: "模型",
         qtes: 'QTES ↑',
         fvd: 'FVD ↓',
         clipIqa: 'CLIP-IQA+ ↑',
@@ -616,10 +772,11 @@ const translations = {
         tvc: 'TVC ↑',
         trs: 'TRS ↑',
         rpdms: 'RPDMS ↑',
-        routeCompletion: 'Route Completion ↑',
+        routeCompletion: "Route Comp. ↑",
         records: '成绩记录',
-        demoRecords: '6 条演示记录',
-        sortable: '点击表头可自由排序',
+        demoRecords: "7 个模型 · 生成轨迹 + 渲染",
+        sortable: "点击表头排序 · 排名依据 QTES",
+        tableExplanation: "所有指标保留三位小数。FVD 越低越好，其余指标越高越好。珊瑚色和蓝色分别表示单项最优和次优，并列结果同色；TRS 全部相同，不着色。切换排序仅改变展示顺序，不改变 QTES 排名。",
         sectionSubmission: '参赛要求',
         submissionLead: '从历史观测出发，<br>生成可用于测试的未来场景。',
         submissionParagraph: '赛题提供历史驾驶观测、地图与场景上下文。参赛者生成未来多视角场景，并按照统一接口输出可供端到端感知、预测与规划测试的结果。',
@@ -627,6 +784,7 @@ const translations = {
         requirement1: '保证图像、视频、轨迹与场景元数据对应，统一时间帧与公共坐标。',
         requirement2: '检查历史与未来边界连续性、缺失帧与异常值，避免瞬移、重复点和不合理的轨迹跳变。',
         requirement3: '检查速度、加速度、航向角及地图一致性，按照正式提交文档完成数据封装。',
+        baseline: "模型参考七个生成基线：MagicDrive-V2、OpenDWM、Panacea、DreamForge、BaseDreamer、HorizonDrive 与 MagicDrive；策略响应阶段可接入 UniAD、VAD、DrivoR、SparseDriveV2、DiffusionDriveV2 与 GoalFlow。",
         availability: '提交入口尚未开放。本页暂未连接正式评测系统，提交安排以赛事公告为准。',
         sectionEvaluation: '评测办法',
         evaluationLead: '四个一级指标，<br>覆盖生成质量与测试价值。',
@@ -658,31 +816,31 @@ const translations = {
         resultsLead: '查看与导出成绩。',
         resultsParagraph: '找到你的队伍与模型记录，导出 CSV 成绩，或生成包含得分、排名、记录编号和成绩日期的电子证明。',
         findResults: '查找成绩',
-        finePrint: '支持 PNG 下载与 PDF 打印。当前为演示证明，不作为官方成绩或获奖凭证。',
+        finePrint: "支持 PNG 下载与 PDF 打印。基准结果快照不作为官方赛事成绩或获奖凭证。",
         footerTitle: 'OnSite Challenge 2027 · 自动驾驶算法挑战赛',
         footerTrack: '三维场景生成赛道 · 2027',
         certificateLink: '成绩与证明 ↗',
         backTop: '返回顶部 ↑',
-        footerNote: '',
+        footerNote: '页面内容依据 OnSite Challenge 2027 赛事资料整理，正式参赛要求以赛事公告为准。',
         pickerTitle: '查找成绩',
-        pickerDescription: '选择队伍与模型，查看演示成绩记录。',
+        pickerDescription: "选择模型，查看生成轨迹设置下的基准成绩记录。",
         searchPlaceholder: '搜索队伍或模型',
         searchAria: '搜索队伍或模型',
         resultTitle: '成绩记录',
-        resultDescription: '',
+        resultDescription: "基准结果快照，不作为官方赛事成绩或获奖凭证。",
         ineligibleTitle: '该记录未通过基础门槛',
         ineligibleParagraph: '未进入有效排名，暂不能生成电子成绩证明。你仍可导出成绩记录。',
         exportCsv: '导出成绩 CSV',
         printPdf: '打印 / 存为 PDF',
-        downloadPng: '下载证书 PNG',
+        downloadPng: "下载记录 PNG",
         close: '关闭',
         noMatches: '没有找到匹配记录，请尝试其他名称。',
-        demoSnapshot: '',
+        demoSnapshot: "基准结果快照，不作为官方赛事成绩或获奖凭证。",
         generating: '生成中…',
         imageGenerated: '证书图片已生成，请查看浏览器下载。',
         exportGenerated: '成绩文件已生成，请查看浏览器下载。',
         imageFailed: '图片生成失败，请使用“打印 / 存为 PDF”保存证书。',
-        scoreSummary: (e) => `QTES ${e.qtes.toFixed(2)}　FVD ${e.fvd.toFixed(2)}　CLIP-IQA+ ${e.clipIqa.toFixed(2)}　DINO-T ${e.dinoT.toFixed(2)}　Epi@3 ${e.epi3.toFixed(2)}　TVC ${e.tvc.toFixed(2)}　TRS ${e.trs.toFixed(2)}　RPDMS ${e.rpdms.toFixed(2)}　Route Completion ${e.routeCompletion.toFixed(2)}`,
+        scoreSummary: (e) => `QTES ${e.qtes.toFixed(3)}　FVD ${e.fvd.toFixed(3)}　CLIP-IQA+ ${e.clipIqa.toFixed(3)}　DINO-T ${e.dinoT.toFixed(3)}　Epi@3 ${e.epi3.toFixed(3)}　TVC ${e.tvc.toFixed(3)}　TRS ${e.trs.toFixed(3)}　RPDMS ${e.rpdms.toFixed(3)}　Route Completion ${e.routeCompletion.toFixed(3)}`,
     },
     en: {
         pageTitle: 'OnSite · 3D Scenario Generation 2027',
@@ -717,15 +875,15 @@ const translations = {
         daySceneAlt: 'AI-generated day-time urban district shown from six directions: front-left, front, front-right, rear-left, rear and rear-right',
         nightSceneAlt: 'AI-generated rainy city road at night shown from six directions: front-left, front, front-right, rear-left, rear and rear-right',
         sectionLeaderboard: 'Leaderboard',
-        leaderboardIntro: 'The board presents six renderer baselines and nine core sub-metrics spanning Observation Quality, Scenario Fidelity, Policy Response and Quality-Aware Testing Effectiveness. Values below are demonstration baseline records.',
-        demoNote: 'Demo data · Teams, models and scores are interface examples, not official competition results.',
+        leaderboardIntro: "Seven generators evaluated under Generated trajectories + rendering, ranked by QTES in descending order across nine metrics in four evaluation groups.",
+        demoNote: "Source: the Generated trajectories + rendering panel of Table 2. Fixed recorded-trajectory results and the real-video reference are excluded.",
         boardName: 'OnSite · 3D scenario generation track',
         boardBenchmark: 'Benchmark',
-        updated: 'Updated 2026.09.06',
+        updated: "Updated 2026.09.29",
         leaderboardAria: 'Leaderboard; scroll horizontally to view all metrics',
-        leaderboardCaption: 'OnSite 3D scenario generation benchmark demo leaderboard, six records and nine main-table metrics',
+        leaderboardCaption: "Generated trajectories + rendering leaderboard: seven models, nine metrics, ranked by QTES descending",
         rank: 'Rank',
-        teamModel: 'Model',
+        teamModel: "Models",
         qtes: 'QTES ↑',
         fvd: 'FVD ↓',
         clipIqa: 'CLIP-IQA+ ↑',
@@ -734,11 +892,11 @@ const translations = {
         tvc: 'TVC ↑',
         trs: 'TRS ↑',
         rpdms: 'RPDMS ↑',
-        routeCompletion: 'Route Completion ↑',
+        routeCompletion: "Route Comp. ↑",
         records: 'Record',
-        demoRecords: '6 demo records',
-        sortable: 'Click a header to sort',
-        tableExplanation: 'The board follows the paper table and shows its nine core sub-metrics; metric direction, weights, gates and final results follow the competition rules.',
+        demoRecords: "7 models · Generated trajectories + rendering",
+        sortable: "Click a header to sort · Ranks are based on QTES",
+        tableExplanation: "All metrics retain three decimals. Lower FVD is better; other metrics are higher-is-better. Coral and blue indicate the best and second-best distinct values, including ties; identical TRS values are not highlighted. Sorting changes display order, not QTES ranks.",
         sectionSubmission: 'Submission',
         submissionLead: 'Start with historical observations,<br>generate test-ready future scenarios.',
         submissionParagraph: 'The challenge provides historical driving observations, maps and scene context. Participants generate future multi-view scenarios and submit outputs through a unified interface for end-to-end perception, prediction and planning tests.',
@@ -746,7 +904,7 @@ const translations = {
         requirement1: 'Keep images, videos, trajectories and scene metadata aligned in time and a shared coordinate frame.',
         requirement2: 'Check historical-to-future continuity, missing frames and anomalies; avoid teleportation, duplicated points and implausible trajectory jumps.',
         requirement3: 'Check speed, acceleration, heading and map consistency, then package the data according to the official submission document.',
-        baseline: 'The benchmark uses six renderer baselines—MagicDrive-V2, OpenDWM, Panacea, DreamForge, WorldDreamer and MagicDrive—and six policy baselines: UniAD, VAD, DrivoR, SparseDriveV2, DiffusionDriveV2 and GoalFlow.',
+        baseline: "The benchmark presents seven renderer baselines—MagicDrive-V2, OpenDWM, Panacea, DreamForge, BaseDreamer, HorizonDrive and MagicDrive—with policy baselines including UniAD, VAD, DrivoR, SparseDriveV2, DiffusionDriveV2 and GoalFlow.",
         availability: 'Submission is not open yet. This page is not connected to the official evaluation system; follow the competition announcement for the schedule.',
         sectionEvaluation: 'Evaluation',
         evaluationLead: 'Four first-level metrics<br>cover generation quality and test value.',
@@ -778,31 +936,31 @@ const translations = {
         resultsLead: 'View and export results.',
         resultsParagraph: 'Find your team and model record, export a CSV score sheet, or generate a digital certificate with the score, rank, record ID and result date.',
         findResults: 'Find results',
-        finePrint: 'PNG download and PDF printing are supported. This is a demo certificate and is not an official result or award credential.',
+        finePrint: "PNG export and PDF printing are supported. Benchmark snapshots are not official competition results or award credentials.",
         footerTitle: 'OnSite Challenge 2027 · Autonomous Driving Algorithm Challenge',
         footerTrack: '3D scenario generation track · 2027',
         certificateLink: 'Results & certificate ↗',
         backTop: 'Back to top ↑',
         footerNote: 'Page content is adapted from the OnSite Challenge 2027 materials; official submission requirements follow the competition announcement.',
         pickerTitle: 'Find results',
-        pickerDescription: 'Choose a team and model to view the demo score record.',
+        pickerDescription: "Select a model to inspect its generated-trajectory benchmark record.",
         searchPlaceholder: 'Search team or model',
         searchAria: 'Search team or model',
         resultTitle: 'Score record',
-        resultDescription: 'Demo score snapshot; not an official result or award credential.',
+        resultDescription: "Benchmark result snapshot, not an official competition result or award credential.",
         ineligibleTitle: 'This record did not pass the base gate',
         ineligibleParagraph: 'It is not included in the valid ranking and cannot generate a digital certificate yet. You can still export the score record.',
         exportCsv: 'Export score CSV',
         printPdf: 'Print / save as PDF',
-        downloadPng: 'Download certificate PNG',
+        downloadPng: "Download record PNG",
         close: 'Close',
         noMatches: 'No matching record found. Try another name.',
-        demoSnapshot: 'Demo score snapshot; not an official result or award credential.',
+        demoSnapshot: "Benchmark result snapshot, not an official competition result or award credential.",
         generating: 'Generating…',
         imageGenerated: 'Certificate image generated. Check your browser downloads.',
         exportGenerated: 'Score file generated. Check your browser downloads.',
         imageFailed: 'Image generation failed. Use “Print / save as PDF” instead.',
-        scoreSummary: (e) => `QTES ${e.qtes.toFixed(2)}　FVD ${e.fvd.toFixed(2)}　CLIP-IQA+ ${e.clipIqa.toFixed(2)}　DINO-T ${e.dinoT.toFixed(2)}　Epi@3 ${e.epi3.toFixed(2)}　TVC ${e.tvc.toFixed(2)}　TRS ${e.trs.toFixed(2)}　RPDMS ${e.rpdms.toFixed(2)}　Route Completion ${e.routeCompletion.toFixed(2)}`,
+        scoreSummary: (e) => `QTES ${e.qtes.toFixed(3)}　FVD ${e.fvd.toFixed(3)}　CLIP-IQA+ ${e.clipIqa.toFixed(3)}　DINO-T ${e.dinoT.toFixed(3)}　Epi@3 ${e.epi3.toFixed(3)}　TVC ${e.tvc.toFixed(3)}　TRS ${e.trs.toFixed(3)}　RPDMS ${e.rpdms.toFixed(3)}　Route Completion ${e.routeCompletion.toFixed(3)}`,
     },
 };
 
@@ -894,7 +1052,7 @@ function copy() {
 
 function updateSelectedCopy() {
   if (!selected) return;
-  result.querySelector('h2').textContent = `${selected.team} · ${currentLocale === 'en' ? 'Score record' : '成绩记录'}`;
+  result.querySelector('h2').textContent = `${selected.model} · ${currentLocale === 'en' ? 'Score record' : '成绩记录'}`;
   result.querySelector('.result-summary').textContent = copy().scoreSummary(selected);
   if (selected.valid && selected.rank !== null) result.querySelector('.certificate-preview').innerHTML = certificateSvgForLocale(selected, currentLocale);
   notice.textContent = copy().demoSnapshot;
@@ -928,7 +1086,7 @@ function renderPicker() {
     model.textContent = `${e.model} · ${e.version}`;
     label.append(team, model);
     const score = document.createElement('b');
-    score.textContent = e.score.toFixed(2);
+    score.textContent = e.score.toFixed(3);
     button.append(rank, label, score);
     list.append(button);
   }
@@ -944,7 +1102,7 @@ function choose(id) {
   if (!entry) return;
   selected = entry;
   if (picker.open) picker.close();
-  result.querySelector('h2').textContent = `${entry.team} · ${currentLocale === 'en' ? 'Score record' : '成绩记录'}`;
+  result.querySelector('h2').textContent = `${entry.model} · ${currentLocale === 'en' ? 'Score record' : '成绩记录'}`;
   result.querySelector('.result-summary').textContent = copy().scoreSummary(entry);
   const eligible = entry.valid && entry.rank !== null;
   const preview = result.querySelector('.certificate-preview');
@@ -981,7 +1139,7 @@ async function downloadPNG(entry) {
     if (!context) throw new Error('Canvas unavailable');
     context.drawImage(img, 0, 0);
     const blob = await new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('PNG encoding failed')), 'image/png'));
-    saveFile(blob, `OnSite-2027-${entry.id}-${currentLocale === 'en' ? 'certificate' : '演示证书'}.png`);
+    saveFile(blob, `OnSite-2027-${entry.id}-${currentLocale === 'en' ? 'certificate' : '基准成绩记录'}.png`);
     notice.textContent = copy().imageGenerated;
   } catch {
     notice.textContent = copy().imageFailed;
@@ -1002,7 +1160,7 @@ document.addEventListener('click', event => {
     const key = button.dataset.sort;
     sortState = {
       key,
-      direction: key === sortState.key ? (sortState.direction === 'desc' ? 'asc' : 'desc') : (key === 'team' ? 'asc' : 'desc'),
+      direction: key === sortState.key ? (sortState.direction === 'desc' ? 'asc' : 'desc') : (['team', 'model', 'rank', 'fvd'].includes(key) ? 'asc' : 'desc'),
     };
     const ordered = sortEntries(entries, sortState.key, sortState.direction);
     const body = document.querySelector('tbody');

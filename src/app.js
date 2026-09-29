@@ -38,7 +38,7 @@ function copy() {
 
 function updateSelectedCopy() {
   if (!selected) return;
-  result.querySelector('h2').textContent = `${selected.team} · ${currentLocale === 'en' ? 'Score record' : '成绩记录'}`;
+  result.querySelector('h2').textContent = `${selected.model} · ${currentLocale === 'en' ? 'Score record' : '成绩记录'}`;
   result.querySelector('.result-summary').textContent = copy().scoreSummary(selected);
   if (selected.valid && selected.rank !== null) result.querySelector('.certificate-preview').innerHTML = certificateSvgForLocale(selected, currentLocale);
   notice.textContent = copy().demoSnapshot;
@@ -72,7 +72,7 @@ function renderPicker() {
     model.textContent = `${e.model} · ${e.version}`;
     label.append(team, model);
     const score = document.createElement('b');
-    score.textContent = e.score.toFixed(2);
+    score.textContent = e.score.toFixed(3);
     button.append(rank, label, score);
     list.append(button);
   }
@@ -88,7 +88,7 @@ function choose(id) {
   if (!entry) return;
   selected = entry;
   if (picker.open) picker.close();
-  result.querySelector('h2').textContent = `${entry.team} · ${currentLocale === 'en' ? 'Score record' : '成绩记录'}`;
+  result.querySelector('h2').textContent = `${entry.model} · ${currentLocale === 'en' ? 'Score record' : '成绩记录'}`;
   result.querySelector('.result-summary').textContent = copy().scoreSummary(entry);
   const eligible = entry.valid && entry.rank !== null;
   const preview = result.querySelector('.certificate-preview');
@@ -125,7 +125,7 @@ async function downloadPNG(entry) {
     if (!context) throw new Error('Canvas unavailable');
     context.drawImage(img, 0, 0);
     const blob = await new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('PNG encoding failed')), 'image/png'));
-    saveFile(blob, `OnSite-2027-${entry.id}-${currentLocale === 'en' ? 'certificate' : '演示证书'}.png`);
+    saveFile(blob, `OnSite-2027-${entry.id}-${currentLocale === 'en' ? 'certificate' : '基准成绩记录'}.png`);
     notice.textContent = copy().imageGenerated;
   } catch {
     notice.textContent = copy().imageFailed;
@@ -146,7 +146,7 @@ document.addEventListener('click', event => {
     const key = button.dataset.sort;
     sortState = {
       key,
-      direction: key === sortState.key ? (sortState.direction === 'desc' ? 'asc' : 'desc') : (key === 'team' ? 'asc' : 'desc'),
+      direction: key === sortState.key ? (sortState.direction === 'desc' ? 'asc' : 'desc') : (['team', 'model', 'rank', 'fvd'].includes(key) ? 'asc' : 'desc'),
     };
     const ordered = sortEntries(entries, sortState.key, sortState.direction);
     const body = document.querySelector('tbody');

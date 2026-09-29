@@ -13,10 +13,17 @@ for (const label of ['QTES', 'FVD', 'CLIP-IQA+', 'DINO-T', 'Epi@3', 'TVC', 'TRS'
 for (const removed of ['class="metric-group', 'class="evaluation-framework"', 'class="evaluation-loop"', 'class="hero-caption"', 'class="view-labels"', 'class="study-note"', 'class="evaluation-figure"', 'class="references"', 'id="certificate"', 'Waymo Open Dataset', 'DrivingGen · Generative Driving Benchmark']) {
   assert.ok(!html.includes(removed), `Obsolete detailed element remains: ${removed}`);
 }
-assert.equal((html.match(/class="team-name"/g) || []).length, 6);
+assert.equal((html.match(/class="team-name"/g) || []).length, 7);
 assert.equal((html.match(/data-sort="(?:rank|team|qtes|fvd|clipIqa|dinoT|epi3|tvc|trs|rpdms|routeCompletion)"/g) || []).length, 11, 'Every data column must be sortable');
 assert.equal((html.match(/class="sort-indicator"/g) || []).length, 11, 'Every sortable header needs one reusable direction indicator');
-assert.ok(html.includes('演示数据'));
+assert.ok(html.includes('Generated trajectories + rendering'));
+assert.ok(!html.includes('DEMO-00'));
+assert.ok(!html.includes('WorldDreamer'));
+const board = html.match(/<tbody>([\s\S]*?)<\/tbody>/)[1];
+assert.ok(!board.includes('Real video'));
+assert.equal((html.match(/scope="colgroup"/g) || []).length, 4);
+assert.equal((board.match(/data-metric=/g) || []).length, 63);
+assert.equal((board.match(/>\d+\.\d{3}<\/td>/g) || []).length, 63);
 assert.ok(!html.includes('AstraDrive'), 'Generated page must not contain AstraDrive branding');
 assert.ok(!html.includes('astradrive-overview.png'), 'Generated page must not reference the AstraDrive overview asset');
 assert.ok(html.includes('class="overview-figure"'), 'Overview must include the supplied framework graphic');
@@ -42,4 +49,4 @@ assert.ok(!/<(?:script|img|link)\b[^>]*(?:src|href)="(?!data:)[^"]+"/.test(html)
 const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 assert.equal(scripts.length, 1);
 new Script(scripts[0][1]);
-console.log('PASS: standalone HTML, navigation, six demo records, PDF main-table metrics, embedded assets and valid JavaScript.');
+console.log('PASS: standalone HTML, navigation, seven generated-trajectory records, PDF main-table metrics, embedded assets and valid JavaScript.');

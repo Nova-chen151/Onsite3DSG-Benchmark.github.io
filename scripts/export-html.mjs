@@ -1,13 +1,11 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { entries } from '../src/results.js';
+import { entries, metricKeys, metricHighlightClass } from '../src/results.js';
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const rows = entries.map(e => `<tr data-id="${escapeHtml(e.id)}"${e.rank === 1 ? ' class="first-place"' : ''}>
   <td class="rank-cell">${e.rank ? String(e.rank).padStart(2, '0') : '—'}</td>
   <td><strong class="team-name">${escapeHtml(e.model)}</strong></td>
-  <td class="numeric score">${e.qtes.toFixed(2)}</td><td class="numeric">${e.fvd.toFixed(2)}</td><td class="numeric">${e.clipIqa.toFixed(2)}</td>
-  <td class="numeric">${e.dinoT.toFixed(2)}</td><td class="numeric">${e.epi3.toFixed(2)}</td><td class="numeric">${e.tvc.toFixed(2)}</td>
-  <td class="numeric">${e.trs.toFixed(2)}</td><td class="numeric">${e.rpdms.toFixed(2)}</td><td class="numeric">${e.routeCompletion.toFixed(2)}</td>
+  ${metricKeys.map(key => `<td data-metric="${key}" class="${['numeric', key === 'qtes' ? 'score' : '', metricHighlightClass(key, e[key])].filter(Boolean).join(' ')}">${e[key].toFixed(3)}</td>`).join('')}
   <td><button class="row-action" data-entry="${escapeHtml(e.id)}" data-i18n-attr="aria-label:recordAria" aria-label="成绩记录和证书"><span data-i18n="records">成绩记录</span> ↗</button></td>
 </tr>`).join('\n');
 const [template, sourceCss, data, locale, app] = await Promise.all(['src/page.html', 'src/styles.css', 'src/results.js', 'src/locale.js', 'src/app.js'].map(p => readFile(p, 'utf8')));

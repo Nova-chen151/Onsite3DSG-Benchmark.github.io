@@ -58,7 +58,7 @@ OnSite 3DSG Benchmark 面向可控、可扩展的自动驾驶场景生成与测�
 
 围绕这一目标，评测从**观测质量**逐步深入到**场景保真度、策略响应与质量感知测试有效性**：既关注画面是否可信、交通演化是否合理，也关注自动驾驶策略在生成场景中的表现，以及失效是否具有可信的场景依据。
 
-> **仓库定位**：本仓库维护项目介绍、任务说明与排行榜展示网站，不是生成模型或评测引擎的完整实现。当前榜单使用演示数据，尚未连接正式提交与评测后台。
+> **仓库定位**：本仓库维护项目介绍、任务说明与排行榜展示网站，不是生成模型或评测引擎的完整实现。当前榜单采用论文 Table 2 中“Generated trajectories + rendering”的 7 个模型结果，以 QTES 降序排名；尚未连接正式提交与评测后台。
 
 ## Task
 
@@ -93,6 +93,24 @@ OnSite 3DSG Benchmark 面向可控、可扩展的自动驾驶场景生成与测�
 **策略表现与场景的测试价值需要区分。** 生成场景导致策略失败，并不自动意味着它是有效的测试样例。评测还需要考虑失败是否与低质量画面、几何不一致或不合理的交通演化有关，避免将生成缺陷误判为有价值的测试难例。
 
 上述指标名称、分组与方向对应当前网站的[在线评测说明](https://nova-chen151.github.io/Onsite3DSG-Benchmark.github.io/#evaluation)；正式指标定义、计算配置、有效性条件及排名规则以发布的评测协议为准。
+
+## Leaderboard data
+
+排行榜仅展示 **Generated trajectories + rendering** 设置，不混入固定记录轨迹结果或 Real video 参照。网站快照更新日期为 **2026-09-29**，不是实验或提交日期。
+
+| QTES 排名 | 模型 | QTES ↑ |
+| --- | --- | --- |
+| 1 | OpenDWM | 44.079 |
+| 2 | DreamForge | 41.311 |
+| 3 | HorizonDrive | 40.108 |
+| 4 | MagicDrive-V2 | 39.509 |
+| 5 | Panacea | 39.146 |
+| 6 | BaseDreamer | 38.522 |
+| 7 | MagicDrive | 37.282 |
+
+九项指标按论文分为 Observation Quality、Scenario Fidelity、Policy Response 和 Testing Eff.。保留原始量纲和三位小数：FVD 越低越好，其余指标越高越好。单项最优/次优分别以珊瑚色/蓝色标识，并列同色；相同的 TRS 不着色。表头交互只调整展示顺序，排名始终来自 QTES。
+
+数据维护在 `src/results.js`，表头在 `src/page.html`。修改后运行 `npm run build` 与 `npm test`；安装 Chrome 时还可运行 `npm run test:browser`。须同步提交重新生成的 `index.html`，以更新 GitHub Pages 页面及成绩导出。
 
 ## Project Status
 

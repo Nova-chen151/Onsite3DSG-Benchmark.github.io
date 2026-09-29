@@ -54,21 +54,28 @@
       <div class="board-intro">
         <header class="section-label"><h2 lang="en">Leaderboard</h2><p data-i18n="sectionLeaderboard">排行榜</p></header>
         <div class="section-body">
-          <p data-i18n="leaderboardIntro">主榜按测试有效性总分排序，以四项大类得分概览生成质量、轨迹质量、图像—轨迹一致性与自动驾驶算法测试有效性。</p>
-          <p class="demo-note" data-i18n="demoNote">演示数据 · 以下队伍、模型与分数为界面示例，不代表正式赛事结果。</p>
+          <p data-i18n="leaderboardIntro">生成轨迹 + 渲染设置下的 7 个生成器，按 QTES 从高到低排名。九项指标涵盖观测质量、场景保真度、策略响应与测试有效性。</p>
+          <p class="demo-note" data-i18n="demoNote">数据来源：论文 Table 2 的 Generated trajectories + rendering 部分。不纳入固定记录轨迹结果或真实视频参照。</p>
         </div>
       </div>
       <div class="board-toolbar">
         <span class="board-title"><span data-i18n="boardName">OnSite · 三维场景生成赛道</span><span class="board-benchmark" data-i18n="boardBenchmark">Benchmark</span></span>
-        <span class="board-meta"><span class="muted">2026</span><span class="snapshot" data-i18n="updated">更新于 2026.09.06</span></span>
+        <span class="board-meta"><span class="muted">2026</span><span class="snapshot" data-i18n="updated">更新于 2026.09.29</span></span>
       </div>
       <div class="table-scroll" tabindex="0" role="region" data-i18n-attr="aria-label:leaderboardAria">
         <table class="leaderboard-table">
-          <caption class="sr-only" data-i18n="leaderboardCaption">OnSite 三维场景生成基准演示排行榜，共六条记录，含九个主表指标</caption>
-          <thead><tr>
-            <th scope="col" class="rank-cell" aria-sort="none"><button data-sort="rank"><span data-i18n="rank">排名</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
-            <th scope="col" aria-sort="none"><button data-sort="team"><span data-i18n="teamModel">模型</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
-            <th scope="col" aria-sort="descending"><button class="sorted" data-sort="qtes"><span data-i18n="qtes">QTES ↑</span> <span class="sort-indicator" aria-hidden="true">↓</span></button></th>
+          <caption class="sr-only" data-i18n="leaderboardCaption">生成轨迹 + 渲染排行榜：7 个模型、9 项指标，排名按 QTES 降序确定</caption>
+          <thead>
+          <tr class="group-head-row">
+            <th scope="col" rowspan="2" class="rank-cell" aria-sort="none"><button data-sort="rank"><span data-i18n="rank">排名</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" rowspan="2" aria-sort="none"><button data-sort="team"><span data-i18n="teamModel">模型</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="colgroup" colspan="3" class="board-metric-group">Observation Quality</th>
+            <th scope="colgroup" colspan="3" class="board-metric-group">Scenario Fidelity</th>
+            <th scope="colgroup" colspan="2" class="board-metric-group">Policy Response</th>
+            <th scope="colgroup" colspan="1" class="board-metric-group">Testing Eff.</th>
+            <th scope="col" rowspan="2" data-i18n="records">成绩记录</th>
+          </tr>
+          <tr class="metric-head-row">
             <th scope="col" aria-sort="none"><button data-sort="fvd"><span data-i18n="fvd">FVD ↓</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
             <th scope="col" aria-sort="none"><button data-sort="clipIqa"><span data-i18n="clipIqa">CLIP-IQA+ ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
             <th scope="col" aria-sort="none"><button data-sort="dinoT"><span data-i18n="dinoT">DINO-T ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
@@ -76,14 +83,15 @@
             <th scope="col" aria-sort="none"><button data-sort="tvc"><span data-i18n="tvc">TVC ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
             <th scope="col" aria-sort="none"><button data-sort="trs"><span data-i18n="trs">TRS ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
             <th scope="col" aria-sort="none"><button data-sort="rpdms"><span data-i18n="rpdms">RPDMS ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
-            <th scope="col" aria-sort="none"><button data-sort="routeCompletion"><span data-i18n="routeCompletion">Route Completion ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
-            <th scope="col" data-i18n="records">成绩记录</th>
-          </tr></thead>
+            <th scope="col" aria-sort="none"><button data-sort="routeCompletion"><span data-i18n="routeCompletion">Route Comp. ↑</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
+            <th scope="col" aria-sort="descending"><button class="sorted" data-sort="qtes"><span data-i18n="qtes">QTES ↑</span> <span class="sort-indicator" aria-hidden="true">↓</span></button></th>
+          </tr>
+          </thead>
           <tbody><!-- RESULTS --></tbody>
         </table>
       </div>
-      <div class="table-foot"><span data-i18n="demoRecords">6 条演示记录</span><span data-i18n="sortable">点击表头可自由排序</span></div>
-      <p class="table-explanation" data-i18n="tableExplanation">榜单按 PDF 主表展示九个核心指标。指标定义、数值方向与正式成绩以赛事规则为准。</p>
+      <div class="table-foot"><span data-i18n="demoRecords">7 个模型 · 生成轨迹 + 渲染</span><span data-i18n="sortable">点击表头排序 · 排名依据 QTES</span></div>
+      <p class="table-explanation" data-i18n="tableExplanation">所有指标保留三位小数。FVD 越低越好，其余指标越高越好。珊瑚色和蓝色分别表示单项最优和次优，并列结果同色；TRS 全部相同，不着色。切换排序仅改变展示顺序，不改变 QTES 排名。</p>
     </section>
 
     <section id="submit" class="editorial-section ruled">
@@ -97,7 +105,7 @@
           <li data-i18n="requirement2">检查历史与未来边界连续性、缺失帧与异常值，避免瞬移、重复点和不合理的轨迹跳变。</li>
           <li data-i18n="requirement3">检查速度、加速度、航向角及地图一致性，按照正式提交文档完成数据封装。</li>
         </ol>
-        <p data-i18n="baseline">赛道基线选用 MagicDrive-V2，输出六视角驾驶场景视频；回放测试接入 UniAD、VAD 等具有代表性的端到端自动驾驶算法。</p>
+        <p data-i18n="baseline">模型参考七个生成基线：MagicDrive-V2、OpenDWM、Panacea、DreamForge、BaseDreamer、HorizonDrive 与 MagicDrive；策略响应阶段可接入 UniAD、VAD、DrivoR、SparseDriveV2、DiffusionDriveV2 与 GoalFlow。</p>
         <p class="availability-note" data-i18n="availability">提交入口尚未开放。本页暂未连接正式评测系统，提交安排以赛事公告为准。</p>
       </div>
       <figure class="submission-figure" tabindex="0">
@@ -154,20 +162,20 @@
 
   <dialog id="picker" class="picker-modal" aria-labelledby="picker-title" aria-describedby="picker-description">
     <button class="dialog-close" data-close data-i18n-attr="aria-label:close">×</button>
-    <h2 id="picker-title" data-i18n="pickerTitle">查找成绩</h2><p id="picker-description" data-i18n="pickerDescription">选择队伍与模型，查看演示成绩记录。</p>
+    <h2 id="picker-title" data-i18n="pickerTitle">查找成绩</h2><p id="picker-description" data-i18n="pickerDescription">选择模型，查看生成轨迹设置下的基准成绩记录。</p>
     <div class="search-box"><input type="search" data-i18n-attr="aria-label:searchAria;placeholder:searchPlaceholder" aria-label="搜索队伍或模型" placeholder="搜索队伍或模型" autocomplete="off"></div>
     <div class="picker-list"></div>
   </dialog>
   <dialog id="result" class="certificate-modal" aria-labelledby="result-title" aria-describedby="result-description">
     <button class="dialog-close" data-close data-i18n-attr="aria-label:close">×</button>
-    <h2 id="result-title" data-i18n="resultTitle">成绩记录</h2><p id="result-description" data-i18n="resultDescription">演示成绩快照，不作为官方成绩或获奖凭证。</p>
+    <h2 id="result-title" data-i18n="resultTitle">成绩记录</h2><p id="result-description" data-i18n="resultDescription">基准结果快照，不作为官方赛事成绩或获奖凭证。</p>
     <div class="result-summary"></div>
     <div class="certificate-preview"></div>
     <div class="ineligible" hidden><h3 data-i18n="ineligibleTitle">该记录未通过基础门槛</h3><p data-i18n="ineligibleParagraph">未进入有效排名，暂不能生成电子成绩证明。你仍可导出成绩记录。</p></div>
     <div class="certificate-actions">
       <button class="outline-button" data-export="csv" data-i18n="exportCsv">导出成绩 CSV</button>
       <button class="outline-button" data-export="pdf" data-i18n="printPdf">打印 / 存为 PDF</button>
-      <button class="primary-button" data-export="png" data-i18n="downloadPng">下载证书 PNG</button>
+      <button class="primary-button" data-export="png" data-i18n="downloadPng">下载记录 PNG</button>
     </div>
     <output class="download-notice" aria-live="polite"></output>
   </dialog>
