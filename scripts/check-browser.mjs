@@ -102,7 +102,15 @@ check(document.querySelectorAll('[data-sort]').length===11,'eleven sortable colu
 check(metricText('qtes').includes('QTES'),'QTES metric present');
 check(activeSort()?.getAttribute('aria-sort')==='descending','default QTES descending');
 check(activeSort().querySelector('.sorted')&&activeArrows().length===1&&activeArrows()[0].textContent==='↓','single default arrow');
-check(getComputedStyle(activeSort()).backgroundColor==='rgb(20, 87, 158)','active header blue');
+const checkPlainTable=()=>{
+  for(const element of document.querySelectorAll('.leaderboard-table, .leaderboard-table *')) {
+    const style=getComputedStyle(element);
+    check(['rgba(0, 0, 0, 0)','rgb(255, 255, 255)'].includes(style.backgroundColor),'table has no background fill: '+element.tagName+'.'+element.className);
+    check(style.backgroundImage==='none','table has no background image');
+  }
+  check(getComputedStyle(activeSort()).color!=='rgb(255, 255, 255)','active sort text remains readable');
+};
+checkPlainTable();
 document.querySelector('[data-sort="fvd"]').click();await wait();
 check(activeSort()?.textContent.includes('FVD')&&activeSort().getAttribute('aria-sort')==='ascending'&&firstRank()==='01','FVD starts with the lowest value');
 document.querySelector('[data-sort="fvd"]').click();await wait();
@@ -136,6 +144,7 @@ check([...document.querySelectorAll('tbody [data-metric]')].every(e=>/^\d+\.\d{3
 check(document.querySelectorAll('[data-metric="trs"].metric-best,[data-metric="trs"].metric-second').length===0,'identical TRS is unhighlighted');
 check(document.querySelectorAll('[data-metric="routeCompletion"].metric-best').length===2,'tied best route completion');
 check(document.querySelectorAll('[data-metric="routeCompletion"].metric-second').length===2,'tied second route completion');
+checkPlainTable();
 document.querySelector('.table-scroll').scrollLeft=0;
 return 'PASS: layout, benchmark graphic, PDF main-table sorting, certificate, CSV and PNG records.';
 }

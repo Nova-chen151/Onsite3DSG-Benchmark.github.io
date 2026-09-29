@@ -99,18 +99,18 @@ img { display: block; max-width: 100%; }
 .snapshot { font-size: 12px; font-variant-numeric: tabular-nums; }
 .table-scroll { overflow-x: auto; }
 .leaderboard-table { border-collapse: collapse; min-width: 1480px; width: 100%; text-align: left; font-variant-numeric: tabular-nums; }
-.leaderboard-table th { padding: 17px 14px; background: #f3f3ef; font-size: 12px; color: #626762; font-weight: 400; white-space: nowrap; border-top: 1px solid #c9ccc6; border-bottom: 1px solid #c9ccc6; }
+.leaderboard-table th { padding: 17px 14px; background: transparent; font-size: 12px; color: #626762; font-weight: 400; white-space: nowrap; border-top: 1px solid #c9ccc6; border-bottom: 1px solid #c9ccc6; }
 .leaderboard-table th:nth-child(n+3) { min-width: 92px; padding-inline: 10px; white-space: normal; line-height: 1.45; text-align: center; }
 .leaderboard-table th[aria-sort] { padding: 0; transition: background-color .16s ease, color .16s ease; }
-.leaderboard-table th[aria-sort="ascending"], .leaderboard-table th[aria-sort="descending"] { background: var(--blue); color: white; }
+.leaderboard-table th[aria-sort="ascending"], .leaderboard-table th[aria-sort="descending"] { background: transparent; color: var(--ink); font-weight: 600; }
 .leaderboard-table th button { display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; min-height: 67px; padding: 12px 10px; color: inherit; font-size: inherit; line-height: 1.45; white-space: normal; }
 .leaderboard-table th:nth-child(2) button { justify-content: flex-start; padding-inline: 14px; white-space: nowrap; }
-.leaderboard-table th button:hover { color: var(--ink); background: #e7e9e4; }
-.leaderboard-table th[aria-sort="ascending"] button:hover, .leaderboard-table th[aria-sort="descending"] button:hover { color: white; background: #0f4d90; }
+.leaderboard-table th button:hover { color: var(--ink); background: transparent; }
+.leaderboard-table th[aria-sort="ascending"] button:hover, .leaderboard-table th[aria-sort="descending"] button:hover { color: var(--ink); background: transparent; }
 .leaderboard-table th button:focus-visible { outline: 2px solid currentColor; outline-offset: -5px; }
 .sort-indicator { min-width: 1em; font-size: 15px; font-weight: 600; line-height: 1; }
 .leaderboard-table td { padding: 22px 14px; border-bottom: 1px solid #e5e6e1; font-size: 14px; white-space: nowrap; }
-.leaderboard-table tbody tr:hover { background: #f9faf7; }
+.leaderboard-table tbody tr:hover { background: transparent; }
 .leaderboard-table .rank-cell { padding-left: 8px; width: 60px; text-align: center; color: #727971; }
 .leaderboard-table .first-place .rank-cell { color: var(--ink); }
 .team-name { display: block; font-size: 15px; font-weight: 400; color: var(--ink); }
@@ -276,8 +276,8 @@ dialog > p { font-size: 13px; color: var(--muted); margin-top: 7px; }
 .leaderboard-table .sort-indicator:empty { display: none; }
 .leaderboard-table td { padding: 18px 9px; }
 .leaderboard-table .score { font-size: 16px; font-weight: 600; }
-.leaderboard-table td.metric-best { background: #f8dcd8; color: var(--ink); font-weight: 700; }
-.leaderboard-table td.metric-second { background: #deebf7; color: var(--ink); }
+.leaderboard-table td.metric-best { background: transparent; color: var(--ink); font-weight: 700; }
+.leaderboard-table td.metric-second { background: transparent; color: var(--ink); }
 .leaderboard-table td[data-metric="fvd"], .leaderboard-table td[data-metric="epi3"],
 .leaderboard-table td[data-metric="rpdms"], .leaderboard-table td[data-metric="qtes"] { border-left: 1px solid var(--line); }
 .leaderboard-table .metric-head-row th:nth-child(1), .leaderboard-table .metric-head-row th:nth-child(4),
@@ -408,7 +408,7 @@ dialog > p { font-size: 13px; color: var(--muted); margin-top: 7px; }
         </table>
       </div>
       <div class="table-foot"><span data-i18n="demoRecords">7 个模型 · 生成轨迹 + 渲染</span><span data-i18n="sortable">点击表头排序 · 排名依据 QTES</span></div>
-      <p class="table-explanation" data-i18n="tableExplanation">所有指标保留三位小数。FVD 越低越好，其余指标越高越好。珊瑚色和蓝色分别表示单项最优和次优，并列结果同色；TRS 全部相同，不着色。切换排序仅改变展示顺序，不改变 QTES 排名。</p>
+      <p class="table-explanation" data-i18n="tableExplanation">所有指标保留三位小数。FVD 越低越好，其余指标越高越好。单项最优以粗体标注；TRS 全部相同，不额外标注。切换排序仅改变展示顺序，不改变 QTES 排名。</p>
     </section>
 
     <section id="submit" class="editorial-section ruled">
@@ -776,7 +776,7 @@ const translations = {
         records: '成绩记录',
         demoRecords: "7 个模型 · 生成轨迹 + 渲染",
         sortable: "点击表头排序 · 排名依据 QTES",
-        tableExplanation: "所有指标保留三位小数。FVD 越低越好，其余指标越高越好。珊瑚色和蓝色分别表示单项最优和次优，并列结果同色；TRS 全部相同，不着色。切换排序仅改变展示顺序，不改变 QTES 排名。",
+        tableExplanation: "所有指标保留三位小数。FVD 越低越好，其余指标越高越好。单项最优以粗体标注；TRS 全部相同，不额外标注。切换排序仅改变展示顺序，不改变 QTES 排名。",
         sectionSubmission: '参赛要求',
         submissionLead: '从历史观测出发，<br>生成可用于测试的未来场景。',
         submissionParagraph: '赛题提供历史驾驶观测、地图与场景上下文。参赛者生成未来多视角场景，并按照统一接口输出可供端到端感知、预测与规划测试的结果。',
@@ -896,7 +896,7 @@ const translations = {
         records: 'Record',
         demoRecords: "7 models · Generated trajectories + rendering",
         sortable: "Click a header to sort · Ranks are based on QTES",
-        tableExplanation: "All metrics retain three decimals. Lower FVD is better; other metrics are higher-is-better. Coral and blue indicate the best and second-best distinct values, including ties; identical TRS values are not highlighted. Sorting changes display order, not QTES ranks.",
+        tableExplanation: "All metrics retain three decimals. Lower FVD is better; other metrics are higher-is-better. Best values, including ties, are shown in bold; identical TRS values are not emphasized. Sorting changes display order, not QTES ranks.",
         sectionSubmission: 'Submission',
         submissionLead: 'Start with historical observations,<br>generate test-ready future scenarios.',
         submissionParagraph: 'The challenge provides historical driving observations, maps and scene context. Participants generate future multi-view scenarios and submit outputs through a unified interface for end-to-end perception, prediction and planning tests.',
