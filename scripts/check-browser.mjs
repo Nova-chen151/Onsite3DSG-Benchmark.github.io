@@ -39,10 +39,25 @@ try {
   });
   await call('Page.enable');
   await call('Runtime.enable');
+  const testCountry = process.env.TEST_COUNTRY;
+  if (testCountry) {
+    assert.ok(['CN', 'US'].includes(testCountry));
+    await call('Page.addScriptToEvaluateOnNewDocument', { source: `
+      const originalFetch = window.fetch.bind(window);
+      window.fetch = (input, init) => String(input).includes('ipapi.co/json')
+        ? Promise.resolve(new Response(JSON.stringify({country_code: ${JSON.stringify(testCountry)}}), {status: 200, headers: {'Content-Type': 'application/json'}}))
+        : originalFetch(input, init);
+    ` });
+  }
+
   for (const width of [1440, 375]) {
     await call('Emulation.setDeviceMetricsOverride', { width, height: 1000, deviceScaleFactor: 1, mobile: false });
     await call('Page.navigate', { url: pathToFileURL(resolve('index.html')).href });
     await new Promise(r => setTimeout(r, 1000));
+    if (testCountry) {
+      const language = await call('Runtime.evaluate', { expression: 'document.documentElement.lang', returnByValue: true });
+      assert.ok(language.result.value.startsWith(testCountry === 'CN' ? 'zh' : 'en'), 'Requested language must be active');
+    }
     const checked = await call('Runtime.evaluate', { expression: `(${checkUI.toString()})()`, awaitPromise: true, returnByValue: true });
     assert.ok(!checked.exceptionDetails, JSON.stringify(checked.exceptionDetails));
     assert.equal(typeof checked.result.value, 'string');
@@ -67,6 +82,11 @@ const wait=()=>new Promise(r=>setTimeout(r,300));
 const check=(condition,label)=>{if(!condition)throw Error(label);};
 const metricText=(key)=>document.querySelector(`[data-sort="${key}"]`)?.textContent||'';
 check(document.documentElement.scrollWidth<=innerWidth,'page overflow');
+for (const key of ['demoRecords', 'sortable', 'tableExplanation', 'demoNote', 'baseline', 'footerNote']) {
+  check(!document.querySelector(`[data-i18n="${key}"]`), 'removed copy cannot reappear after localization: ' + key);
+}
+check(!document.querySelector('.table-foot,.table-explanation'), 'removed explanation containers leave no empty blocks');
+
 check(!document.querySelector('.site-header .header-action'),'header results action removed');
 check(!document.querySelector('.site-header').classList.contains('is-visible'),'header hidden at top');
 window.scrollTo(0, innerHeight);

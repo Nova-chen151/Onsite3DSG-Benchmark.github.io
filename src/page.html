@@ -55,7 +55,6 @@
         <header class="section-label"><h2 lang="en">Leaderboard</h2><p data-i18n="sectionLeaderboard">排行榜</p></header>
         <div class="section-body">
           <p data-i18n="leaderboardIntro">生成轨迹 + 渲染设置下的 7 个生成器，按 QTES 从高到低排名。九项指标涵盖观测质量、场景保真度、策略响应与测试有效性。</p>
-          <p class="demo-note" data-i18n="demoNote">数据来源：论文 Table 2 的 Generated trajectories + rendering 部分。不纳入固定记录轨迹结果或真实视频参照。</p>
         </div>
       </div>
       <div class="board-toolbar">
@@ -90,8 +89,6 @@
           <tbody><!-- RESULTS --></tbody>
         </table>
       </div>
-      <div class="table-foot"><span data-i18n="demoRecords">7 个模型 · 生成轨迹 + 渲染</span><span data-i18n="sortable">点击表头排序 · 排名依据 QTES</span></div>
-      <p class="table-explanation" data-i18n="tableExplanation">所有指标保留三位小数。FVD 越低越好，其余指标越高越好。所有结果使用相同字重，不使用加粗或颜色填充。切换排序仅改变展示顺序，不改变 QTES 排名。</p>
     </section>
 
     <section id="submit" class="editorial-section ruled">
@@ -105,7 +102,6 @@
           <li data-i18n="requirement2">检查历史与未来边界连续性、缺失帧与异常值，避免瞬移、重复点和不合理的轨迹跳变。</li>
           <li data-i18n="requirement3">检查速度、加速度、航向角及地图一致性，按照正式提交文档完成数据封装。</li>
         </ol>
-        <p data-i18n="baseline">模型参考七个生成基线：MagicDrive-V2、OpenDWM、Panacea、DreamForge、BaseDreamer、HorizonDrive 与 MagicDrive；策略响应阶段可接入 UniAD、VAD、DrivoR、SparseDriveV2、DiffusionDriveV2 与 GoalFlow。</p>
         <p class="availability-note" data-i18n="availability">提交入口尚未开放。本页暂未连接正式评测系统，提交安排以赛事公告为准。</p>
       </div>
       <figure class="submission-figure" tabindex="0">
@@ -157,7 +153,7 @@
 
   <footer class="site-footer">
     <div class="footer-top"><a href="#main" data-i18n-attr="aria-label:homeAria" aria-label="OnSite 首页"><img src="/onsite-logo.svg" alt="OnSite" width="112" height="54"></a><p><span data-i18n="footerTitle">OnSite Challenge 2027 · 自动驾驶算法挑战赛</span><br><span data-i18n="footerTrack">三维场景生成赛道 · 2027</span></p><a href="#main" class="back-top" data-i18n="backTop">返回顶部 ↑</a></div>
-    <div class="footer-bottom"><span data-i18n="footerNote">页面内容依据 OnSite Challenge 2027 赛事资料整理，正式参赛要求以赛事公告为准。</span><span>OnSite 2027</span></div>
+    <div class="footer-bottom"><span>OnSite 2027</span></div>
   </footer>
 
   <dialog id="picker" class="picker-modal" aria-labelledby="picker-title" aria-describedby="picker-description">
