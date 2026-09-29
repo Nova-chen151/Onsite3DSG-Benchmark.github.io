@@ -1,0 +1,202 @@
+name: Remove requested website copy and verify the published page
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/remove-obsolete-site-copy.yml']
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    outputs:
+      commit_sha: ${{ steps.prepare.outputs.commit_sha }}
+      html_blob: ${{ steps.prepare.outputs.html_blob }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Verify existing baseline
+        run: npm test
+      - name: Test first, remove the six text blocks, and verify both languages
+        run: |
+          python3 - <<'PY'
+          import json, os, re, subprocess
+          from pathlib import Path
+          keys = ['demoRecords', 'sortable', 'tableExplanation', 'demoNote', 'baseline', 'footerNote']
+          test = r'''import assert from 'node:assert/strict';
+          import { readFile } from 'node:fs/promises';
+          import { translations } from '../src/locale.js';
+          const removed = ['demoRecords', 'sortable', 'tableExplanation', 'demoNote', 'baseline', 'footerNote'];
+          for (const file of ['src/page.html', 'index.html']) {
+            const html = await readFile(file, 'utf8');
+            for (const key of removed) {
+              assert.ok(!html.includes(`data-i18n="${key}"`), `Removed copy still present: ${file}: ${key}`);
+            }
+            assert.ok(!html.includes('class="table-foot"'), `Empty table foot must not remain: ${file}`);
+            assert.ok(!html.includes('class="table-explanation"'), `Empty explanation must not remain: ${file}`);
+            for (const key of ['leaderboardIntro', 'leaderboardCaption', 'footerTitle', 'footerTrack', 'availability']) {
+              assert.ok(html.includes(`data-i18n="${key}"`), `Preserve unrelated content: ${key}`);
+            }
+          }
+          for (const locale of ['zh', 'en']) {
+            for (const key of removed) assert.ok(!Object.hasOwn(translations[locale], key), `Removed translation still present: ${locale}: ${key}`);
+          }
+          console.log('PASS: all six requested copy blocks and both language translations are absent; unrelated content is preserved.');
+          '''
+          Path('scripts/removed-copy.test.mjs').write_text(test, encoding='utf-8')
+          red = subprocess.run(['node', 'scripts/removed-copy.test.mjs'], text=True, capture_output=True)
+          print(red.stdout + red.stderr)
+          assert red.returncode != 0 and 'Removed copy still present' in red.stderr, 'The regression must fail on the old page'
+          page_path = Path('src/page.html')
+          page = page_path.read_text(encoding='utf-8')
+          page, count = re.subn(r'(?m)^[ \t]*<div class="table-foot">.*?</div>\n', '', page)
+          assert count == 1, 'Expected exactly one table foot'
+          for key in ['demoNote', 'tableExplanation', 'baseline']:
+              pattern = r'(?m)^[ \t]*<p\b[^>]*data-i18n="' + key + r'"[^>]*>.*?</p>\n'
+              page, count = re.subn(pattern, '', page)
+              assert count == 1, 'Expected exactly one paragraph for ' + key
+          page, count = re.subn(r'<span data-i18n="footerNote">.*?</span>', '', page)
+          assert count == 1, 'Expected exactly one footer note'
+          page_path.write_text(page, encoding='utf-8')
+          locale_path = Path('src/locale.js')
+          locale = locale_path.read_text(encoding='utf-8')
+          for key in keys:
+              locale, count = re.subn(r'(?m)^[ \t]*' + key + r':[^\n]*\n', '', locale)
+              assert count == 2, 'Expected Chinese and English translations for ' + key
+          locale_path.write_text(locale, encoding='utf-8')
+          package_path = Path('package.json')
+          package = json.loads(package_path.read_text())
+          package['scripts']['test'] += ' && node scripts/removed-copy.test.mjs'
+          package_path.write_text(json.dumps(package, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          browser_path = Path('scripts/check-browser.mjs')
+          browser = browser_path.read_text(encoding='utf-8')
+          anchor = "  await call('Runtime.enable');"
+          injection = r'''
+            const testCountry = process.env.TEST_COUNTRY;
+            if (testCountry) {
+              assert.ok(['CN', 'US'].includes(testCountry));
+              await call('Page.addScriptToEvaluateOnNewDocument', { source: `
+                const originalFetch = window.fetch.bind(window);
+                window.fetch = (input, init) => String(input).includes('ipapi.co/json')
+                  ? Promise.resolve(new Response(JSON.stringify({country_code: ${JSON.stringify(testCountry)}}), {status: 200, headers: {'Content-Type': 'application/json'}}))
+                  : originalFetch(input, init);
+              ` });
+            }
+          '''
+          assert browser.count(anchor) == 1
+          browser = browser.replace(anchor, anchor + injection)
+          anchor = "    const checked = await call('Runtime.evaluate',"
+          injection = r'''    if (testCountry) {
+                const language = await call('Runtime.evaluate', { expression: 'document.documentElement.lang', returnByValue: true });
+                assert.ok(language.result.value.startsWith(testCountry === 'CN' ? 'zh' : 'en'), 'Requested language must be active');
+              }
+          '''
+          assert browser.count(anchor) == 1
+          browser = browser.replace(anchor, injection + anchor)
+          anchor = "check(document.documentElement.scrollWidth<=innerWidth,'page overflow');"
+          injection = r'''
+          for (const key of ['demoRecords', 'sortable', 'tableExplanation', 'demoNote', 'baseline', 'footerNote']) {
+            check(!document.querySelector(`[data-i18n="${key}"]`), 'removed copy cannot reappear after localization: ' + key);
+          }
+          check(!document.querySelector('.table-foot,.table-explanation'), 'removed explanation containers leave no empty blocks');
+          '''
+          assert browser.count(anchor) == 1
+          browser_path.write_text(browser.replace(anchor, anchor + injection), encoding='utf-8')
+          subprocess.run(['npm', 'run', 'build'], check=True)
+          subprocess.run(['npm', 'test'], check=True)
+          subprocess.run(['git', 'diff', '--check'], check=True)
+          subprocess.run(['git', 'diff', '--exit-code', '--', 'src/results.js', 'src/app.js', 'src/styles.css', 'public', 'scripts/results.test.mjs', 'README.md'], check=True)
+          for country in ['CN', 'US']:
+              print('BROWSER_LOCALE=' + country, flush=True)
+              subprocess.run(['npm', 'run', 'test:browser'], check=True, env={**os.environ, 'TEST_COUNTRY': country})
+          print('PASS: original data, QTES ranks, no-fill and regular-weight styles are unchanged.', flush=True)
+          PY
+      - name: Prepare the verified commit without creating a branch
+        id: prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, urllib.request
+          from pathlib import Path
+          repo = os.environ['GITHUB_REPOSITORY']
+          base = os.environ['GITHUB_SHA']
+          def api(path, data=None):
+              request = urllib.request.Request('https://api.github.com/repos/' + repo + path,
+                  data=None if data is None else json.dumps(data).encode(),
+                  headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json', 'User-Agent': 'onsite-site-maintenance'},
+                  method='GET' if data is None else 'POST')
+              with urllib.request.urlopen(request, timeout=120) as response:
+                  return json.load(response)
+          assert api('/git/ref/heads/main')['object']['sha'] == base, 'Main changed during verification; do not overwrite concurrent work'
+          assert [b['name'] for b in api('/branches?per_page=100')] == ['main'], 'No temporary branch should exist'
+          files = ['src/page.html', 'src/locale.js', 'package.json', 'scripts/check-browser.mjs', 'scripts/removed-copy.test.mjs', 'index.html']
+          tree_entries = []
+          html_blob = None
+          for name in files:
+              data = Path(name).read_bytes()
+              blob = api('/git/blobs', {'content': data.decode('utf-8'), 'encoding': 'utf-8'})['sha']
+              expected = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+              assert blob == expected, 'Uploaded blob differs: ' + name
+              tree_entries.append({'path': name, 'mode': '100644', 'type': 'blob', 'sha': blob})
+              if name == 'index.html': html_blob = blob
+          tree_entries.append({'path': '.github/workflows/remove-obsolete-site-copy.yml', 'mode': '100644', 'type': 'blob', 'sha': None})
+          tree = api('/git/trees', {'base_tree': api('/git/commits/' + base)['tree']['sha'], 'tree': tree_entries})['sha']
+          commit = api('/git/commits', {'message': 'Remove the six requested website text blocks in both languages\n\nDelete model-count and sorting notes, metric explanation, Table 2 source note, baseline paragraph and footer disclaimer. Rebuild the served index.html. Preserve all generated-trajectory data, QTES ranking, unfilled cells and regular font weights. Verify desktop and mobile rendering in Chinese and English. Remove the one-off maintenance workflow; no temporary branch is created.', 'tree': tree, 'parents': [base]})['sha']
+          print('PREPARED_COMMIT_SHA=' + commit)
+          print('VERIFIED_HTML_BLOB=' + html_blob)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('commit_sha=' + commit + '\nhtml_blob=' + html_blob + '\n')
+          PY
+  verify-live:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Verify main and the actual public page match the tested commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_COMMIT: ${{ needs.prepare.outputs.commit_sha }}
+          TARGET_HTML_BLOB: ${{ needs.prepare.outputs.html_blob }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, time, urllib.request
+          repo = os.environ['GITHUB_REPOSITORY']
+          target = os.environ['TARGET_COMMIT']
+          def api(path):
+              request = urllib.request.Request('https://api.github.com/repos/' + repo + path,
+                  headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'User-Agent': 'onsite-site-maintenance'})
+              with urllib.request.urlopen(request, timeout=30) as response: return json.load(response)
+          for attempt in range(48):
+              if api('/git/ref/heads/main')['object']['sha'] == target: break
+              print('Waiting for verified commit to be published on main', flush=True)
+              time.sleep(10)
+          else: raise RuntimeError('The verified commit has not been published to main')
+          url = 'https://nova-chen151.github.io/Onsite3DSG-Benchmark.github.io/'
+          for attempt in range(24):
+              try:
+                  with urllib.request.urlopen(url, timeout=60) as response:
+                      assert response.status == 200
+                      data = response.read()
+                  blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+                  if blob == os.environ['TARGET_HTML_BLOB']: break
+                  print('Waiting for canonical website URL to serve the new HTML: ' + blob, flush=True)
+              except Exception as error:
+                  print('Waiting for website response: ' + str(error), flush=True)
+              time.sleep(10)
+          else: raise RuntimeError('The public website is not serving the verified HTML yet')
+          html = data.decode('utf-8')
+          removed = ['demoRecords', 'sortable', 'tableExplanation', 'demoNote', 'baseline', 'footerNote']
+          for key in removed:
+              assert 'data-i18n="' + key + '"' not in html, 'Unwanted visible copy remains: ' + key
+          branches = [b['name'] for b in api('/branches?per_page=100')]
+          assert branches == ['main'], 'Unexpected temporary branch remains'
+          print('LIVE_VERIFICATION_SUCCESS')
+          print('PUBLIC_URL=' + url)
+          print('MAIN_COMMIT=' + target)
+          print('PUBLIC_HTML_BLOB=' + blob)
+          print('BRANCHES=' + json.dumps(branches))
+          print('REMOVED_COPY_BLOCKS=6; ORIGINAL_METRIC_CELLS=63; QTES_RANKING=unchanged')
+          PY
