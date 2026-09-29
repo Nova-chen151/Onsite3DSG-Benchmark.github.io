@@ -107,6 +107,7 @@ const checkPlainTable=()=>{
     const style=getComputedStyle(element);
     check(['rgba(0, 0, 0, 0)','rgb(255, 255, 255)'].includes(style.backgroundColor),'table has no background fill: '+element.tagName+'.'+element.className);
     check(style.backgroundImage==='none','table has no background image');
+    check(style.fontWeight==='400','table text is not bold: '+element.tagName+'.'+element.className);
   }
   check(getComputedStyle(activeSort()).color!=='rgb(255, 255, 255)','active sort text remains readable');
 };

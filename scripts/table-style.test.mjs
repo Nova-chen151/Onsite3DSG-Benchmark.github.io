@@ -21,5 +21,5 @@ for (const path of ['src/page.html', 'src/locale.js', 'index.html']) {
   const text = await readFile(path, 'utf8');
   assert.doesNotMatch(text, /珊瑚色和蓝色|Coral and blue indicate/, 'Removed color legend must not remain');
 }
-assert.match(css, /td\.metric-best\s*\{[^}]*font-weight:\s*700/, 'Best results may retain bold text');
+assert.match(css, /td\.metric-best\s*\{[^}]*font-weight:\s*400/, 'Best results must use regular text');
 console.log('PASS: source and published table have no colored fills, including active and hover states; localized legends match.');

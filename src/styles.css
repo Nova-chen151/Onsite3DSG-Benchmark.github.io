@@ -94,13 +94,13 @@ img { display: block; max-width: 100%; }
 .leaderboard-table th { padding: 17px 14px; background: transparent; font-size: 12px; color: #626762; font-weight: 400; white-space: nowrap; border-top: 1px solid #c9ccc6; border-bottom: 1px solid #c9ccc6; }
 .leaderboard-table th:nth-child(n+3) { min-width: 92px; padding-inline: 10px; white-space: normal; line-height: 1.45; text-align: center; }
 .leaderboard-table th[aria-sort] { padding: 0; transition: background-color .16s ease, color .16s ease; }
-.leaderboard-table th[aria-sort="ascending"], .leaderboard-table th[aria-sort="descending"] { background: transparent; color: var(--ink); font-weight: 600; }
+.leaderboard-table th[aria-sort="ascending"], .leaderboard-table th[aria-sort="descending"] { background: transparent; color: var(--ink); font-weight: 400; }
 .leaderboard-table th button { display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; min-height: 67px; padding: 12px 10px; color: inherit; font-size: inherit; line-height: 1.45; white-space: normal; }
 .leaderboard-table th:nth-child(2) button { justify-content: flex-start; padding-inline: 14px; white-space: nowrap; }
 .leaderboard-table th button:hover { color: var(--ink); background: transparent; }
 .leaderboard-table th[aria-sort="ascending"] button:hover, .leaderboard-table th[aria-sort="descending"] button:hover { color: var(--ink); background: transparent; }
 .leaderboard-table th button:focus-visible { outline: 2px solid currentColor; outline-offset: -5px; }
-.sort-indicator { min-width: 1em; font-size: 15px; font-weight: 600; line-height: 1; }
+.sort-indicator { min-width: 1em; font-size: 15px; font-weight: 400; line-height: 1; }
 .leaderboard-table td { padding: 22px 14px; border-bottom: 1px solid #e5e6e1; font-size: 14px; white-space: nowrap; }
 .leaderboard-table tbody tr:hover { background: transparent; }
 .leaderboard-table .rank-cell { padding-left: 8px; width: 60px; text-align: center; color: #727971; }
@@ -262,13 +262,13 @@ dialog > p { font-size: 13px; color: var(--muted); margin-top: 7px; }
 
 /* Table 2: grouped generated-trajectory results, on their original scales. */
 .leaderboard-table { min-width: 1120px; }
-.leaderboard-table .board-metric-group { font-weight: 600; font-size: 13px; text-align: center; padding: 12px 8px; border-left: 1px solid var(--line); }
+.leaderboard-table .board-metric-group { font-weight: 400; font-size: 13px; text-align: center; padding: 12px 8px; border-left: 1px solid var(--line); }
 .leaderboard-table th[rowspan] { vertical-align: middle; }
 .leaderboard-table .metric-head-row th button { justify-content: center; padding: 10px 6px; min-height: 48px; white-space: nowrap; }
 .leaderboard-table .sort-indicator:empty { display: none; }
 .leaderboard-table td { padding: 18px 9px; }
-.leaderboard-table .score { font-size: 16px; font-weight: 600; }
-.leaderboard-table td.metric-best { background: transparent; color: var(--ink); font-weight: 700; }
+.leaderboard-table .score { font-size: 16px; font-weight: 400; }
+.leaderboard-table td.metric-best { background: transparent; color: var(--ink); font-weight: 400; }
 .leaderboard-table td.metric-second { background: transparent; color: var(--ink); }
 .leaderboard-table td[data-metric="fvd"], .leaderboard-table td[data-metric="epi3"],
 .leaderboard-table td[data-metric="rpdms"], .leaderboard-table td[data-metric="qtes"] { border-left: 1px solid var(--line); }
