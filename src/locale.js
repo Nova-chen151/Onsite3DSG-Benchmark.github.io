@@ -12,7 +12,7 @@ export const translations = {
         navSubmission: '参赛要求',
         navEvaluation: '评测办法',
         myResults: '我的成绩',
-        heroTitle: '面向自动驾驶测试的\n三维仿真场景生成排行榜',
+        heroTitle: '面向自动驾驶测试的三维\n仿真场景生成排行榜',
         heroEnglish: '3D Scenario Generation Benchmark',
         viewLeaderboard: '查看排行榜',
         scrollExplore: '向下浏览',
