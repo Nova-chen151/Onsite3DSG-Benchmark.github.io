@@ -5,10 +5,10 @@
   </a>
 </p>
 
-<h1 align="center">OnSite 3D Scenario Generation Benchmark</h1>
+<h1 align="center">OnSite Generative World Simulation Challenge</h1>
 
 <p align="center">
-  <strong>面向自动驾驶测试的三维场景生成基准</strong>
+  <strong>面向自动驾驶测试的生成式世界模型挑战赛</strong>
 </p>
 
 <p align="center">
@@ -96,7 +96,7 @@ OnSite 3DSG Benchmark 面向可控、可扩展的自动驾驶场景生成与测�
 
 ## Leaderboard data
 
-排行榜仅展示 **Generated trajectories + rendering** 设置，不混入固定记录轨迹结果或 Real video 参照。网站快照更新日期为 **2026-09-29**，不是实验或提交日期。
+排行榜仅展示 **Generated trajectories + rendering** 设置，不混入固定记录轨迹结果或 Real video 参照。成绩来源快照日期为 **2026-09-29**，不是实验或提交日期；页面展示的快照日期按访问者本地日期更新。
 
 | QTES 排名 | 模型 | QTES ↑ |
 | --- | --- | --- |

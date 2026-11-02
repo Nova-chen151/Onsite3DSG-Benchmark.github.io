@@ -10,7 +10,7 @@ const pngButton = result.querySelector('[data-export="png"]');
 const heroVideo = document.querySelector('.hero-video');
 const recordCover = document.querySelector('#record-cover');
 const recordLogo = document.querySelector('.hero-brand');
-const recordSvg = entry => leaderboardRecordSvg(entry, currentLocale, recordCover.src, recordLogo.src, boardEntries[currentBoard]);
+const recordSvg = entry => leaderboardRecordSvg(entry, currentLocale, recordCover.src, recordLogo.src, boardEntries[currentBoard], document.querySelector("#current-date").dateTime);
 const scrollHeader = document.querySelector('[data-scroll-header]');
 let selected;
 let currentBoard = 'official';
@@ -55,7 +55,7 @@ function updateCurrentDate() {
   const day = String(now.getDate()).padStart(2, '0');
   const date = document.querySelector('#current-date');
   date.dateTime = `${year}-${month}-${day}`;
-  date.textContent = `${copy().today} ${year}.${month}.${day}`;
+  date.textContent = `${copy().snapshotDate}: ${year}.${month}.${day}`;
 }
 
 function scheduleDateUpdate() {

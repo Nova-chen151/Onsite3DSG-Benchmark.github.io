@@ -281,7 +281,7 @@ dialog > p { font-size: 13px; color: var(--muted); margin-top: 7px; }
 .leaderboard-table .metric-head-row th:nth-child(7), .leaderboard-table .metric-head-row th:nth-child(9) { border-left: 1px solid var(--line); }
 
 .updates-section { margin-bottom: 108px; }
-.update-record { display: flex; gap: 36px; align-items: baseline; border-top: 1px solid var(--line); padding-top: 22px; }
+.update-record { display: flex; gap: 36px; align-items: baseline; }
 .update-record time { flex: none; color: var(--muted); font-size: 13px; }
 .section-body .update-record h3 { margin: 0 0 8px; }
 .update-record p { color: #505652; }
