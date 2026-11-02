@@ -11,13 +11,16 @@ export const translations = {
         navLeaderboard: '排行榜',
         navSubmission: '参赛要求',
         navEvaluation: '评测办法',
+        navUpdates: '更新日志',
+        sectionUpdates: '更新日志',
+        updateTitle: '网站更新',
+        updateDescription: '新增中英文切换，默认显示英文，并加入更新日志。',
         myResults: '我的成绩',
-        heroTitle: '面向自动驾驶测试的三维\n仿真场景生成排行榜',
-        heroEnglish: '3D Scenario Generation Benchmark',
+        heroTitle: '面向自动驾驶测试的生成式世界模型挑战赛',
         viewLeaderboard: '查看排行榜',
         scrollExplore: '向下浏览',
         sectionOverview: '赛道介绍',
-        overviewLead: '从历史驾驶上下文，<br>生成未来三维场景。',
+        overviewLead: '从历史驾驶上下文生成未来三维场景。',
         overviewParagraph1: 'OnSite 面向可控、可扩展的自动驾驶场景测试。参赛者根据历史观测、地图与驾驶上下文生成未来场景，并用统一的四层指标评价生成结果对自动驾驶策略测试的价值。',
         overviewParagraph2: '评测从观测质量与场景保真度出发，进一步检查策略响应和质量感知测试有效性，让生成场景同时具备视觉可信度、交通语义与可测试性。',
         frameworkOverviewAlt: 'OnSite 三维场景生成基准框架：历史驾驶上下文、未来三维场景生成与分层评测',
@@ -32,10 +35,18 @@ export const translations = {
         daySceneAlt: 'AI 生成的日间 · 城市街区六幅方向示意，依次为左前、前方、右前、左后、后方、右后',
         nightSceneAlt: 'AI 生成的夜雨 · 城市道路六幅方向示意，依次为左前、前方、右前、左后、后方、右后',
         sectionLeaderboard: '排行榜',
+        boardTabs: '排行榜类型',
+        officialBoard: '正式排行榜',
+        teachingBoard: '教学排行榜',
         leaderboardIntro: "生成轨迹 + 渲染设置下的 7 个生成器，按 QTES 从高到低排名。九项指标涵盖观测质量、场景保真度、策略响应与测试有效性。",
         boardName: 'OnSite · 三维场景生成赛道',
-        boardBenchmark: 'Benchmark',
-        updated: "更新于 2026.09.29",
+        boardBenchmark: '基准',
+        tableObservation: '观测质量',
+        tableScenario: '场景保真度',
+        tablePolicy: '策略响应',
+        tableTesting: '测试有效性',
+        updated: "数据快照：2026.09.29",
+        today: "今天",
         leaderboardAria: '排行榜，可横向滚动查看完整指标',
         leaderboardCaption: "生成轨迹 + 渲染排行榜：7 个模型、9 项指标，排名按 QTES 降序确定",
         rank: '排名',
@@ -51,7 +62,7 @@ export const translations = {
         routeCompletion: "Route Comp. ↑",
         records: '成绩记录',
         sectionSubmission: '参赛要求',
-        submissionLead: '从历史观测出发，<br>生成可用于测试的未来场景。',
+        submissionLead: '从历史观测生成可用于测试的未来场景。',
         submissionParagraph: '赛题提供历史驾驶观测、地图与场景上下文。参赛者生成未来多视角场景，并按照统一接口输出可供端到端感知、预测与规划测试的结果。',
         preflight: '提交前校验',
         requirement1: '保证图像、视频、轨迹与场景元数据对应，统一时间帧与公共坐标。',
@@ -59,10 +70,10 @@ export const translations = {
         requirement3: '检查速度、加速度、航向角及地图一致性，按照正式提交文档完成数据封装。',
         availability: '提交入口尚未开放。本页暂未连接正式评测系统，提交安排以赛事公告为准。',
         sectionEvaluation: '评测办法',
-        evaluationLead: '四个一级指标，<br>覆盖生成质量与测试价值。',
+        evaluationLead: '四个一级指标覆盖生成质量与测试价值。',
         evaluationFrameworkAlt: '基础门槛评测、Agent 接入与评测及赛道排行榜测试有效性得分框架',
         evaluationLoopAlt: '场景生成模型开发、测试场景生成、回放测试、综合评价与得分反馈闭环',
-        observationQuality: 'Observation Quality · 观测质量',
+        observationQuality: '观测质量',
         observationQualityParagraph: '评价生成观测的视觉可信度、时间连续性与多视角可用性，为后续场景和策略评测提供稳定输入。',
         fvdDescription: '真实与生成视频的分布差异，越低越好。',
         clipIqaDescription: '无参考感知质量，越高越好。',
@@ -72,16 +83,16 @@ export const translations = {
         temporalContinuity: '跨帧外观、运动平滑度与历史—未来衔接。',
         multiviewLabel: '多视角一致性',
         multiviewConsistency: '跨相机目标对应、外观和几何关系。',
-        scenarioFidelity: 'Scenario Fidelity · 场景保真度',
+        scenarioFidelity: '场景保真度',
         scenarioFidelityParagraph: '评价生成结果是否保持历史驾驶上下文、交通状态与三维空间关系的一致性，避免只追求画面真实而忽略场景语义。',
         epi3Description: '校准后的跨视角几何一致性。',
         tvcDescription: '图像证据与结构化交通状态的一致性。',
         trsDescription: '交通演化与驾驶行为的真实性。',
-        policyResponse: 'Policy Response · 策略响应',
+        policyResponse: '策略响应',
         policyResponseParagraph: '将同一组驾驶策略接入真实与生成场景，观察其安全性、舒适性、路线进度与决策变化，衡量场景对策略的响应价值。',
         rpdmsDescription: '结合可行驶区域、安全、舒适性和进度，并按事件归因处理碰撞责任。',
         routeCompletionDescription: '沿参考路线的 episode 级进度。',
-        testingEffectiveness: 'Quality-Aware Testing Effectiveness · 质量感知测试有效性',
+        testingEffectiveness: '质量感知测试有效性',
         testingEffectivenessParagraph: '综合场景质量与策略响应结果，判断生成场景是否能够可靠地暴露策略失效；低质量画面不会仅因让策略失败而获得高评价。',
         qtesDescription: '在保留场景可信度的前提下衡量生成场景暴露策略弱点的能力。',
         resultsSection: '成绩与证明',
@@ -108,9 +119,9 @@ export const translations = {
         noMatches: '没有找到匹配记录，请尝试其他名称。',
         demoSnapshot: "基准结果快照，不作为官方赛事成绩或获奖凭证。",
         generating: '生成中…',
-        imageGenerated: '证书图片已生成，请查看浏览器下载。',
+        imageGenerated: '排行榜图片已生成，请查看浏览器下载。',
         exportGenerated: '成绩文件已生成，请查看浏览器下载。',
-        imageFailed: '图片生成失败，请使用“打印 / 存为 PDF”保存证书。',
+        imageFailed: '图片生成失败，请使用“打印 / 存为 PDF”保存排行榜。',
         scoreSummary: (e) => `QTES ${e.qtes.toFixed(3)}　FVD ${e.fvd.toFixed(3)}　CLIP-IQA+ ${e.clipIqa.toFixed(3)}　DINO-T ${e.dinoT.toFixed(3)}　Epi@3 ${e.epi3.toFixed(3)}　TVC ${e.tvc.toFixed(3)}　TRS ${e.trs.toFixed(3)}　RPDMS ${e.rpdms.toFixed(3)}　Route Completion ${e.routeCompletion.toFixed(3)}`,
     },
     en: {
@@ -125,13 +136,16 @@ export const translations = {
         navLeaderboard: 'Leaderboard',
         navSubmission: 'Submission',
         navEvaluation: 'Evaluation',
+        navUpdates: 'Updates',
+        sectionUpdates: 'Changelog',
+        updateTitle: 'Website update',
+        updateDescription: 'Added a Chinese and English language switch, an English default, and this changelog.',
         myResults: 'My results',
-        heroTitle: '3D Scenario Generation Track',
-        heroEnglish: '3D Scenario Generation Benchmark',
+        heroTitle: 'Generative World Simulation Challenge',
         viewLeaderboard: 'View leaderboard',
         scrollExplore: 'Scroll to explore',
         sectionOverview: 'Overview',
-        overviewLead: 'From historical driving context,<br>generate future 3D scenarios.',
+        overviewLead: 'Generate future 3D scenarios from driving history.',
         frameworkOverviewAlt: 'OnSite 3D scenario generation benchmark framework: historical driving context, future 3D scene generation and layered evaluation',
         overviewParagraph1: 'OnSite targets controllable, scalable testing for autonomous driving. Participants generate future scenarios from historical observations, maps and driving context, then evaluate their value for autonomous-driving policy tests with a unified four-layer benchmark.',
         overviewParagraph2: 'Evaluation moves from observation quality and scenario fidelity to policy response and quality-aware testing effectiveness, so generated scenes must be visually credible, traffic-consistent and useful for testing.',
@@ -146,10 +160,18 @@ export const translations = {
         daySceneAlt: 'AI-generated day-time urban district shown from six directions: front-left, front, front-right, rear-left, rear and rear-right',
         nightSceneAlt: 'AI-generated rainy city road at night shown from six directions: front-left, front, front-right, rear-left, rear and rear-right',
         sectionLeaderboard: 'Leaderboard',
+        boardTabs: 'Leaderboard type',
+        officialBoard: 'Official leaderboard',
+        teachingBoard: 'Teaching leaderboard',
         leaderboardIntro: "Seven generators evaluated under Generated trajectories + rendering, ranked by QTES in descending order across nine metrics in four evaluation groups.",
         boardName: 'OnSite · 3D scenario generation track',
         boardBenchmark: 'Benchmark',
-        updated: "Updated 2026.09.29",
+        tableObservation: 'Observation Quality',
+        tableScenario: 'Scenario Fidelity',
+        tablePolicy: 'Policy Response',
+        tableTesting: 'Testing Eff.',
+        updated: "Snapshot: 2026.09.29",
+        today: "Today",
         leaderboardAria: 'Leaderboard; scroll horizontally to view all metrics',
         leaderboardCaption: "Generated trajectories + rendering leaderboard: seven models, nine metrics, ranked by QTES descending",
         rank: 'Rank',
@@ -165,7 +187,7 @@ export const translations = {
         routeCompletion: "Route Comp. ↑",
         records: 'Record',
         sectionSubmission: 'Submission',
-        submissionLead: 'Start with historical observations,<br>generate test-ready future scenarios.',
+        submissionLead: 'Generate test-ready scenarios from driving history.',
         submissionParagraph: 'The challenge provides historical driving observations, maps and scene context. Participants generate future multi-view scenarios and submit outputs through a unified interface for end-to-end perception, prediction and planning tests.',
         preflight: 'Pre-submission checks',
         requirement1: 'Keep images, videos, trajectories and scene metadata aligned in time and a shared coordinate frame.',
@@ -173,10 +195,10 @@ export const translations = {
         requirement3: 'Check speed, acceleration, heading and map consistency, then package the data according to the official submission document.',
         availability: 'Submission is not open yet. This page is not connected to the official evaluation system; follow the competition announcement for the schedule.',
         sectionEvaluation: 'Evaluation',
-        evaluationLead: 'Four first-level metrics<br>cover generation quality and test value.',
+        evaluationLead: 'Four metrics for generation quality and test value.',
         evaluationFrameworkAlt: 'Evaluation framework for base gates, agent integration and leaderboard testing effectiveness',
         evaluationLoopAlt: 'Closed loop from scenario generation development to test generation, replay, evaluation and score feedback',
-        observationQuality: 'Observation Quality · 观测质量',
+        observationQuality: 'Observation Quality',
         observationQualityParagraph: 'Evaluate the visual credibility, temporal continuity and multi-view usability of generated observations before downstream scenario and policy evaluation.',
         fvdDescription: 'Distributional distance between real and generated videos; lower is better.',
         clipIqaDescription: 'No-reference perceptual quality; higher is better.',
@@ -186,16 +208,16 @@ export const translations = {
         temporalContinuity: 'Cross-frame appearance, motion smoothness and historical-to-future transition.',
         multiviewLabel: 'Multi-view consistency',
         multiviewConsistency: 'Cross-camera object correspondence, appearance and geometry.',
-        scenarioFidelity: 'Scenario Fidelity · 场景保真度',
+        scenarioFidelity: 'Scenario Fidelity',
         scenarioFidelityParagraph: 'Evaluate whether generated outputs preserve historical driving context, traffic state and 3D spatial relationships instead of optimizing visual appearance while losing scene semantics.',
         epi3Description: 'Calibrated cross-view geometric consistency.',
         tvcDescription: 'Agreement between visual evidence and structured traffic state.',
         trsDescription: 'Realism of traffic evolution and driving behavior.',
-        policyResponse: 'Policy Response · 策略响应',
+        policyResponse: 'Policy Response',
         policyResponseParagraph: 'Run the same driving policies on real and generated scenarios, observing changes in safety, comfort, route progress and decisions to measure scenario-to-policy response.',
         rpdmsDescription: 'Combines drivable area, safety, comfort and progress with event-level collision responsibility.',
         routeCompletionDescription: 'Episode-level progress along the reference route.',
-        testingEffectiveness: 'Quality-Aware Testing Effectiveness · 质量感知测试有效性',
+        testingEffectiveness: 'Quality-Aware Testing Effectiveness',
         testingEffectivenessParagraph: 'Combine scenario quality and policy response to judge whether generated scenes reliably expose policy failures; low-quality visuals do not score well merely because they make a policy fail.',
         qtesDescription: 'Measures whether a generated scene exposes policy weaknesses while retaining scenario credibility.',
         resultsSection: 'Results & certificate',
@@ -222,43 +244,21 @@ export const translations = {
         noMatches: 'No matching record found. Try another name.',
         demoSnapshot: "Benchmark result snapshot, not an official competition result or award credential.",
         generating: 'Generating…',
-        imageGenerated: 'Certificate image generated. Check your browser downloads.',
+        imageGenerated: 'Leaderboard image generated. Check your browser downloads.',
         exportGenerated: 'Score file generated. Check your browser downloads.',
         imageFailed: 'Image generation failed. Use “Print / save as PDF” instead.',
         scoreSummary: (e) => `QTES ${e.qtes.toFixed(3)}　FVD ${e.fvd.toFixed(3)}　CLIP-IQA+ ${e.clipIqa.toFixed(3)}　DINO-T ${e.dinoT.toFixed(3)}　Epi@3 ${e.epi3.toFixed(3)}　TVC ${e.tvc.toFixed(3)}　TRS ${e.trs.toFixed(3)}　RPDMS ${e.rpdms.toFixed(3)}　Route Completion ${e.routeCompletion.toFixed(3)}`,
     },
 };
 
-export function localeFromCountry(country) {
-    return String(country || '').toUpperCase() === 'CN' ? 'zh' : 'en';
-}
-
-export function localeFromBrowserLanguage(language) {
-    return String(language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en';
-}
-
-export async function detectLocale(fetcher = globalThis.fetch?.bind(globalThis)) {
-    const fallback = localeFromBrowserLanguage(globalThis.navigator?.language);
-    if (typeof fetcher !== 'function') return fallback;
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 1800);
-    try {
-        const response = await fetcher('https://ipapi.co/json/', { signal: controller.signal });
-        if (!response.ok) return fallback;
-        const data = await response.json();
-        return localeFromCountry(data.country_code || data.country);
-    } catch {
-        return fallback;
-    } finally {
-        clearTimeout(timeout);
-    }
-}
-
 export function applyLocale(locale, root = document) {
     const selected = translations[locale] ? locale : 'en';
     const copy = translations[selected];
     root.documentElement.lang = selected === 'zh' ? 'zh-CN' : 'en';
     root.documentElement.dataset.locale = selected;
+    root.querySelectorAll('[data-locale]').forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.locale === selected));
+    });
     root.title = copy.pageTitle;
     root.querySelector('meta[name="description"]')?.setAttribute('content', copy.pageDescription);
     root.querySelectorAll('[data-i18n]').forEach((node) => {

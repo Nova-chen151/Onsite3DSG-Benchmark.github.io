@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -18,7 +18,11 @@
       <a href="#leaderboard" data-i18n="navLeaderboard">排行榜</a>
       <a href="#submit" data-i18n="navSubmission">参赛要求</a>
       <a href="#evaluation" data-i18n="navEvaluation">评测办法</a>
+      <a href="#updates" data-i18n="navUpdates">更新日志</a>
     </nav>
+  <div class="language-switch" role="group" aria-label="Language / 语言">
+    <button type="button" data-locale="zh" lang="zh-CN" aria-pressed="false">中文</button><span aria-hidden="true">/</span><button type="button" data-locale="en" lang="en" aria-pressed="true">EN</button>
+  </div>
   </header>
 
   <main id="main">
@@ -28,9 +32,7 @@
       </video>
       <div class="hero-copy">
         <img class="hero-brand" src="/onsite-logo.svg" alt="" aria-hidden="true" width="116" height="56">
-        <h1 id="challenge-title" data-i18n="heroTitle">面向自动驾驶测试的三维
-仿真场景生成排行榜</h1>
-        <p class="hero-english" lang="en" data-i18n="heroEnglish">3D Scenario Generation Benchmark</p>
+        <h1 id="challenge-title" data-i18n="heroTitle">Generative World Simulation Challenge</h1>
       </div>
       <a class="hero-scroll-cue" href="#overview" data-i18n-attr="aria-label:scrollExplore" aria-label="向下浏览">
         <svg class="scroll-arrow" viewBox="0 0 32 18" aria-hidden="true" focusable="false">
@@ -39,9 +41,9 @@
       </a>
     </section>
     <section id="overview" class="editorial-section">
-      <header class="section-label"><h2 lang="en">Overview</h2><p data-i18n="sectionOverview">赛道介绍</p></header>
+      <header class="section-label"><h2 data-i18n="sectionOverview">赛道介绍</h2></header>
       <div class="section-body">
-        <p class="lead" data-i18n-html="overviewLead">根据历史观测，<br>生成未来驾驶场景。</p>
+        <p class="lead" data-i18n-html="overviewLead">Generate future 3D scenarios from driving history.</p>
         <p data-i18n="overviewParagraph1">三维场景生成赛道面向可控、可扩展的自动驾驶测试。参赛者根据统一赛题提供的历史图像、相机参数与主车状态，生成未来场景，评价其对自动驾驶算法的测试价值。</p>
         <p data-i18n="overviewParagraph2">评测先检查生成可信性与动力学合理性，再接入 UniAD、VAD 等端到端自动驾驶算法。通过真实场景与生成场景的配对测试，分析失效发现能力与测试有效性。</p>
         <a class="text-link" href="#evaluation"><span data-i18n="learnEvaluation">了解评测体系</span> <span aria-hidden="true">↗</span></a>
@@ -53,14 +55,19 @@
 
     <section id="leaderboard" class="leaderboard-section">
       <div class="board-intro">
-        <header class="section-label"><h2 lang="en">Leaderboard</h2><p data-i18n="sectionLeaderboard">排行榜</p></header>
+        <header class="section-label"><h2 data-i18n="sectionLeaderboard">排行榜</h2></header>
         <div class="section-body">
-          <p data-i18n="leaderboardIntro">生成轨迹 + 渲染设置下的 7 个生成器，按 QTES 从高到低排名。九项指标涵盖观测质量、场景保真度、策略响应与测试有效性。</p>
+          <p data-i18n="leaderboardIntro">Seven generators evaluated under Generated trajectories + rendering, ranked by QTES.</p>
         </div>
       </div>
+      <div class="leaderboard-tabs" role="tablist" aria-label="Leaderboard type" data-i18n-attr="aria-label:boardTabs">
+        <button id="official-tab" type="button" role="tab" aria-selected="true" aria-controls="leaderboard-panel" data-board="official" data-i18n="officialBoard">Official leaderboard</button>
+        <button id="teaching-tab" type="button" role="tab" aria-selected="false" aria-controls="leaderboard-panel" tabindex="-1" data-board="teaching" data-i18n="teachingBoard">Teaching leaderboard</button>
+      </div>
+      <div id="leaderboard-panel" role="tabpanel" aria-labelledby="official-tab" tabindex="0">
       <div class="board-toolbar">
         <span class="board-title"><span data-i18n="boardName">OnSite · 三维场景生成赛道</span><span class="board-benchmark" data-i18n="boardBenchmark">Benchmark</span></span>
-        <span class="board-meta"><span class="muted">2026</span><span class="snapshot" data-i18n="updated">更新于 2026.09.29</span></span>
+        <span class="board-meta"><time class="snapshot" id="current-date"></time><span class="snapshot" data-i18n="updated">Snapshot: 2026.09.29</span></span>
       </div>
       <div class="table-scroll" tabindex="0" role="region" data-i18n-attr="aria-label:leaderboardAria">
         <table class="leaderboard-table">
@@ -69,10 +76,10 @@
           <tr class="group-head-row">
             <th scope="col" rowspan="2" class="rank-cell" aria-sort="none"><button data-sort="rank"><span data-i18n="rank">排名</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
             <th scope="col" rowspan="2" aria-sort="none"><button data-sort="team"><span data-i18n="teamModel">模型</span> <span class="sort-indicator" aria-hidden="true"></span></button></th>
-            <th scope="colgroup" colspan="3" class="board-metric-group">Observation Quality</th>
-            <th scope="colgroup" colspan="3" class="board-metric-group">Scenario Fidelity</th>
-            <th scope="colgroup" colspan="2" class="board-metric-group">Policy Response</th>
-            <th scope="colgroup" colspan="1" class="board-metric-group">Testing Eff.</th>
+            <th scope="colgroup" colspan="3" class="board-metric-group" data-i18n="tableObservation">Observation Quality</th>
+            <th scope="colgroup" colspan="3" class="board-metric-group" data-i18n="tableScenario">Scenario Fidelity</th>
+            <th scope="colgroup" colspan="2" class="board-metric-group" data-i18n="tablePolicy">Policy Response</th>
+            <th scope="colgroup" colspan="1" class="board-metric-group" data-i18n="tableTesting">Testing Eff.</th>
             <th scope="col" rowspan="2" data-i18n="records">成绩记录</th>
           </tr>
           <tr class="metric-head-row">
@@ -90,12 +97,13 @@
           <tbody><!-- RESULTS --></tbody>
         </table>
       </div>
+      </div>
     </section>
 
     <section id="submit" class="editorial-section ruled">
-      <header class="section-label"><h2 lang="en">Submission</h2><p data-i18n="sectionSubmission">参赛要求</p></header>
+      <header class="section-label"><h2 data-i18n="sectionSubmission">参赛要求</h2></header>
       <div class="section-body">
-        <p class="lead compact" data-i18n-html="submissionLead">从历史观测出发，<br>生成可用于测试的未来场景。</p>
+        <p class="lead compact" data-i18n-html="submissionLead">Generate test-ready scenarios from driving history.</p>
         <p data-i18n="submissionParagraph">赛题提供连续 10 帧历史图像、相机参数、主车状态及相关场景条件。参赛者可使用 nuScenes、Waymo 等公开数据开发生成方法，并按照赛题接口输出未来场景。</p>
         <h3 data-i18n="preflight">提交前校验</h3>
         <ol class="requirements">
@@ -111,9 +119,9 @@
     </section>
 
     <section id="evaluation" class="editorial-section ruled">
-      <header class="section-label"><h2 lang="en">Evaluation</h2><p data-i18n="sectionEvaluation">评测办法</p></header>
+      <header class="section-label"><h2 data-i18n="sectionEvaluation">评测办法</h2></header>
       <div class="section-body">
-        <p class="lead compact" data-i18n-html="evaluationLead">从观测质量到场景保真度，<br>再到策略响应与测试有效性。</p>
+        <p class="lead compact" data-i18n-html="evaluationLead">Four metrics for generation quality and test value.</p>
         <div class="evaluation-item">
           <h3 data-i18n="observationQuality">Observation Quality · 观测质量</h3>
           <p data-i18n="observationQualityParagraph">评价生成观测的视觉可信度、时间连续性与多视角可用性，为后续场景和策略评测提供稳定输入。</p>
@@ -150,6 +158,12 @@
       </div>
     </section>
 
+    <section id="updates" class="editorial-section ruled updates-section" aria-labelledby="updates-heading">
+      <header class="section-label"><h2 id="updates-heading" data-i18n="sectionUpdates">Changelog</h2></header>
+      <div class="section-body">
+        <article class="update-record"><time datetime="2026-11-02">2026-11-02</time><div><h3 data-i18n="updateTitle">Website update</h3><p data-i18n="updateDescription">Added a Chinese and English language switch, an English default, and this changelog.</p></div></article>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -157,6 +171,7 @@
     <div class="footer-bottom"><span>OnSite 2027</span></div>
   </footer>
 
+  <img id="record-cover" src="/record-cover.jpg" alt="" hidden>
   <dialog id="picker" class="picker-modal" aria-labelledby="picker-title" aria-describedby="picker-description">
     <button class="dialog-close" data-close data-i18n-attr="aria-label:close">×</button>
     <h2 id="picker-title" data-i18n="pickerTitle">查找成绩</h2><p id="picker-description" data-i18n="pickerDescription">选择模型，查看生成轨迹设置下的基准成绩记录。</p>

@@ -39,25 +39,11 @@ try {
   });
   await call('Page.enable');
   await call('Runtime.enable');
-  const testCountry = process.env.TEST_COUNTRY;
-  if (testCountry) {
-    assert.ok(['CN', 'US'].includes(testCountry));
-    await call('Page.addScriptToEvaluateOnNewDocument', { source: `
-      const originalFetch = window.fetch.bind(window);
-      window.fetch = (input, init) => String(input).includes('ipapi.co/json')
-        ? Promise.resolve(new Response(JSON.stringify({country_code: ${JSON.stringify(testCountry)}}), {status: 200, headers: {'Content-Type': 'application/json'}}))
-        : originalFetch(input, init);
-    ` });
-  }
 
   for (const width of [1440, 375]) {
     await call('Emulation.setDeviceMetricsOverride', { width, height: 1000, deviceScaleFactor: 1, mobile: false });
     await call('Page.navigate', { url: pathToFileURL(resolve('index.html')).href });
     await new Promise(r => setTimeout(r, 1000));
-    if (testCountry) {
-      const language = await call('Runtime.evaluate', { expression: 'document.documentElement.lang', returnByValue: true });
-      assert.ok(language.result.value.startsWith(testCountry === 'CN' ? 'zh' : 'en'), 'Requested language must be active');
-    }
     const checked = await call('Runtime.evaluate', { expression: `(${checkUI.toString()})()`, awaitPromise: true, returnByValue: true });
     assert.ok(!checked.exceptionDetails, JSON.stringify(checked.exceptionDetails));
     assert.equal(typeof checked.result.value, 'string');
@@ -82,25 +68,52 @@ const wait=()=>new Promise(r=>setTimeout(r,300));
 const check=(condition,label)=>{if(!condition)throw Error(label);};
 const metricText=(key)=>document.querySelector(`[data-sort="${key}"]`)?.textContent||'';
 check(document.documentElement.scrollWidth<=innerWidth,'page overflow');
+document.documentElement.style.scrollBehavior='auto';
+check(document.documentElement.lang==='en','English is the default');
+const today = new Date();
+const expectedDate = [today.getFullYear(), String(today.getMonth()+1).padStart(2,'0'), String(today.getDate()).padStart(2,'0')].join('-');
+check(document.querySelector('#current-date').dateTime===expectedDate && document.querySelector('#current-date').textContent.startsWith('Today '),'current date shown');
+check(document.querySelector('[data-i18n="updated"]').textContent==='Snapshot: 2026.09.29','actual snapshot date preserved');
+check(document.querySelector('[data-i18n="observationQuality"]').textContent==='Observation Quality','English evaluation heading');
+check(!document.querySelector('.hero-english'),'no repeated hero subtitle');
+check([...document.querySelectorAll('.section-body .lead')].every(e=>!e.querySelector('br')),'lead headings have no forced line breaks');
+if (innerWidth===1440) check([...document.querySelectorAll('.section-body .lead')].every(e=>e.getClientRects().length===1 && e.scrollHeight < 60),'desktop lead headings fit on one line');
+check([...document.querySelectorAll('.section-label')].every(label=>label.querySelectorAll('h2,p').length===1),'one language per section heading');
+check(getComputedStyle(document.querySelector('.language-switch')).visibility==='hidden','language switch hidden on cover');
+window.scrollTo(0, innerHeight);
+await wait();
+check(getComputedStyle(document.querySelector('.language-switch')).visibility==='visible','language switch visible after scroll');
+check(document.querySelector('[data-locale="en"]').getAttribute('aria-pressed')==='true','English button selected');
+document.querySelector('[data-locale="zh"]').click();
+check(document.documentElement.lang==='zh-CN' && document.querySelector('[data-i18n="navOverview"]').textContent==='赛道介绍','switch to Chinese');
+check(document.querySelector('#current-date').textContent.startsWith('今天 ') && document.querySelector('[data-i18n="updated"]').textContent==='数据快照：2026.09.29','localized dates');
+check(document.querySelector('.hero h1').textContent==='面向自动驾驶测试的生成式世界模型挑战赛','Chinese hero title');
+check(document.querySelector('.hero h1').scrollWidth <= document.querySelector('.hero h1').getBoundingClientRect().width,'Chinese hero title fits screen');
+check(document.querySelector('[data-locale="zh"]').getAttribute('aria-pressed')==='true','Chinese button selected');
+check(document.querySelector('[data-i18n="updateTitle"]').textContent==='网站更新','Chinese changelog');
+check(document.querySelector('[data-i18n="observationQuality"]').textContent==='观测质量','Chinese evaluation heading');
+check(document.querySelector('[data-i18n="tableObservation"]').textContent==='观测质量','Chinese leaderboard heading');
+document.querySelector('[data-locale="en"]').click();
+check(document.documentElement.lang==='en' && document.querySelector('[data-i18n="updateTitle"]').textContent==='Website update','switch back to English');
 for (const key of ['demoRecords', 'sortable', 'tableExplanation', 'demoNote', 'baseline', 'footerNote']) {
   check(!document.querySelector(`[data-i18n="${key}"]`), 'removed copy cannot reappear after localization: ' + key);
 }
 check(!document.querySelector('.table-foot,.table-explanation'), 'removed explanation containers leave no empty blocks');
 
 check(!document.querySelector('.site-header .header-action'),'header results action removed');
-check(!document.querySelector('.site-header').classList.contains('is-visible'),'header hidden at top');
-window.scrollTo(0, innerHeight);
-await wait();
 check(document.querySelector('.site-header').classList.contains('is-visible'),'header appears after scroll');
 window.scrollTo(0, 0);
 await wait();
+check(!document.querySelector('.site-header').classList.contains('is-visible'),'header hidden at top');
+check(getComputedStyle(document.querySelector('.language-switch')).visibility==='hidden','language switch hidden again at top');
 check(!document.querySelector('.hero-meta'),'hero side labels removed');
 check(!document.querySelector('.hero-link'),'hero leaderboard button removed');
 check(document.querySelector('.hero-scroll-cue .scroll-arrow'),'single hero down arrow');
 check(document.querySelector('.hero-scroll-cue .scroll-arrow path'),'arrow has a visible stroked path');
 check(getComputedStyle(document.querySelector('.hero-scroll-cue')).animationName==='hero-scroll-bounce','hero arrow animates');
-check(getComputedStyle(document.querySelector('.hero h1')).whiteSpace==='nowrap','hero title stays on one line');
-check(getComputedStyle(document.querySelector('.hero-english')).whiteSpace==='nowrap','hero English subtitle stays on one line');
+check(document.querySelector('.hero h1').textContent==='Generative World Simulation Challenge','new hero title');
+const heroTitle = document.querySelector('.hero h1').getBoundingClientRect();
+check(heroTitle.left >= 0 && heroTitle.right <= innerWidth && document.querySelector('.hero h1').scrollWidth <= heroTitle.width,'hero title fits screen');
 check(document.querySelector('.hero-video source[type="video/mp4"]'),'hero video source');
 check(!document.querySelector('.hero-fallback'),'hero GIF fallback removed');
 check(document.querySelector('#overview .overview-figure img'),'framework overview graphic');
@@ -117,6 +130,15 @@ check([...document.images].every(i=>i.complete&&i.naturalWidth),'image loading')
 const activeSort=()=>document.querySelector('th[aria-sort]:not([aria-sort="none"])');
 const activeArrows=()=>[...document.querySelectorAll('.sort-indicator')].filter(e=>e.textContent.trim());
 const firstRank=()=>document.querySelector('tbody .rank-cell').textContent.trim();
+check(document.querySelector('#official-tab').getAttribute('aria-selected')==='true' && document.querySelector('#leaderboard-panel').getAttribute('aria-labelledby')==='official-tab','official leaderboard default');
+const rowValues = () => [...document.querySelectorAll('tbody tr')].map(row => [...row.cells].map(cell => cell.textContent.trim()));
+const officialRows = rowValues();
+document.querySelector('#teaching-tab').click();
+check(document.querySelector('#leaderboard-panel').getAttribute('aria-labelledby')==='teaching-tab' && document.querySelector('#teaching-tab').getAttribute('aria-selected')==='true','teaching leaderboard switch');
+check(JSON.stringify(rowValues())===JSON.stringify(officialRows),'teaching starts with the same records');
+document.querySelector('#teaching-tab').focus();
+document.querySelector('#teaching-tab').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowLeft',bubbles:true}));
+check(document.querySelector('#leaderboard-panel').getAttribute('aria-labelledby')==='official-tab' && document.activeElement.id==='official-tab','keyboard tab switch');
 check(document.querySelectorAll('tbody tr').length===7,'seven leaderboard rows');
 check(document.querySelectorAll('[data-sort]').length===11,'eleven sortable columns');
 check(metricText('qtes').includes('QTES'),'QTES metric present');

@@ -18,7 +18,9 @@ let html = template.replace('/* STYLES */', () => css).replace('<!-- RESULTS -->
 const script = `(()=>{\n${data.replace(/^export /gm, '')}\n${locale.replace(/^export /gm, '')}\n${app.replace(/^import .*;\n/gm, '')}\n})();`;
 html = html.replace('/* SCRIPT */', () => script.replaceAll('</script', '<\\/script'));
 for (const name of new Set([...html.matchAll(/(?:src|href)="\/([^"/]+)"/g)].map(m => m[1]))) {
-  const mime = name.endsWith('.svg')
+  const mime = name.endsWith('.jpg')
+    ? 'image/jpeg'
+    : name.endsWith('.svg')
     ? 'image/svg+xml'
     : name.endsWith('.gif')
       ? 'image/gif'

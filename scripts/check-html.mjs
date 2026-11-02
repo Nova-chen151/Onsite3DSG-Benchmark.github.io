@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { Script } from 'node:vm';
 const html = await readFile('index.html', 'utf8');
 assert.ok(html.startsWith('<!DOCTYPE html>'));
-for (const id of ['overview', 'leaderboard', 'submit', 'evaluation']) {
+for (const id of ['overview', 'leaderboard', 'submit', 'evaluation', 'updates']) {
   assert.ok(html.includes(`id="${id}"`), `Missing section: ${id}`);
   assert.ok(html.includes(`href="#${id}"`), `Missing navigation: ${id}`);
 }
@@ -42,7 +42,7 @@ assert.ok(!html.includes('class="hero-fallback"'), 'Hero must not include the re
 assert.ok(html.includes('class="hero-scroll-cue"'), 'Hero must expose a scroll cue');
 assert.ok(html.includes('3D Scenario Generation'), 'English copy must use scenario generation');
 assert.ok(html.includes('data-i18n="navOverview"'), 'Page must expose localizable navigation copy');
-assert.ok(html.includes('https://ipapi.co/json/'), 'Page must detect locale from the public IP');
+assert.ok(html.includes('data-locale="en"') && html.includes('data-locale="zh"'), 'Page must expose both language choices');
 assert.ok(html.includes('data:font/woff2;base64,'));
 assert.ok(!/url\(['"]?\//.test(html), 'Unembedded CSS asset');
 assert.ok(!/<(?:script|img|link)\b[^>]*(?:src|href)="(?!data:)[^"]+"/.test(html), 'External asset dependency');

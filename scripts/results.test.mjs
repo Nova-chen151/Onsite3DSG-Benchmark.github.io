@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { entries, metricKeys, metricHighlightClass, sortEntries, csvFor, certificateSvg, certificateSvgForLocale } from '../src/results.js';
+import { entries, boardEntries, metricKeys, metricHighlightClass, sortEntries, csvFor, certificateSvg, certificateSvgForLocale, leaderboardRecordSvg } from '../src/results.js';
 const expected = [["MagicDrive-V2", 217.146, 0.437, 0.744, 0.179, 0.447, 0.782, 0.718, 0.87, 39.509], ["OpenDWM", 93.383, 0.531, 0.73, 0.222, 0.543, 0.782, 0.724, 0.878, 44.079], ["Panacea", 280.866, 0.581, 0.728, 0.164, 0.374, 0.782, 0.717, 0.881, 39.146], ["DreamForge", 272.88, 0.573, 0.705, 0.168, 0.495, 0.782, 0.729, 0.881, 41.311], ["BaseDreamer", 630.836, 0.661, 0.677, 0.143, 0.41, 0.782, 0.721, 0.88, 38.522], ["HorizonDrive", 178.708, 0.593, 0.842, 0.116, 0.519, 0.782, 0.725, 0.88, 40.108], ["MagicDrive", 378.423, 0.53, 0.681, 0.132, 0.363, 0.782, 0.67, 0.855, 37.282]];
 const expectedOrder = ['OpenDWM','DreamForge','HorizonDrive','MagicDrive-V2','Panacea','BaseDreamer','MagicDrive'];
 assert.equal(entries.length, 7);
@@ -51,3 +51,18 @@ assert.ok(certificateSvg(entries[6]).includes('#7'));
 assert.ok(certificateSvgForLocale(entries[0],'en').includes('Certificate of Achievement'));
 assert.throws(()=>certificateSvg({...entries[0],valid:false}));
 console.log('PASS: all 63 generated-trajectory values, QTES ranks, original scales, three-decimal exports, tied highlights, escaping and record eligibility.');
+
+for (const selected of entries) {
+    const record = leaderboardRecordSvg(selected, 'en', 'data:image/jpeg;base64,cover', 'data:image/svg+xml;base64,logo');
+    assert.equal((record.match(/data-record=/g) || []).length, entries.length);
+    for (const entry of entries) {
+        assert.ok(record.includes(`data-record="${entry.id}"`));
+        for (const key of metricKeys) assert.ok(record.includes(entry[key].toFixed(3)));
+    }
+    assert.match(record, new RegExp(`data-record="${selected.id}"[^]*?<rect`));
+    assert.equal((record.match(/fill="#dcebf8"/g) || []).length, 1);
+}
+
+assert.deepEqual(boardEntries.official, boardEntries.teaching);
+assert.notEqual(boardEntries.official, boardEntries.teaching);
+assert.notEqual(boardEntries.official[0], boardEntries.teaching[0]);
