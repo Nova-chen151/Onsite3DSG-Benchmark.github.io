@@ -27,7 +27,6 @@ assert.equal((board.match(/>\d+\.\d{3}<\/td>/g) || []).length, 63);
 assert.ok(!html.includes('AstraDrive'), 'Generated page must not contain AstraDrive branding');
 assert.ok(!html.includes('astradrive-overview.png'), 'Generated page must not reference the AstraDrive overview asset');
 assert.ok(html.includes('class="overview-figure"'), 'Overview must include the supplied framework graphic');
-assert.ok(html.includes('frameworkOverviewAlt'), 'Framework graphic must have a localized accessible label');
 assert.ok(html.includes('#evaluation {'), 'Evaluation section must define the QTES-to-footer spacing');
 assert.ok(html.includes('padding-bottom: clamp('), 'Evaluation section must reserve responsive white space');
 assert.ok(html.includes('class="hero hero--immersive"'), 'Hero must use the immersive first-screen treatment');

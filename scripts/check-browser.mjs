@@ -70,6 +70,16 @@ const metricText=(key)=>document.querySelector(`[data-sort="${key}"]`)?.textCont
 check(document.documentElement.scrollWidth<=innerWidth,'page overflow');
 document.documentElement.style.scrollBehavior='auto';
 check(document.documentElement.lang==='en','English is the default');
+async function checkFigures(language) {
+  for (const selector of ['.overview-figure', '.submission-figure']) {
+    const visible = [...document.querySelectorAll(selector + ' img')].filter(img => img.getClientRects().length);
+    check(visible.length === 1 && visible[0].lang === language, selector + ' shows only the active language');
+    await visible[0].decode();
+    check(visible[0].naturalWidth === Number(visible[0].getAttribute('width')), selector + ' loads the expected graphic');
+    check(visible[0].alt.length > 0, selector + ' has accessible text');
+  }
+}
+await checkFigures('en');
 const today = new Date();
 const expectedDate = [today.getFullYear(), String(today.getMonth()+1).padStart(2,'0'), String(today.getDate()).padStart(2,'0')].join('-');
 check(document.querySelector('#current-date').dateTime===expectedDate && document.querySelector('#current-date').textContent.startsWith('Snapshot: '),'current snapshot date shown');
@@ -85,6 +95,7 @@ await wait();
 check(getComputedStyle(document.querySelector('.language-switch')).visibility==='visible','language switch visible after scroll');
 check(document.querySelector('[data-locale="en"]').getAttribute('aria-pressed')==='true','English button selected');
 document.querySelector('[data-locale="zh"]').click();
+await checkFigures('zh-CN');
 check(document.documentElement.lang==='zh-CN' && document.querySelector('[data-i18n="navOverview"]').textContent==='赛道介绍','switch to Chinese');
 check(document.querySelector('#current-date').textContent.startsWith('快照日期: ') && document.querySelector('[data-i18n="dataSourceDate"]').textContent==='成绩来源快照：2026.09.29','localized dates');
 check(document.querySelector('.hero h1').textContent==='面向自动驾驶测试的生成式世界模型挑战赛','Chinese hero title');
@@ -94,6 +105,7 @@ check(document.querySelector('[data-i18n="updateTitle"]').textContent==='网站�
 check(document.querySelector('[data-i18n="observationQuality"]').textContent==='观测质量','Chinese evaluation heading');
 check(document.querySelector('[data-i18n="tableObservation"]').textContent==='观测质量','Chinese leaderboard heading');
 document.querySelector('[data-locale="en"]').click();
+await checkFigures('en');
 check(document.documentElement.lang==='en' && document.querySelector('[data-i18n="updateTitle"]').textContent==='Website update','switch back to English');
 for (const key of ['demoRecords', 'sortable', 'tableExplanation', 'demoNote', 'baseline', 'footerNote']) {
   check(!document.querySelector(`[data-i18n="${key}"]`), 'removed copy cannot reappear after localization: ' + key);
@@ -103,7 +115,11 @@ check(!document.querySelector('.table-foot,.table-explanation'), 'removed explan
 check(!document.querySelector('.site-header .header-action'),'header results action removed');
 check(document.querySelector('.site-header').classList.contains('is-visible'),'header appears after scroll');
 window.scrollTo(0, 0);
-await wait();
+const languageSwitch = document.querySelector('.language-switch');
+const deadline = performance.now() + 2000;
+while (getComputedStyle(languageSwitch).visibility !== 'hidden' && performance.now() < deadline) {
+  await new Promise(requestAnimationFrame);
+}
 check(!document.querySelector('.site-header').classList.contains('is-visible'),'header hidden at top');
 check(getComputedStyle(document.querySelector('.language-switch')).visibility==='hidden','language switch hidden again at top');
 check(!document.querySelector('.hero-meta'),'hero side labels removed');

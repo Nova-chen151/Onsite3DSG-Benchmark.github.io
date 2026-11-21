@@ -68,6 +68,7 @@ html[lang="zh-CN"] .hero h1 { max-width: 1050px; margin-inline: auto; font-size:
 .text-link span { font-size: 20px; }
 .overview-figure, .submission-figure { grid-column: 1 / -1; width: 100%; margin-top: 34px; overflow: hidden; }
 .overview-figure img, .submission-figure img { display: block; width: 100%; height: auto; }
+html:lang(en) figure img[lang="zh-CN"], html:lang(zh) figure img[lang="en"] { display: none; }
 .overview-figure:focus-visible, .submission-figure:focus-visible { outline: 2px solid var(--blue); outline-offset: 5px; }
 .scene-study { width: 100%; margin-top: 30px; }
 .scene-study, .evaluation-figure { width: calc(100% + var(--label-width) + var(--column-gap)); margin-left: calc(-1 * (var(--label-width) + var(--column-gap))); }
