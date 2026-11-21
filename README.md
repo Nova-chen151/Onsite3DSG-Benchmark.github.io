@@ -7,6 +7,8 @@
 
 <h1 align="center">OnSite Generative World Simulation Challenge</h1>
 
+<p align="center"><strong>简体中文</strong> · <a href="./README.en.md">English</a></p>
+
 <p align="center">
   <strong>面向自动驾驶测试的生成式世界模型挑战赛</strong>
 </p>
@@ -50,7 +52,9 @@
   </a>
 </p>
 
-## Overview
+<a name="overview"></a>
+
+## 项目介绍
 
 **生成的驾驶场景，不仅要看起来真实，还要能够用于可信、有效的自动驾驶测试。**
 
@@ -60,7 +64,9 @@ OnSite 3DSG Benchmark 面向可控、可扩展的自动驾驶场景生成与测�
 
 > **仓库定位**：本仓库维护项目介绍、任务说明与排行榜展示网站，不是生成模型或评测引擎的完整实现。当前榜单采用论文 Table 2 中“Generated trajectories + rendering”的 7 个模型结果，以 QTES 降序排名；尚未连接正式提交与评测后台。
 
-## Task
+<a name="task"></a>
+
+## 任务设置
 
 ### 从历史观测到未来驾驶场景
 
@@ -77,7 +83,9 @@ OnSite 3DSG Benchmark 面向可控、可扩展的自动驾驶场景生成与测�
 历史驾驶上下文 → 未来场景生成 → 分层质量评测 → 驾驶策略配对测试 → 测试有效性分析
 ```
 
-## Evaluation
+<a name="evaluation"></a>
+
+## 评测体系
 
 ### 从视觉真实感走向测试有效性
 
@@ -94,7 +102,9 @@ OnSite 3DSG Benchmark 面向可控、可扩展的自动驾驶场景生成与测�
 
 上述指标名称、分组与方向对应当前网站的[在线评测说明](https://nova-chen151.github.io/Onsite3DSG-Benchmark.github.io/#evaluation)；正式指标定义、计算配置、有效性条件及排名规则以发布的评测协议为准。
 
-## Leaderboard data
+<a name="leaderboard-data"></a>
+
+## 排行榜数据
 
 排行榜仅展示 **Generated trajectories + rendering** 设置，不混入固定记录轨迹结果或 Real video 参照。成绩来源快照日期为 **2026-09-29**，不是实验或提交日期；页面展示的快照日期按访问者本地日期更新。
 
@@ -110,9 +120,13 @@ OnSite 3DSG Benchmark 面向可控、可扩展的自动驾驶场景生成与测�
 
 九项指标按论文分为 Observation Quality、Scenario Fidelity、Policy Response 和 Testing Eff.。保留原始量纲和三位小数：FVD 越低越好，其余指标越高越好。单项最优/次优分别以珊瑚色/蓝色标识，并列同色；相同的 TRS 不着色。表头交互只调整展示顺序，排名始终来自 QTES。
 
+<a name="getting-started"></a>
+
 数据维护在 `src/results.js`，表头在 `src/page.html`。修改后运行 `npm run build` 与 `npm test`；安装 Chrome 时还可运行 `npm run test:browser`。须同步提交重新生成的 `index.html`，以更新 GitHub Pages 页面及成绩导出。
 
-## Project Status
+<a name="project-status"></a>
+
+## 项目状态
 
 本仓库当前用于项目内容与排行榜交互展示。正式上线需要接入经审核的赛事成绩、身份验证、提交评测与证书签发流程；参赛安排和正式成绩以赛事公告为准。
 
