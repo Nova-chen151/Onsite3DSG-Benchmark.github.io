@@ -1,114 +1,106 @@
-<!-- 将横向 OnSite 标志上传至 public/ONSITE-blue-logo-cn_name.svg。 -->
+<!-- Horizontal OnSite logo: public/ONSITE-blue-logo-cn_name.svg. -->
 <p align="center">
   <a href="https://onsite.com.cn/">
-    <img src="public/ONSITE-blue-logo-cn_name.svg" alt="OnSite 自动驾驶算法挑战赛" width="800">
+    <img src="public/ONSITE-blue-logo-cn_name.svg" alt="OnSite Autonomous Driving Algorithm Challenge" width="800">
   </a>
 </p>
 
 <h1 align="center">OnSite Generative World Simulation Challenge</h1>
 
-<p align="center"><strong>简体中文</strong> · <a href="./README.en.md">English</a></p>
+<p align="center"><a href="./README.zh-CN.md">简体中文</a> · <strong>English</strong></p>
 
 <p align="center">
-  <strong>面向自动驾驶测试的生成式世界模型挑战赛</strong>
+  <strong>A generative world model challenge for autonomous driving tests</strong>
 </p>
 
 <p align="center">
-  AI 服务 AI：从历史观测生成未来驾驶场景，以分层评测检验场景的测试价值。
+  AI for AI testing. Generate future driving scenarios from past observations and evaluate how well they test driving policies.
 </p>
 
 <p align="center">
   <a href="https://onsite.com.cn/">
-    <img src="https://img.shields.io/badge/OnSite-Platform-blue" alt="OnSite 官网">
+    <img src="https://img.shields.io/badge/OnSite-Platform-blue" alt="OnSite platform">
   </a>
   &nbsp;&nbsp;
   <a href="https://nova-chen151.github.io/Onsite3DSG-Benchmark.github.io/">
-    <img src="https://img.shields.io/badge/Project-Page-orange" alt="项目主页">
+    <img src="https://img.shields.io/badge/Project-Page-orange" alt="Project page">
   </a>
   &nbsp;&nbsp;
   <a href="https://nova-chen151.github.io/Onsite3DSG-Benchmark.github.io/#leaderboard">
-    <img src="https://img.shields.io/badge/View-Leaderboard-red" alt="进入排行榜">
+    <img src="https://img.shields.io/badge/View-Leaderboard-red" alt="View leaderboard">
   </a>
   &nbsp;&nbsp;
   <a href="https://github.com/Nova-chen151/Onsite3DSG-Benchmark.github.io">
-    <img src="https://img.shields.io/badge/GitHub-Repository-181717" alt="GitHub 仓库">
+    <img src="https://img.shields.io/badge/GitHub-Repository-181717" alt="GitHub repository">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://nova-chen151.github.io/Onsite3DSG-Benchmark.github.io/#leaderboard"><strong>🏆 点击进入排行榜 / View Leaderboard →</strong></a>
+  <a href="https://nova-chen151.github.io/Onsite3DSG-Benchmark.github.io/#leaderboard"><strong>🏆 View Leaderboard →</strong></a>
 </p>
 
 <p align="center">
-  <a href="#overview">项目介绍</a> ·
-  <a href="#task">任务设置</a> ·
-  <a href="#evaluation">评测体系</a> ·
-  <a href="#getting-started">使用与发布</a>
+  <a href="#overview">Overview</a> ·
+  <a href="#task">Task</a> ·
+  <a href="#evaluation">Evaluation</a> ·
+  <a href="#getting-started">Build and publish</a>
 </p>
 
 <p align="center">
-  <a href="public/overview.png">
-    <img src="public/overview.png" alt="OnSite 三维场景生成基准概览" width="100%">
+  <a href="public/overview-en.png">
+    <img src="public/overview-en.png" alt="OnSite challenge setup and submission, from the initial scene to the generated scene" width="100%">
   </a>
 </p>
 
-<a name="overview"></a>
+## Overview
 
-## 项目介绍
+**A generated driving scenario should look realistic and provide a trustworthy test of an autonomous driving policy.**
 
-**生成的驾驶场景，不仅要看起来真实，还要能够用于可信、有效的自动驾驶测试。**
+The OnSite 3DSG Benchmark evaluates models for controllable, scalable driving scenario generation and testing. Each model receives the same historical driving context and generates a future scenario. The benchmark then assesses whether that scenario provides meaningful test conditions for autonomous driving algorithms.
 
-OnSite 3DSG Benchmark 面向可控、可扩展的自动驾驶场景生成与测试。基准从统一的历史驾驶上下文出发，考察模型生成未来场景的能力，并进一步分析这些场景能否为自动驾驶算法提供有价值的测试条件。
+The evaluation covers **observation quality**, **scenario fidelity**, **policy response**, and **quality-aware testing effectiveness**. It examines visual quality and traffic dynamics, measures how policies behave in generated scenarios, and checks whether the scenario provides credible evidence of a policy failure.
 
-围绕这一目标，评测从**观测质量**逐步深入到**场景保真度、策略响应与质量感知测试有效性**：既关注画面是否可信、交通演化是否合理，也关注自动驾驶策略在生成场景中的表现，以及失效是否具有可信的场景依据。
+> **Repository scope.** This repository hosts the project overview, task description, and interactive leaderboard. The full model and evaluation engine implementations are outside its scope. The leaderboard ranks the seven models in the paper’s Table 2 under “Generated trajectories + rendering” by descending QTES. The official submission and evaluation backend is not yet connected.
 
-> **仓库定位**：本仓库维护项目介绍、任务说明与排行榜展示网站，不是生成模型或评测引擎的完整实现。当前榜单采用论文 Table 2 中“Generated trajectories + rendering”的 7 个模型结果，以 QTES 降序排名；尚未连接正式提交与评测后台。
+## Task
 
-<a name="task"></a>
+### From past observations to future driving scenarios
 
-## 任务设置
+Each method generates a future scenario from the historical inputs supplied for the task. The benchmark evaluates the generated scenario and uses it to test driving policies.
 
-### 从历史观测到未来驾驶场景
-
-参赛方法根据统一赛题提供的历史信息生成未来场景，再通过质量评测和驾驶策略测试分析生成结果。
-
-| 环节 | 内容 |
+| Stage | Description |
 | --- | --- |
-| 历史输入 | 当前页面介绍的输入包括连续 10 帧历史图像、相机参数、主车状态及相关场景条件。 |
-| 未来生成 | 按统一接口输出未来驾驶场景，保持多视角观测及相关场景信息在时间与空间上的对应关系。 |
-| 一致性检查 | 检查历史与未来的边界连续性、缺失帧、异常值、运动合理性及地图一致性。 |
-| 配对测试 | 将同一组驾驶策略接入真实场景与生成场景，对比其安全性、舒适性、路线进度与决策变化。 |
+| Historical input | The inputs described on the project page include 10 consecutive frames of historical imagery, camera parameters, the ego vehicle state, and scenario conditions. |
+| Future generation | Output the future driving scenario through the common interface. Keep observations from different views and the associated scene information aligned in space and time. |
+| Consistency checks | Check continuity at the transition from past to future, missing frames, anomalous values, plausible motion, and consistency with the map. |
+| Paired testing | Run the same driving policies on the real and generated scenarios. Compare safety, comfort, route progress, and decisions. |
 
 ```text
-历史驾驶上下文 → 未来场景生成 → 分层质量评测 → 驾驶策略配对测试 → 测试有效性分析
+Historical driving context → Future scenario generation → Layered quality assessment → Paired driving policy tests → Testing effectiveness analysis
 ```
 
-<a name="evaluation"></a>
+## Evaluation
 
-## 评测体系
+### From visual realism to testing effectiveness
 
-### 从视觉真实感走向测试有效性
+The website groups the metrics into four layers. Each answers a different question. A single visual score or an isolated policy failure gives only a partial view.
 
-下表对应当前网站展示的四层评测体系。各层指标回答不同的问题，不能仅用单一视觉指标或一次策略失效替代完整评测。
-
-| 评测层级 | 核心问题 | 当前页面展示的指标 |
+| Evaluation layer | Question | Metrics shown on the website |
 | --- | --- | --- |
-| **Observation Quality**<br>观测质量 | 生成观测是否具有可信的视觉质量与时间连续性？ | FVD ↓、CLIP-IQA+ ↑、DINO-T ↑ |
-| **Scenario Fidelity**<br>场景保真度 | 跨视角几何、图像与交通状态，以及交通演化是否一致、合理？ | Epi@3 ↑、TVC ↑、TRS ↑ |
-| **Policy Response**<br>策略响应 | 自动驾驶策略在生成场景中的安全性、舒适性与路线进度如何？ | RPDMS ↑、Route Completion ↑ |
-| **Quality-Aware Testing Effectiveness**<br>质量感知测试有效性 | 在考虑场景质量的前提下，生成场景能否可靠地暴露策略失效？ | QTES ↑ |
+| **Observation Quality** | Do the generated observations look credible and remain consistent over time? | FVD ↓, CLIP-IQA+ ↑, DINO-T ↑ |
+| **Scenario Fidelity** | Is the geometry consistent across views? Do images agree with the traffic state, and does traffic evolve plausibly? | Epi@3 ↑, TVC ↑, TRS ↑ |
+| **Policy Response** | How safely and comfortably does the policy drive in the generated scenario, and how far does it progress along the route? | RPDMS ↑, Route Completion ↑ |
+| **Quality-Aware Testing Effectiveness** | Given its quality, can the scenario reliably expose a policy failure? | QTES ↑ |
 
-**策略表现与场景的测试价值需要区分。** 生成场景导致策略失败，并不自动意味着它是有效的测试样例。评测还需要考虑失败是否与低质量画面、几何不一致或不合理的交通演化有关，避免将生成缺陷误判为有价值的测试难例。
+**Policy performance and the value of a test scenario are assessed separately.** When a policy fails, poor image quality, inconsistent geometry, or implausible traffic behavior may explain the outcome. The evaluation considers these factors when deciding whether the scenario reveals a policy weakness.
 
-上述指标名称、分组与方向对应当前网站的[在线评测说明](https://nova-chen151.github.io/Onsite3DSG-Benchmark.github.io/#evaluation)；正式指标定义、计算配置、有效性条件及排名规则以发布的评测协议为准。
+The metric names, groups, and directions follow the website’s evaluation guide. The published evaluation protocol governs formal definitions, computation settings, validity criteria, and ranking rules. [Online evaluation guide](https://nova-chen151.github.io/Onsite3DSG-Benchmark.github.io/#evaluation)
 
-<a name="leaderboard-data"></a>
+## Leaderboard data
 
-## 排行榜数据
+The leaderboard covers the **Generated trajectories + rendering** setting. It excludes results that use fixed recorded trajectories and the Real video reference. **2026-09-29** is the date of the source snapshot. Experiment and submission dates are separate. The page displays the visitor’s local date as its snapshot date.
 
-排行榜仅展示 **Generated trajectories + rendering** 设置，不混入固定记录轨迹结果或 Real video 参照。成绩来源快照日期为 **2026-09-29**，不是实验或提交日期；页面展示的快照日期按访问者本地日期更新。
-
-| QTES 排名 | 模型 | QTES ↑ |
+| QTES rank | Model | QTES ↑ |
 | --- | --- | --- |
 | 1 | OpenDWM | 44.079 |
 | 2 | DreamForge | 41.311 |
@@ -118,16 +110,14 @@ OnSite 3DSG Benchmark 面向可控、可扩展的自动驾驶场景生成与测�
 | 6 | BaseDreamer | 38.522 |
 | 7 | MagicDrive | 37.282 |
 
-九项指标按论文分为 Observation Quality、Scenario Fidelity、Policy Response 和 Testing Eff.。保留原始量纲和三位小数：FVD 越低越好，其余指标越高越好。单项最优/次优分别以珊瑚色/蓝色标识，并列同色；相同的 TRS 不着色。表头交互只调整展示顺序，排名始终来自 QTES。
+The nine metrics follow the paper’s four groups: Observation Quality, Scenario Fidelity, Policy Response, and Testing Eff. Values retain their original scales and are displayed to three decimal places. Lower FVD is better. Higher values are better for all other metrics. Coral marks the best value for each metric and blue marks the second best. Ties share a color. The identical TRS values have no highlight. Sorting a column changes the display order. The reported rank always follows QTES.
 
 <a name="getting-started"></a>
 
-数据维护在 `src/results.js`，表头在 `src/page.html`。修改后运行 `npm run build` 与 `npm test`；安装 Chrome 时还可运行 `npm run test:browser`。须同步提交重新生成的 `index.html`，以更新 GitHub Pages 页面及成绩导出。
+The results are maintained in `src/results.js` and the table headers in `src/page.html`. After editing, run `npm run build` and `npm test`. If Chrome is installed, you can also run `npm run test:browser`. Commit the regenerated `index.html` with the changes to update the GitHub Pages site and the downloadable score records.
 
-<a name="project-status"></a>
+## Project Status
 
-## 项目状态
+This repository currently presents the project and its interactive leaderboard. Official operation requires reviewed competition results, authentication, submission and evaluation workflows, and certificate issuance. Competition announcements provide the participation arrangements and official results.
 
-本仓库当前用于项目内容与排行榜交互展示。正式上线需要接入经审核的赛事成绩、身份验证、提交评测与证书签发流程；参赛安排和正式成绩以赛事公告为准。
-
-页面中的品牌标志与媒体素材保留原文件。字体相关许可信息见 [public/FONT-LICENSES.txt](public/FONT-LICENSES.txt)。
+The site retains the original logo and media files. Font licensing details are available in [public/FONT-LICENSES.txt](public/FONT-LICENSES.txt).
